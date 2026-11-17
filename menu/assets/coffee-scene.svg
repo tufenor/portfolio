@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="640" viewBox="0 0 660 640" role="img" aria-labelledby="sceneTitle">
+  <title id="sceneTitle">Ilustração de uma xícara de café sobre a mesa, com vapor e uma planta ao lado</title>
+  <rect width="660" height="640" fill="none"/>
+  <g fill="none" stroke="#2f3a33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M96 470h468" opacity=".35"/>
+    <ellipse cx="330" cy="470" rx="176" ry="18" fill="#e9e2d2" stroke="none"/>
+    <path d="M196 372h212v34a86 86 0 0 1-86 86h-40a86 86 0 0 1-86-86Z" fill="#f7f2e6"/>
+    <path d="M408 386h22a34 34 0 0 1 0 68h-22" />
+    <path d="M236 336c14-22-14-34 0-56M282 336c14-22-14-34 0-56M328 336c14-22-14-34 0-56" opacity=".55"/>
+    <path d="M150 524h350" opacity=".2"/>
+    <g transform="translate(486 300)">
+      <path d="M0 150h60" opacity=".3"/>
+      <path d="M30 150 18 90h24Z" fill="#dfe6d4"/>
+      <path d="M18 90C2 70 4 40 30 18c26 22 28 52 12 72Z" fill="#cdd9bd"/>
+      <path d="M30 88V34" opacity=".45"/>
+      <path d="M12 66c10-4 24-4 36 0M10 48c12-4 26-4 40 0" opacity=".35"/>
+    </g>
+    <g opacity=".5">
+      <circle cx="128" cy="232" r="4" fill="#b9c9a4"/>
+      <circle cx="512" cy="214" r="3" fill="#b9c9a4"/>
+      <circle cx="560" cy="410" r="4" fill="#b9c9a4"/>
+    </g>
+  </g>
+</svg>

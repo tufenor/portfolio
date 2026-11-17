@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Menu Studio — demonstração de um menu digital para pequenos negócios, em português e espanhol.">
+  <meta name="color-scheme" content="light dark">
+  <title>Menu Studio · Demonstração</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body data-state="loading">
+  <a class="skip-link" href="#menu" data-i18n="skipLink">Pular para o menu</a>
+  <p class="loading-state" id="loading-state" role="status">Preparando o menu…</p>
+
+  <section class="setup-state" id="setup-state" hidden aria-labelledby="setup-title">
+    <span class="eyebrow">MENU STUDIO / CONFIGURAÇÃO</span>
+    <h1 id="setup-title">Vamos abrir sua configuração.</h1>
+    <p id="setup-message">Sirva esta pasta por um servidor estático ou selecione o arquivo JSON para visualizar o menu.</p>
+    <label class="button button-primary file-label" for="config-file">Selecionar config.json</label>
+    <input class="visually-hidden" id="config-file" type="file" accept="application/json,.json">
+    <p class="fine-print">O arquivo é lido apenas neste navegador. Nada é enviado para um servidor.</p>
+    <p class="setup-error" id="setup-error" role="alert"></p>
+  </section>
+
+  <div class="site-app" id="site-app" hidden>
+    <div class="demo-strip" id="demo-strip"><span class="demo-dot" aria-hidden="true"></span><span data-i18n="demoBanner">Demonstração · marca, itens e preços fictícios</span></div>
+
+    <header class="site-header container">
+      <a class="brand" href="#inicio" aria-label="Início" id="brand-link">
+        <svg viewBox="0 0 40 40" width="38" height="38" aria-hidden="true"><path d="M8 30V10h10c8 0 14 3 14 10s-6 10-14 10H8Z"/><path d="M17 10v20M17 20h14"/></svg>
+        <span id="brand-name">Pausa</span>
+      </a>
+      <nav class="main-nav" aria-label="Principal" id="main-nav">
+        <a href="#menu" data-i18n="navMenu">O menu</a>
+        <a href="#sobre" data-i18n="navAbout">A casa</a>
+      </nav>
+      <div class="header-actions">
+        <label class="visually-hidden" for="language" data-i18n="languageLabel">Idioma</label>
+        <select id="language" name="language"><option value="pt">PT</option><option value="es">ES</option></select>
+        <button class="icon-button theme-toggle" id="theme-toggle" type="button" aria-label="Ativar tema escuro" aria-pressed="false">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" class="theme-fill"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero container" id="inicio" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="small-rule" aria-hidden="true"></span><span id="hero-eyebrow"></span></p>
+          <h1 id="hero-title"></h1>
+          <p class="hero-description" id="hero-description"></p>
+          <div class="hero-actions"><a class="button button-primary" href="#menu"><span data-i18n="heroCta">Explorar o menu</span><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><span class="hero-note" id="hero-note"></span></div>
+          <div class="hero-signature"><span class="signature-line" aria-hidden="true"></span><span id="hero-signature"></span></div>
+        </div>
+        <div class="hero-art">
+          <img src="assets/coffee-scene.svg" width="660" height="640" alt="" fetchpriority="high">
+          <div class="art-caption"><span class="caption-index" aria-hidden="true">01</span><span id="art-caption"></span></div>
+          <span class="art-side-note" data-i18n="illustrationNote">Ilustração original</span>
+        </div>
+      </section>
+
+      <section class="menu-section" id="menu" aria-labelledby="menu-title" tabindex="-1">
+        <div class="container">
+          <div class="section-heading"><div><p class="eyebrow" data-i18n="menuEyebrow">ESCOLHA SUA PAUSA</p><h2 id="menu-title" data-i18n="menuTitle">O que combina com hoje?</h2></div><p class="section-intro" id="menu-intro"></p></div>
+          <div class="menu-toolbar">
+            <div class="category-filters" id="category-filters" role="group" aria-label="Categorias"></div>
+            <div class="search-field"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><label class="visually-hidden" for="menu-search" data-i18n="searchLabel">Buscar no menu</label><input id="menu-search" type="search" autocomplete="off" placeholder="Buscar um sabor…"></div>
+          </div>
+          <p class="results-status" id="results-status" role="status" aria-live="polite" aria-atomic="true"></p>
+          <div class="menu-grid" id="menu-grid"></div>
+          <div class="empty-state" id="empty-state" hidden><h3 data-i18n="emptyTitle">Nenhum item por aqui.</h3><p data-i18n="emptyDescription">Tente outro termo ou veja todas as categorias.</p><button class="text-button" id="clear-search" type="button" data-i18n="clearFilters">Limpar filtros</button></div>
+          <p class="menu-footnote" id="menu-footnote"></p>
+        </div>
+      </section>
+
+      <section class="about-section container" id="sobre" aria-labelledby="about-title">
+        <div class="about-mark" aria-hidden="true"><svg viewBox="0 0 120 120"><path d="M24 78c0-34 38-53 72-46-2 36-24 63-59 57M35 88 79 47M52 70l-3-19m16 6 20 1"/><circle cx="60" cy="60" r="53"/></svg></div>
+        <div><p class="eyebrow" data-i18n="aboutEyebrow">O BOM ESTÁ NO SIMPLES</p><h2 id="about-title"></h2><p class="about-description" id="about-description"></p></div>
+        <div class="about-note"><span class="note-number" aria-hidden="true">↗</span><p id="about-note"></p></div>
+      </section>
+
+      <section class="contact-section container" id="contato" aria-labelledby="contact-title">
+        <div class="contact-copy"><p class="eyebrow" data-i18n="contactEyebrow">VAMOS COMBINAR?</p><h2 id="contact-title"></h2><p id="contact-description"></p><a class="button button-primary contact-link" id="contact-link" href="#contato" hidden rel="noopener noreferrer"></a><span class="button button-disabled" id="contact-disabled" aria-disabled="true" data-i18n="contactDisabled">Contato de demonstração</span><p class="fine-print" id="contact-note"></p></div>
+        <div class="visit-card"><div><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg><h3 data-i18n="hoursLabel">Horários</h3><p id="business-hours"></p></div><div><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2"/></svg><h3 data-i18n="locationLabel">Encontre a casa</h3><p id="business-location"></p></div></div>
+      </section>
+    </main>
+
+    <footer class="site-footer container"><p><span id="footer-brand"></span><span class="footer-divider" aria-hidden="true"> / </span><span data-i18n="footerPhrase">Pequenas pausas, boas escolhas.</span></p><a href="#inicio" data-i18n="backToTop">Voltar ao início ↑</a><p class="footer-demo" id="footer-demo" data-i18n="footerDemo">Template de demonstração. Não recebe pedidos nem processa pagamentos.</p></footer>
+  </div>
+
+  <template id="menu-card-template">
+    <article class="menu-card">
+      <div class="item-art" aria-hidden="true"><svg viewBox="0 0 220 160" focusable="false"><use href="assets/menu-icons.svg#coffee"></use></svg><span class="item-category"></span></div>
+      <div class="item-content"><div class="item-title-row"><h3 class="item-name"></h3><span class="item-price"></span></div><p class="item-description"></p><div class="item-bottom"><span class="item-tag"></span><details class="item-details"><summary></summary><p></p></details></div></div>
+    </article>
+  </template>
+</body>
+</html>
