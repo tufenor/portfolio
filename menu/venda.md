@@ -4,6 +4,8 @@
 
 O Menu Studio é uma página de menu que abre no celular, com texto que dá para ler sem dar zoom — e que você atualiza editando um arquivo de texto, sem instalar aplicativo.
 
+**Demo ao vivo:** https://tufenor.github.io/portfolio/menu/
+
 ---
 
 ## O que você recebe
