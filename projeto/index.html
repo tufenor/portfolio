@@ -4,8 +4,32 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Case: operação de renda com agentes de IA — Gabriel de Moura Pereira</title>
-<meta name="description" content="Como montei uma operação de prospecção e entrega com agentes de IA, incluindo o que funcionou, o que falhou e o que não automatizei.">
+<meta name="description" content="Case detalhado de uma operação de prospecção e entrega com agentes de IA: arquitetura, ferramentas, auditoria de segurança, números reais e limites.">
 <link rel="stylesheet" href="../assets/site.css">
+<style>
+  .lang{display:inline-flex;gap:.25rem;border:1px solid var(--line);border-radius:999px;padding:.2rem}
+  .lang button{font:inherit;font-size:.82rem;padding:.3rem .6rem;border:0;background:transparent;color:var(--muted);border-radius:999px;cursor:pointer}
+  .lang button[aria-pressed="true"]{background:var(--green);color:var(--paper)}
+  .arch{display:grid;gap:.6rem;margin:1.6rem 0 0}
+  .arch-row{display:grid;grid-template-columns:8rem 1fr;gap:1rem;align-items:start;padding:.7rem 0;border-top:1px solid var(--line)}
+  @media (max-width:640px){.arch-row{grid-template-columns:1fr}}
+  .arch-row b{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
+  .arch-row p{margin:0;color:var(--muted);font-size:.95rem}
+  .arch-row code{font-size:.82rem;background:#ece7d9;padding:.1rem .3rem;border-radius:.2rem}
+  table.min{width:100%;border-collapse:collapse;margin-top:1.2rem;font-size:.9rem;background:#fffdf7;border:1px solid var(--line)}
+  table.min th,table.min td{text-align:left;padding:.55rem .65rem;border-bottom:1px solid var(--line);vertical-align:top}
+  table.min th{background:#eee9dc;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em}
+  table.min tr:last-child td{border-bottom:0}
+  .kpis{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));margin-top:1.4rem}
+  .kpi{background:#fffdf7;border:1px solid var(--line);border-radius:.5rem;padding:.85rem}
+  .kpi .n{font-size:1.5rem;font-weight:650;line-height:1.1}
+  .kpi .l{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+  details.faq{background:#fffdf7;border:1px solid var(--line);border-radius:.5rem;padding:.8rem 1rem;margin-top:.6rem}
+  details.faq summary{cursor:pointer;font-weight:600}
+  details.faq p{margin:.6rem 0 0;color:var(--muted);font-size:.95rem}
+  [data-lang]{display:none}
+  [data-lang].on{display:block}
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Pular para o conteúdo</a>
@@ -18,55 +42,50 @@
     </a>
     <nav aria-label="Seções">
       <a href="../">Início</a>
-      <a href="#sistema">O sistema</a>
-      <a href="#limites">Limites</a>
-      <a href="#contato">Contato</a>
+      <div class="lang" role="group" aria-label="Idioma">
+        <button type="button" data-set-lang="pt" aria-pressed="true">PT</button>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-set-lang="es" aria-pressed="false">ES</button>
+      </div>
     </nav>
   </div>
 </header>
 
 <main id="main">
+
+<!-- ============================= PORTUGUÊS ============================= -->
+<div data-lang="pt" class="on">
   <div class="hero wrap">
     <p class="eyebrow">Case · automação com agentes</p>
     <h1>Uma operação de renda construída com agentes — e o que ela não faz.</h1>
-    <p class="lead">Durante uma semana montei um sistema para encontrar clientes, preparar propostas, entregar páginas e registrar o que entrou. Não é um produto: é o processo, com as ferramentas abertas e os erros documentados.</p>
+    <p class="lead">Durante uma semana montei um sistema para encontrar clientes, preparar propostas, entregar páginas e registrar o que entrou. Não é um produto: é o processo, com as ferramentas abertas, os erros documentados e os números reais.</p>
   </div>
 
-  <section id="sistema">
+  <section>
     <div class="wrap">
-      <h2>O que foi construído</h2>
-      <p class="sub">Seis agentes com escopo fechado, cada um com um arquivo de saída. Se não gerou arquivo, não aconteceu.</p>
-      <div class="grid">
-        <article class="card">
-          <span class="tag">Descoberta</span>
-          <h3>Varredura e qualificação</h3>
-          <p>Leitura de anúncios, comparação com o que já foi mapeado, descarte do que exige credencial falsa ou pagamento para liberar trabalho.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Decisão</span>
-          <h3>Plano do dia</h3>
-          <p>Meta numérica, quatro blocos de trabalho, o que o agente faz e o que só o titular pode fazer. Com regra de corte quando a meta não bate.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Prospecção</span>
-          <h3>Fila de contato</h3>
-          <p>Mensagem por negócio, botão de copiar, link do canal e progresso. O envio continua humano de propósito.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Venda</span>
-          <h3>Playbook em espanhol</h3>
-          <p>Qualificação em três perguntas, quatro mensagens, doze objeções e roteiro de fechamento. Preço só depois da qualificação.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Entrega</span>
-          <h3>Produto empacotado</h3>
-          <p>Página de cardápio responsiva em PT/ES, configuração por um arquivo JSON, licença de uso e guia de dez minutos.</p>
-        </article>
-        <article class="card">
-          <span class="tag">Controle</span>
-          <h3>Painel e registro</h3>
-          <p>O que cada agente produziu, o que foi recebido, o que é promessa. Receita confirmada aparece separada de valor contratado.</p>
-        </article>
+      <h2>Números, sem maquiagem</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="n">6</div><div class="l">agentes com escopo fechado</div></div>
+        <div class="kpi"><div class="n">20</div><div class="l">leads qualificados</div></div>
+        <div class="kpi"><div class="n">2</div><div class="l">páginas publicadas</div></div>
+        <div class="kpi"><div class="n">1</div><div class="l">auditoria com 2 achados reais</div></div>
+        <div class="kpi"><div class="n">R$ 0</div><div class="l">receita confirmada</div></div>
+      </div>
+      <p class="note">O último número é o mais importante. Um sistema que não vende é hobby caro — e o painel mostra isso na primeira linha porque lê os arquivos, não a intenção.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Arquitetura: cada etapa com um arquivo</h2>
+      <p class="sub">A regra é simples: se não gerou arquivo, não aconteceu. Nenhum agente "trabalha" sem deixar rastro verificável.</p>
+      <div class="arch">
+        <div class="arch-row"><b>1 · Descoberta</b><p>Varredura de anúncios e de negócios locais. Saída em <code>data/pipeline.json</code>, com URL, data de consulta, estágio e próximo passo.</p></div>
+        <div class="arch-row"><b>2 · Decisão</b><p>Plano do dia com meta numérica e quatro blocos. Saída em <code>docs/plano-do-dia.md</code>, incluindo regra de corte quando a meta não bate.</p></div>
+        <div class="arch-row"><b>3 · Abordagem</b><p>Mensagem por lead, em espanhol, com o dado específico da auditoria. Saída em <code>docs/fila-do-dia.html</code>: copiar, abrir canal, marcar progresso.</p></div>
+        <div class="arch-row"><b>4 · Venda</b><p>Qualificação em três perguntas, quatro mensagens, doze objeções e fechamento. Saída em <code>docs/playbook-vendas-es.md</code>.</p></div>
+        <div class="arch-row"><b>5 · Entrega</b><p>Produto empacotado com licença e guia de dez minutos. Saída em <code>products/menu-studio-v1.zip</code>.</p></div>
+        <div class="arch-row"><b>6 · Controle</b><p>Registro por agente e caixa separado de promessa. Saída em <code>data/agent-log.jsonl</code> e <code>data/finance.json</code>.</p></div>
       </div>
     </div>
   </section>
@@ -75,60 +94,251 @@
     <div class="wrap">
       <h2>As ferramentas são o argumento</h2>
       <p class="sub">Cada uma resolve um problema concreto do processo — e todas foram usadas de verdade nesta semana.</p>
-      <ul class="steps">
-        <li><span><strong>Portão de segurança</strong>Antes de qualquer publicação, uma varredura compara o conteúdo com padrões de segredo e com os valores do cofre local. Se encontrar, bloqueia. Testei com dado falso plantado.</span></li>
-        <li><span><strong>Cofre fora do repositório</strong>Chave Pix e tokens ficam no perfil do sistema, nunca no projeto. Qualquer agente consulta por comando.</span></li>
-        <li><span><strong>Registro de produção por agente</strong>Cada entrega vira uma linha com data, artefato e status. É assim que se descobre que um agente passou dois dias sem produzir.</span></li>
-        <li><span><strong>Captura com viewport real</strong>O modo headless comum mente sobre largura mínima de janela. A verificação usa emulação de dispositivo e compara a largura de rolagem com a do viewport.</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="limites">
-    <div class="wrap">
-      <h2>O que eu deliberadamente não automatizei</h2>
-      <p class="sub">Esta é a parte que costuma faltar em apresentação de automação.</p>
-      <div class="grid">
-        <article class="card">
-          <h3>Envio em massa</h3>
-          <p>Disparar mensagem para quem nunca falou com você derruba a conta do WhatsApp — e o número é do cliente, não da ferramenta. A fila prepara tudo; o envio é um clique humano.</p>
-        </article>
-        <article class="card">
-          <h3>Verificação de perfil no Google</h3>
-          <p>Quem confirma o perfil é o dono do negócio, na conta dele. Um terceiro não pode reivindicar por ele sem autorização, e prometer isso é vender o que não se entrega.</p>
-        </article>
-        <article class="card">
-          <h3>Cobrança e recebimento</h3>
-          <p>Gerar o código Pix é automático. Receber, conferir no extrato e assumir compromisso é ato do titular — inclusive porque é ele que responde pelo contrato.</p>
-        </article>
-      </div>
-      <p class="note">Nenhum número de cliente, faturamento ou conversão é apresentado aqui. A receita desta operação até o momento é zero — e o processo registra isso em vez de maquiar.</p>
+      <table class="min">
+        <thead><tr><th>Ferramenta</th><th>Problema que resolve</th><th>Como sei que funciona</th></tr></thead>
+        <tbody>
+          <tr><td>Portão de segurança</td><td>Publicar segredo sem perceber</td><td>Teste negativo: dado falso plantado bloqueou a publicação</td></tr>
+          <tr><td>Cofre fora do repositório</td><td>Credencial em arquivo versionado</td><td>Varredura no projeto: zero ocorrências da chave</td></tr>
+          <tr><td>Registro por agente</td><td>Não saber quem produziu o quê</td><td>Detectou um agente parado há 24 horas</td></tr>
+          <tr><td>Captura com viewport real</td><td>Layout que "passa" e quebra no celular</td><td>Compara largura de rolagem com a do viewport em 390 px</td></tr>
+          <tr><td>Pipeline de leads</td><td>Planilha desatualizada</td><td>20 leads, estágio por lead, fila do dia gerada do estado</td></tr>
+          <tr><td>Auditoria de repositório</td><td>Código público com credencial padrão</td><td>Dois achados reais corrigidos e verificados no remoto</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
   <section>
     <div class="wrap">
-      <h2>O que sobra quando a apresentação acaba</h2>
-      <p class="sub">Três coisas que continuam valendo depois que o entusiasmo passa.</p>
-      <ol class="steps">
-        <li><span><strong>Evidência vale mais que promessa</strong>Um link que abre, um repositório que roda e um antes/depois medido substituem qualquer adjetivo.</span></li>
-        <li><span><strong>Meta pequena que fecha vence meta grande que não sai do papel</strong>Vinte mensagens e uma resposta é melhor que cinquenta e nenhuma.</span></li>
-        <li><span><strong>O agente precisa saber onde parar</strong>Automação sem limite de ação é passivo, não ativo.</span></li>
-      </ol>
+      <h2>Auditoria de segurança: o que apareceu</h2>
+      <p class="sub">Clonar o próprio repositório público e procurar segredo é desconfortável e necessário.</p>
+      <table class="min">
+        <thead><tr><th>Repositório</th><th>Achado</th><th>Correção</th></tr></thead>
+        <tbody>
+          <tr><td>JARVIS</td><td>Senha padrão do ponto de acesso de configuração e MAC real do PC no firmware</td><td>Placeholders, leitura obrigatória no primeiro boot, fixtures de teste com MAC sintético</td></tr>
+          <tr><td>Frequency</td><td>E-mail e telefone comercial fixos em oito arquivos</td><td>Passaram para variável de ambiente; botão de WhatsApp fica oculto se não configurado</td></tr>
+          <tr><td>Portfolio</td><td>Nada</td><td>—</td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
-  <section id="contato" class="contact">
+  <section>
     <div class="wrap">
-      <h2>Quer o mesmo tipo de processo no seu negócio?</h2>
-      <p class="sub">Faço diagnóstico, automação pontual e páginas que funcionam no celular. Se o seu caso não couber, eu digo antes de orçar.</p>
-      <div class="links">
-        <a href="../">Serviços e demo</a>
-        <a href="https://github.com/tufenor">GitHub</a>
-        <a href="https://linkedin.com/in/tufenor">LinkedIn</a>
+      <h2>O que eu deliberadamente não automatizei</h2>
+      <div class="grid">
+        <article class="card"><h3>Envio em massa</h3><p>Disparar mensagem para quem nunca falou com você derruba a conta do WhatsApp — e o número é do cliente. A fila prepara; o envio é um clique humano.</p></article>
+        <article class="card"><h3>Verificação no Google</h3><p>Quem confirma o perfil é o dono do negócio, na conta dele. Prometer isso é vender o que não se entrega.</p></article>
+        <article class="card"><h3>Cobrança e recebimento</h3><p>Gerar o código Pix é automático. Receber, conferir no extrato e assumir compromisso é ato do titular.</p></article>
+      </div>
+      <p class="note">Nenhum número de cliente, faturamento ou conversão é apresentado aqui. O processo registra o que foi confirmado, e o que foi confirmado é zero.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Perguntas que sempre aparecem</h2>
+      <details class="faq"><summary>Isso é um produto que eu posso comprar?</summary><p>Não. O que existe é um processo com ferramentas — algumas reaproveitáveis, como o gerador de página de cardápio. O resto é método.</p></details>
+      <details class="faq"><summary>Quanto tempo levou?</summary><p>Uma semana de trabalho entre montar ferramentas, publicar, auditar e corrigir. Sem contar o tempo de pesquisa de mercado.</p></details>
+      <details class="faq"><summary>Se não gerou receita, por que apresentar?</summary><p>Porque processo que não gera receita ainda ensina onde está o gargalo. O gargalo medido foi proposta enviada — zero —, não falta de ferramenta.</p></details>
+      <details class="faq"><summary>Você usa IA para tudo?</summary><p>Uso para pesquisa, escrita e implementação, com revisão do resultado. O que não delego: identidade, contrato, cobrança e envio em meu nome.</p></details>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= ENGLISH ============================= -->
+<div data-lang="en">
+  <div class="hero wrap">
+    <p class="eyebrow">Case · agent automation</p>
+    <h1>An income operation built with agents — and what it refuses to do.</h1>
+    <p class="lead">In one week I built a system to find clients, prepare proposals, ship pages and record what came in. It is not a product: it is the process, with the tools open, the mistakes documented and the real numbers.</p>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <h2>Numbers, no makeup</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="n">6</div><div class="l">agents with scoped jobs</div></div>
+        <div class="kpi"><div class="n">20</div><div class="l">qualified leads</div></div>
+        <div class="kpi"><div class="n">2</div><div class="l">pages published</div></div>
+        <div class="kpi"><div class="n">1</div><div class="l">security audit, 2 real findings</div></div>
+        <div class="kpi"><div class="n">$0</div><div class="l">confirmed revenue</div></div>
+      </div>
+      <p class="note">The last number is the important one. A system that does not sell is an expensive hobby — and the dashboard says so on the first line because it reads files, not intentions.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Architecture: every step leaves a file</h2>
+      <p class="sub">The rule is simple: no file, no work. No agent "works" without a verifiable trace.</p>
+      <div class="arch">
+        <div class="arch-row"><b>1 · Discovery</b><p>Job boards and local business scans. Output in <code>data/pipeline.json</code> with URL, date, stage and next step.</p></div>
+        <div class="arch-row"><b>2 · Decision</b><p>Daily plan with a numeric target and four work blocks. Output in <code>docs/plano-do-dia.md</code>, including a stop rule when targets miss.</p></div>
+        <div class="arch-row"><b>3 · Outreach</b><p>One message per lead, in Spanish, carrying the specific audit finding. Output in <code>docs/fila-do-dia.html</code>: copy, open channel, track progress.</p></div>
+        <div class="arch-row"><b>4 · Sales</b><p>Three qualifying questions, four messages, twelve objections, closing script. Output in <code>docs/playbook-vendas-es.md</code>.</p></div>
+        <div class="arch-row"><b>5 · Delivery</b><p>Packaged product with license and a ten-minute guide. Output in <code>products/menu-studio-v1.zip</code>.</p></div>
+        <div class="arch-row"><b>6 · Control</b><p>Per-agent ledger and cash kept apart from promises. Output in <code>data/agent-log.jsonl</code> and <code>data/finance.json</code>.</p></div>
       </div>
     </div>
   </section>
+
+  <section>
+    <div class="wrap">
+      <h2>The tooling is the argument</h2>
+      <table class="min">
+        <thead><tr><th>Tool</th><th>Problem it solves</th><th>How I know it works</th></tr></thead>
+        <tbody>
+          <tr><td>Safety gate</td><td>Publishing a secret by accident</td><td>Negative test: planted fake data blocked the publish</td></tr>
+          <tr><td>Vault outside the repo</td><td>Credentials in version control</td><td>Project-wide scan: zero key occurrences</td></tr>
+          <tr><td>Per-agent ledger</td><td>Not knowing who produced what</td><td>Caught an agent idle for 24 hours</td></tr>
+          <tr><td>Real viewport capture</td><td>Layout that "passes" and breaks on phones</td><td>Compares scroll width with viewport at 390px</td></tr>
+          <tr><td>Lead pipeline</td><td>Stale spreadsheets</td><td>20 leads, per-lead stage, daily queue from state</td></tr>
+          <tr><td>Repository audit</td><td>Public code with default credentials</td><td>Two real findings fixed and verified upstream</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Security audit: what turned up</h2>
+      <table class="min">
+        <thead><tr><th>Repository</th><th>Finding</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr><td>JARVIS</td><td>Default setup access-point password and the PC's real MAC in firmware</td><td>Placeholders, forced change on first boot, synthetic MAC in tests</td></tr>
+          <tr><td>Frequency</td><td>Commercial email and phone hardcoded in eight files</td><td>Moved to environment variables; WhatsApp button hides when unset</td></tr>
+          <tr><td>Portfolio</td><td>None</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>What I deliberately did not automate</h2>
+      <div class="grid">
+        <article class="card"><h3>Bulk sending</h3><p>Blasting people who never spoke to you gets the WhatsApp account banned — and the number belongs to the client. The queue prepares; a human clicks send.</p></article>
+        <article class="card"><h3>Google verification</h3><p>Only the business owner can claim the profile, on their own account. Promising otherwise is selling what you cannot deliver.</p></article>
+        <article class="card"><h3>Charging and receiving</h3><p>Generating the Pix code is automatic. Receiving, checking the statement and committing is the account holder's act.</p></article>
+      </div>
+      <p class="note">No client figures, revenue or conversion numbers appear here. The process records what was confirmed — and what was confirmed is zero.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Frequent questions</h2>
+      <details class="faq"><summary>Is this a product I can buy?</summary><p>No. What exists is a process plus tools — some reusable, like the menu page generator. The rest is method.</p></details>
+      <details class="faq"><summary>How long did it take?</summary><p>One week across tooling, publishing, auditing and fixing. Market research not included.</p></details>
+      <details class="faq"><summary>Why present it if it earned nothing?</summary><p>Because a process that earns nothing still points at the bottleneck. The measured bottleneck was proposals sent — zero — not tooling.</p></details>
+      <details class="faq"><summary>Do you use AI for everything?</summary><p>For research, writing and implementation, with review. Not for identity, contracts, charging or sending in my name.</p></details>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= ESPAÑOL ============================= -->
+<div data-lang="es">
+  <div class="hero wrap">
+    <p class="eyebrow">Caso · automatización con agentes</p>
+    <h1>Una operación de ingresos construida con agentes — y lo que no hace.</h1>
+    <p class="lead">En una semana armé un sistema para encontrar clientes, preparar propuestas, entregar páginas y registrar lo que entró. No es un producto: es el proceso, con las herramientas abiertas, los errores documentados y los números reales.</p>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <h2>Números, sin maquillaje</h2>
+      <div class="kpis">
+        <div class="kpi"><div class="n">6</div><div class="l">agentes con alcance cerrado</div></div>
+        <div class="kpi"><div class="n">20</div><div class="l">leads calificados</div></div>
+        <div class="kpi"><div class="n">2</div><div class="l">páginas publicadas</div></div>
+        <div class="kpi"><div class="n">1</div><div class="l">auditoría, 2 hallazgos reales</div></div>
+        <div class="kpi"><div class="n">Bs 0</div><div class="l">ingreso confirmado</div></div>
+      </div>
+      <p class="note">El último número es el importante. Un sistema que no vende es un pasatiempo caro — y el panel lo dice en la primera línea porque lee archivos, no intenciones.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Arquitectura: cada etapa deja un archivo</h2>
+      <p class="sub">La regla es simple: sin archivo, no ocurrió. Ningún agente "trabaja" sin dejar rastro verificable.</p>
+      <div class="arch">
+        <div class="arch-row"><b>1 · Descubrimiento</b><p>Barrido de anuncios y negocios locales. Salida en <code>data/pipeline.json</code> con URL, fecha, etapa y próximo paso.</p></div>
+        <div class="arch-row"><b>2 · Decisión</b><p>Plan del día con meta numérica y cuatro bloques. Salida en <code>docs/plano-do-dia.md</code>, con regla de corte cuando la meta no se cumple.</p></div>
+        <div class="arch-row"><b>3 · Abordaje</b><p>Un mensaje por lead, en español, con el dato específico de la auditoría. Salida en <code>docs/fila-do-dia.html</code>: copiar, abrir canal, marcar avance.</p></div>
+        <div class="arch-row"><b>4 · Venta</b><p>Tres preguntas de calificación, cuatro mensajes, doce objeciones y cierre. Salida en <code>docs/playbook-vendas-es.md</code>.</p></div>
+        <div class="arch-row"><b>5 · Entrega</b><p>Producto empaquetado con licencia y guía de diez minutos. Salida en <code>products/menu-studio-v1.zip</code>.</p></div>
+        <div class="arch-row"><b>6 · Control</b><p>Registro por agente y caja separada de promesa. Salida en <code>data/agent-log.jsonl</code> y <code>data/finance.json</code>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Las herramientas son el argumento</h2>
+      <table class="min">
+        <thead><tr><th>Herramienta</th><th>Problema que resuelve</th><th>Cómo sé que funciona</th></tr></thead>
+        <tbody>
+          <tr><td>Portón de seguridad</td><td>Publicar un secreto sin darse cuenta</td><td>Prueba negativa: dato falso plantado bloqueó la publicación</td></tr>
+          <tr><td>Caja fuerte fuera del repo</td><td>Credencial en control de versiones</td><td>Barrido del proyecto: cero apariciones de la clave</td></tr>
+          <tr><td>Registro por agente</td><td>No saber quién produjo qué</td><td>Detectó un agente detenido hace 24 horas</td></tr>
+          <tr><td>Captura con viewport real</td><td>Layout que "pasa" y se rompe en el celular</td><td>Compara ancho de scroll con el viewport a 390 px</td></tr>
+          <tr><td>Pipeline de leads</td><td>Planilla desactualizada</td><td>20 leads, etapa por lead, cola del día desde el estado</td></tr>
+          <tr><td>Auditoría de repositorio</td><td>Código público con credencial por defecto</td><td>Dos hallazgos reales corregidos y verificados en remoto</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Auditoría de seguridad: lo que apareció</h2>
+      <table class="min">
+        <thead><tr><th>Repositorio</th><th>Hallazgo</th><th>Corrección</th></tr></thead>
+        <tbody>
+          <tr><td>JARVIS</td><td>Contraseña por defecto del punto de acceso y MAC real del PC en el firmware</td><td>Placeholders, cambio obligatorio en el primer arranque, MAC sintético en las pruebas</td></tr>
+          <tr><td>Frequency</td><td>Correo y teléfono comercial fijos en ocho archivos</td><td>Pasaron a variables de entorno; el botón de WhatsApp se oculta si no está configurado</td></tr>
+          <tr><td>Portfolio</td><td>Nada</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Lo que decidí no automatizar</h2>
+      <div class="grid">
+        <article class="card"><h3>Envío masivo</h3><p>Escribir a quien nunca te habló tumba la cuenta de WhatsApp — y el número es del cliente. La cola prepara; el envío es un clic humano.</p></article>
+        <article class="card"><h3>Verificación en Google</h3><p>Solo el dueño confirma el perfil, en su propia cuenta. Prometer otra cosa es vender lo que no se entrega.</p></article>
+        <article class="card"><h3>Cobro y recepción</h3><p>Generar el código Pix es automático. Recibir, verificar en el extracto y comprometerse es acto del titular.</p></article>
+      </div>
+      <p class="note">Aquí no aparece ninguna cifra de cliente, facturación o conversión. El proceso registra lo confirmado — y lo confirmado es cero.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Preguntas frecuentes</h2>
+      <details class="faq"><summary>¿Es un producto que puedo comprar?</summary><p>No. Lo que existe es un proceso con herramientas — algunas reutilizables, como el generador de página de menú. El resto es método.</p></details>
+      <details class="faq"><summary>¿Cuánto tomó?</summary><p>Una semana entre herramientas, publicación, auditoría y correcciones. Sin contar la investigación de mercado.</p></details>
+      <details class="faq"><summary>¿Por qué presentarlo si no generó ingresos?</summary><p>Porque un proceso sin ingresos igual señala el cuello de botella. El medido fue propuestas enviadas — cero —, no falta de herramienta.</p></details>
+      <details class="faq"><summary>¿Usas IA para todo?</summary><p>Para investigación, escritura e implementación, con revisión. No para identidad, contrato, cobro ni envío en mi nombre.</p></details>
+    </div>
+  </section>
+</div>
+
+<section id="contato" class="contact">
+  <div class="wrap">
+    <h2 data-cta="title">Quer o mesmo tipo de processo no seu negócio?</h2>
+    <p class="sub" data-cta="sub">Faço diagnóstico, automação pontual e páginas que funcionam no celular.</p>
+    <div class="links">
+      <a href="../" data-cta="home">Serviços e demo</a>
+      <a href="https://github.com/tufenor">GitHub</a>
+      <a href="https://linkedin.com/in/tufenor">LinkedIn</a>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer>
@@ -136,5 +346,42 @@
     <p>Gabriel de Moura Pereira · case de operação com agentes. Página estática, sem rastreadores.</p>
   </div>
 </footer>
+
+<script>
+(function () {
+  var KEY = 'gmp-lang';
+  var cta = {
+    pt: { title: 'Quer o mesmo tipo de processo no seu negócio?', sub: 'Faço diagnóstico, automação pontual e páginas que funcionam no celular.', home: 'Serviços e demo' },
+    en: { title: 'Want the same kind of process in your business?', sub: 'I do diagnosis, focused automation and pages that work on phones.', home: 'Services and demo' },
+    es: { title: '¿Quieres el mismo tipo de proceso en tu negocio?', sub: 'Hago diagnóstico, automatización puntual y páginas que funcionan en el celular.', home: 'Servicios y demo' }
+  };
+  var titles = {
+    pt: 'Case: operação de renda com agentes de IA — Gabriel de Moura Pereira',
+    en: 'Case: an income operation built with agents — Gabriel de Moura Pereira',
+    es: 'Caso: operación de ingresos con agentes — Gabriel de Moura Pereira'
+  };
+  function set(lang) {
+    if (!cta[lang]) lang = 'pt';
+    document.querySelectorAll('[data-lang]').forEach(function (el) {
+      el.classList.toggle('on', el.getAttribute('data-lang') === lang);
+    });
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+    });
+    document.querySelectorAll('[data-cta]').forEach(function (el) {
+      el.textContent = cta[lang][el.getAttribute('data-cta')];
+    });
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : (lang === 'es' ? 'es' : 'en');
+    document.title = titles[lang];
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+  }
+  document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+    b.addEventListener('click', function () { set(b.getAttribute('data-set-lang')); });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  set(saved || 'pt');
+})();
+</script>
 </body>
 </html>
