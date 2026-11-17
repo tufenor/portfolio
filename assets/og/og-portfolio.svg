@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Páginas que funcionam no celular.">
+  <rect width="1200" height="630" fill="#202723"/>
+  <path d="M0 0h16v630H0z" fill="#b9ce9c"/>
+  <g stroke="#39443b" stroke-width="1">
+    <path d="M820 0v630M920 0v630M1020 0v630M1120 0v630"/>
+    <path d="M820 150h380M820 300h380M820 450h380"/>
+  </g>
+  <g font-family="Segoe UI, Inter, Arial, sans-serif">
+    <text x="88" y="120" font-size="20" letter-spacing="4" fill="#b9ce9c">PORTFÓLIO</text>
+    <text x="86" y="252" font-size="74" font-weight="600" letter-spacing="-2.4" fill="#f5f1e7">Páginas que funcionam</text>
+    <text x="86" y="338" font-size="74" font-weight="600" letter-spacing="-2.4" fill="#f5f1e7">no celular.</text>
+    <text x="88" y="414" font-size="26" fill="#d8ddd2">Landing pages, correção de responsividade e automação com IA.</text>
+    <path d="M88 470h560" stroke="#536056"/>
+    <text x="88" y="522" font-size="21" letter-spacing="1.6" fill="#b9ce9c">tufenor.github.io/portfolio</text>
+  </g>
+  <g transform="translate(880 195)">
+    <rect x="0" y="0" width="240" height="240" rx="16" fill="#f5f1e7" opacity=".07"/>
+    <g fill="none" stroke="#b9ce9c" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="78" y="40" width="84" height="150" rx="12"/><path d="M96 68h48M96 92h36M96 116h44"/><path d="M180 96h14v94h-14"/>
+    </g>
+  </g>
+</svg>
