@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Café Aurora — demonstração com defeitos (antes)</title>
+<meta name="description" content="Versão de comparação com defeitos comuns de responsividade. Empresa fictícia.">
+<style>
+  /* Versão "antes": defeitos intencionais, documentados na vitrine. */
+  body{
+    margin:0;
+    min-width:900px;              /* defeito 1: transbordo horizontal */
+    background:#fff;
+    color:#999;                   /* defeito 3: contraste baixo */
+    font:400 11px/1.35 Arial,Helvetica,sans-serif; /* defeito 3: corpo de texto minúsculo */
+  }
+  .wrap{width:860px;margin:0 auto;padding:0}
+  header{background:#4a3225}
+  .bar{padding:6px 0}
+  .logo{color:#f1e6d6;font-size:14px;margin:0;display:inline}
+  nav{display:inline;margin-left:20px}
+  nav a{color:#d8c7b2;font-size:10px;margin-right:6px;text-decoration:none} /* defeito 2: alvo de toque de ~12px */
+  main{padding-bottom:10px}
+  .hero{padding:14px 0 10px}
+  h1{font-size:26px;line-height:1.1;margin:0 0 6px;color:#333}
+  .hero p{margin:0 0 8px;max-width:none}
+  section{border-top:1px solid #eee;padding:10px 0}
+  h2{font-size:15px;margin:0 0 6px;color:#444}
+  .menu{display:flex;gap:6px}
+  .item{border:1px solid #eee;padding:6px;width:270px}
+  .item h3{font-size:12px;margin:0 0 2px}
+  .item p{margin:0;font-size:10px}
+  .item .p{display:block;margin-top:4px;color:#b9743a;font-size:10px}
+  table{border-collapse:collapse;width:880px}       /* defeito 1: tabela mais larga que a tela */
+  caption{text-align:left;font-size:10px;padding:4px}
+  th,td{border:1px solid #e2d8c8;text-align:left;padding:4px 6px;font-size:10px}
+  th{background:#f3ece0}
+  .gallery{display:flex;gap:6px;margin-top:8px}
+  .shot{width:280px;height:210px;border:1px solid #eee;background:#f0e5d4;color:#a08a72;font-size:9px;text-align:center;padding-top:90px} /* defeito 4: dimensão fixa, sem proporção reservada */
+  form{width:860px;margin-top:8px}
+  .field{margin-bottom:6px}
+  label{display:block;font-size:10px}
+  input,textarea{border:1px solid #ccc;height:16px;font-size:10px;width:300px} /* defeito 2/5: campo baixo e sem estado de erro */
+  textarea{height:40px}
+  .btn{height:18px;font-size:10px;padding:0 8px;border:1px solid #4a3225;background:#4a3225;color:#fff;cursor:pointer}
+  footer{font-size:9px;color:#aaa;padding:10px 0 16px}
+  .demo-flag{background:#7a1f1a;color:#fff;font-size:10px;text-align:center;padding:4px;margin:0}
+</style>
+</head>
+<body>
+<p class="demo-flag">DEMONSTRAÇÃO — empresa fictícia. VERSÃO COM DEFEITOS, PARA COMPARAÇÃO.</p>
+<header>
+  <div class="bar wrap">
+    <p class="logo">Café Aurora</p>
+    <nav>
+      <a href="#menu">Menu</a>
+      <a href="#horarios">Horários</a>
+      <a href="#visite">Visite</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <h1>Torra própria, pão quentinho e uma mesa livre para você.</h1>
+    <p>Abrimos cedo, fechamos tarde e servimos café coado na hora. Traga o notebook ou venha conversar: aqui ninguém apressa ninguém.</p>
+    <p>Hoje: 7h às 19h</p>
+  </div>
+
+  <section id="menu">
+    <h2>Do balcão</h2>
+    <div class="menu">
+      <div class="item"><h3>Espresso</h3><p>Blend da casa, 40 ml.</p><span class="p">R$ 7</span></div>
+      <div class="item"><h3>Cappuccino</h3><p>Leite vaporizado e cacau.</p><span class="p">R$ 12</span></div>
+      <div class="item"><h3>Pão de queijo</h3><p>Assado de hora em hora.</p><span class="p">R$ 6</span></div>
+    </div>
+  </section>
+
+  <section id="horarios">
+    <h2>Horários</h2>
+    <table>
+      <caption>Funcionamento da semana</caption>
+      <tr><th>Dia</th><th>Abre</th><th>Fecha</th></tr>
+      <tr><td>Segunda a sexta</td><td>7h</td><td>19h</td></tr>
+      <tr><td>Sábado</td><td>8h</td><td>18h</td></tr>
+      <tr><td>Domingo</td><td>8h</td><td>14h</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>O espaço</h2>
+    <div class="gallery">
+      <div class="shot">Balcão</div>
+      <div class="shot">Janela</div>
+      <div class="shot">Moedor</div>
+    </div>
+  </section>
+
+  <section id="visite">
+    <h2>Visite</h2>
+    <p>Rua das Laranjeiras, 128 — centro. A duas quadras da praça. Sem estacionamento próprio; há vaga rotativa na quadra ao lado.</p>
+  </section>
+
+  <section id="contato">
+    <h2>Fale com a gente</h2>
+    <form>
+      <div class="field"><label for="nome">Seu nome</label><input id="nome"></div>
+      <div class="field"><label for="email">E-mail</label><input id="email"></div>
+      <div class="field"><label for="msg">Mensagem</label><textarea id="msg"></textarea></div>
+      <button class="btn" type="button">Enviar</button>
+    </form>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>Café Aurora · empresa fictícia. Esta é a versão com defeitos.</p>
+  <p><a href="cafe-aurora.html">Ver a versão corrigida</a> · <a href="index.html">Voltar à explicação</a></p>
+</footer>
+</body>
+</html>

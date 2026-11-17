@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Café Aurora — demonstração corrigida</title>
+<meta name="description" content="Página de demonstração usada como prova de correção de responsividade. Empresa fictícia.">
+<style>
+  :root{--ink:#231f1a;--paper:#fbf7ef;--coffee:#4a3225;--caramel:#b9743a;--line:#e4dbca;--muted:#5d544a;--ok:#2f5d43;--bad:#a4342b}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 1rem/1.6 ui-sans-serif,system-ui,"Segoe UI",Roboto,Arial,sans-serif}
+  a{color:var(--coffee);text-underline-offset:.2em}
+  a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--caramel);outline-offset:2px}
+  .wrap{max-width:64rem;margin:0 auto;padding:0 1.15rem}
+  header{background:var(--coffee);color:var(--paper)}
+  .bar{display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:.9rem}
+  .logo{font-weight:700;letter-spacing:.02em;font-size:1.15rem;margin:0}
+  nav ul{display:flex;gap:.35rem;flex-wrap:wrap;list-style:none;margin:0;padding:0}
+  nav a{display:inline-block;padding:.6rem .7rem;border-radius:.35rem;color:#f1e6d6;text-decoration:none;font-size:.95rem;min-height:2.75rem}
+  nav a:hover{background:rgba(255,255,255,.14);color:#fff}
+  .hero{padding:2.6rem 0 2.2rem}
+  .hero h1{font-size:clamp(1.7rem,4.6vw,2.7rem);line-height:1.15;margin:.2rem 0 .8rem;max-width:24ch}
+  .hero p{color:var(--muted);max-width:52ch;margin:0 0 1.2rem;font-size:1.05rem}
+  .hours-pill{display:inline-block;background:#efe6d6;border:1px solid var(--line);border-radius:999px;padding:.45rem .9rem;font-size:.92rem;color:var(--coffee)}
+  section{padding:2rem 0;border-top:1px solid var(--line)}
+  h2{font-size:clamp(1.3rem,3vw,1.7rem);margin:0 0 .5rem}
+  .menu{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));margin-top:1.2rem}
+  .item{background:#fff;border:1px solid var(--line);border-radius:.5rem;padding:1rem}
+  .item h3{margin:0 0 .2rem;font-size:1.02rem}
+  .item p{margin:0;color:var(--muted);font-size:.95rem}
+  .item .p{display:block;margin-top:.6rem;font-weight:650;color:var(--caramel)}
+  .table-scroll{overflow-x:auto;margin-top:1rem;border:1px solid var(--line);border-radius:.5rem;background:#fff}
+  table{border-collapse:collapse;width:100%;min-width:22rem;font-size:.97rem}
+  caption{text-align:left;padding:.75rem .9rem;color:var(--muted);font-size:.9rem}
+  th,td{text-align:left;padding:.7rem .9rem;border-bottom:1px solid var(--line)}
+  th{background:#f3ece0;font-weight:650}
+  tr:last-child td{border-bottom:0}
+  .gallery{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));margin-top:1.2rem}
+  .shot{aspect-ratio:4/3;border-radius:.5rem;border:1px solid var(--line);background:
+     radial-gradient(120% 90% at 20% 10%,#e8d6bd 0%,transparent 60%),
+     radial-gradient(90% 80% at 85% 90%,#cfa173 0%,transparent 55%),#f0e5d4;
+     display:grid;place-items:center;color:#7a5c42;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
+  form{margin-top:1.2rem;display:grid;gap:.9rem;max-width:32rem}
+  label{font-weight:600;font-size:.95rem}
+  input,textarea{width:100%;min-height:2.75rem;padding:.65rem .7rem;border:1px solid #c9bda6;border-radius:.35rem;font:inherit;background:#fff}
+  textarea{min-height:7rem;resize:vertical}
+  .field{display:grid;gap:.35rem}
+  .err{color:var(--bad);font-size:.87rem;min-height:1.1rem}
+  .btn{min-height:2.9rem;padding:.7rem 1.2rem;border:0;border-radius:.35rem;background:var(--coffee);color:var(--paper);font:inherit;font-weight:650;cursor:pointer;justify-self:start}
+  .btn:hover{background:#2f1f17}
+  .status{font-size:.92rem;color:var(--ok);min-height:1.2rem}
+  footer{padding:1.6rem 0 2.2rem;color:var(--muted);font-size:.88rem}
+  .demo-flag{background:#2f2a24;color:#f4ecdd;font-size:.82rem;text-align:center;padding:.45rem .8rem}
+</style>
+</head>
+<body>
+<p class="demo-flag">Demonstração — empresa fictícia. Versão corrigida.</p>
+<header>
+  <div class="wrap bar">
+    <p class="logo">Café Aurora</p>
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#horarios">Horários</a></li>
+        <li><a href="#visite">Visite</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <h1>Torra própria, pão quentinho e uma mesa livre para você.</h1>
+    <p>Abrimos cedo, fechamos tarde e servimos café coado na hora. Traga o notebook ou venha conversar: aqui ninguém apressa ninguém.</p>
+    <p class="hours-pill">Hoje: 7h às 19h</p>
+  </div>
+
+  <section id="menu">
+    <div class="wrap">
+      <h2>Do balcão</h2>
+      <p style="color:var(--muted);margin:0">Três coisas que fazemos bem todos os dias.</p>
+      <div class="menu">
+        <article class="item"><h3>Espresso</h3><p>Blend da casa, 40 ml.</p><span class="p">R$ 7</span></article>
+        <article class="item"><h3>Cappuccino</h3><p>Leite vaporizado e cacau.</p><span class="p">R$ 12</span></article>
+        <article class="item"><h3>Pão de queijo</h3><p>Assado de hora em hora.</p><span class="p">R$ 6</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="horarios">
+    <div class="wrap">
+      <h2>Horários</h2>
+      <div class="table-scroll">
+        <table>
+          <caption>Funcionamento da semana</caption>
+          <thead><tr><th scope="col">Dia</th><th scope="col">Abre</th><th scope="col">Fecha</th></tr></thead>
+          <tbody>
+            <tr><td>Segunda a sexta</td><td>7h</td><td>19h</td></tr>
+            <tr><td>Sábado</td><td>8h</td><td>18h</td></tr>
+            <tr><td>Domingo</td><td>8h</td><td>14h</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>O espaço</h2>
+      <div class="gallery">
+        <div class="shot" role="img" aria-label="Ilustração do balcão de madeira">Balcão</div>
+        <div class="shot" role="img" aria-label="Ilustração da mesa perto da janela">Janela</div>
+        <div class="shot" role="img" aria-label="Ilustração do moedor de café">Moedor</div>
+      </div>
+      <p style="font-size:.85rem;color:var(--muted)">Blocos ilustrativos com proporção reservada — sem imagem externa que cause salto de layout.</p>
+    </div>
+  </section>
+
+  <section id="visite">
+    <div class="wrap">
+      <h2>Visite</h2>
+      <p style="color:var(--muted);max-width:52ch;margin:0">Rua das Laranjeiras, 128 — centro. A duas quadras da praça. Sem estacionamento próprio; há vaga rotativa na quadra ao lado.</p>
+    </div>
+  </section>
+
+  <section id="contato">
+    <div class="wrap">
+      <h2>Fale com a gente</h2>
+      <form id="f" novalidate>
+        <div class="field">
+          <label for="nome">Seu nome</label>
+          <input id="nome" name="nome" autocomplete="name" aria-describedby="e-nome">
+          <p class="err" id="e-nome" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" autocomplete="email" aria-describedby="e-email">
+          <p class="err" id="e-email" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="msg">Mensagem</label>
+          <textarea id="msg" name="msg" aria-describedby="e-msg"></textarea>
+          <p class="err" id="e-msg" role="alert"></p>
+        </div>
+        <button class="btn" type="submit">Enviar mensagem</button>
+        <p class="status" id="status" role="status"></p>
+      </form>
+      <p style="font-size:.85rem;color:var(--muted)">Demonstração: nada é enviado. O formulário mostra os estados de validação.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Café Aurora · empresa fictícia criada para esta demonstração de correção de responsividade.</p>
+    <p><a href="index.html">Voltar à explicação</a> · <a href="cafe-aurora-antes.html">Comparar com a versão com defeitos</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var f = document.getElementById('f'), st = document.getElementById('status');
+  function set(id, msg) { document.getElementById('e-' + id).textContent = msg; }
+  f.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var nome = f.nome.value.trim(), email = f.email.value.trim(), msg = f.msg.value.trim();
+    var ok = true;
+    set('nome', ''); set('email', ''); set('msg', ''); st.textContent = '';
+    if (nome.length < 2) { set('nome', 'Diga como podemos chamar você.'); ok = false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { set('email', 'Digite um e-mail válido, como nome@dominio.com.'); ok = false; }
+    if (msg.length < 10) { set('msg', 'Escreva pelo menos 10 caracteres.'); ok = false; }
+    st.textContent = ok ? 'Mensagem validada. Na versão publicada, ela seguiria para o e-mail do cliente.' : 'Revise os campos destacados.';
+    st.style.color = ok ? '#2f5d43' : '#a4342b';
+  });
+})();
+</script>
+</body>
+</html>
