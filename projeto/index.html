@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case: operação de renda com agentes de IA — Gabriel de Moura Pereira</title>
+<meta name="description" content="Como montei uma operação de prospecção e entrega com agentes de IA, incluindo o que funcionou, o que falhou e o que não automatizei.">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Pular para o conteúdo</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2e4935"/><path d="M8 23V9h3l5 8 5-8h3v14h-3v-8l-5 8-5-8v8z" fill="#f5f1e7"/></svg>
+      Gabriel de Moura Pereira
+    </a>
+    <nav aria-label="Seções">
+      <a href="../">Início</a>
+      <a href="#sistema">O sistema</a>
+      <a href="#limites">Limites</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="hero wrap">
+    <p class="eyebrow">Case · automação com agentes</p>
+    <h1>Uma operação de renda construída com agentes — e o que ela não faz.</h1>
+    <p class="lead">Durante uma semana montei um sistema para encontrar clientes, preparar propostas, entregar páginas e registrar o que entrou. Não é um produto: é o processo, com as ferramentas abertas e os erros documentados.</p>
+  </div>
+
+  <section id="sistema">
+    <div class="wrap">
+      <h2>O que foi construído</h2>
+      <p class="sub">Seis agentes com escopo fechado, cada um com um arquivo de saída. Se não gerou arquivo, não aconteceu.</p>
+      <div class="grid">
+        <article class="card">
+          <span class="tag">Descoberta</span>
+          <h3>Varredura e qualificação</h3>
+          <p>Leitura de anúncios, comparação com o que já foi mapeado, descarte do que exige credencial falsa ou pagamento para liberar trabalho.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Decisão</span>
+          <h3>Plano do dia</h3>
+          <p>Meta numérica, quatro blocos de trabalho, o que o agente faz e o que só o titular pode fazer. Com regra de corte quando a meta não bate.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Prospecção</span>
+          <h3>Fila de contato</h3>
+          <p>Mensagem por negócio, botão de copiar, link do canal e progresso. O envio continua humano de propósito.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Venda</span>
+          <h3>Playbook em espanhol</h3>
+          <p>Qualificação em três perguntas, quatro mensagens, doze objeções e roteiro de fechamento. Preço só depois da qualificação.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Entrega</span>
+          <h3>Produto empacotado</h3>
+          <p>Página de cardápio responsiva em PT/ES, configuração por um arquivo JSON, licença de uso e guia de dez minutos.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Controle</span>
+          <h3>Painel e registro</h3>
+          <p>O que cada agente produziu, o que foi recebido, o que é promessa. Receita confirmada aparece separada de valor contratado.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>As ferramentas são o argumento</h2>
+      <p class="sub">Cada uma resolve um problema concreto do processo — e todas foram usadas de verdade nesta semana.</p>
+      <ul class="steps">
+        <li><span><strong>Portão de segurança</strong>Antes de qualquer publicação, uma varredura compara o conteúdo com padrões de segredo e com os valores do cofre local. Se encontrar, bloqueia. Testei com dado falso plantado.</span></li>
+        <li><span><strong>Cofre fora do repositório</strong>Chave Pix e tokens ficam no perfil do sistema, nunca no projeto. Qualquer agente consulta por comando.</span></li>
+        <li><span><strong>Registro de produção por agente</strong>Cada entrega vira uma linha com data, artefato e status. É assim que se descobre que um agente passou dois dias sem produzir.</span></li>
+        <li><span><strong>Captura com viewport real</strong>O modo headless comum mente sobre largura mínima de janela. A verificação usa emulação de dispositivo e compara a largura de rolagem com a do viewport.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="limites">
+    <div class="wrap">
+      <h2>O que eu deliberadamente não automatizei</h2>
+      <p class="sub">Esta é a parte que costuma faltar em apresentação de automação.</p>
+      <div class="grid">
+        <article class="card">
+          <h3>Envio em massa</h3>
+          <p>Disparar mensagem para quem nunca falou com você derruba a conta do WhatsApp — e o número é do cliente, não da ferramenta. A fila prepara tudo; o envio é um clique humano.</p>
+        </article>
+        <article class="card">
+          <h3>Verificação de perfil no Google</h3>
+          <p>Quem confirma o perfil é o dono do negócio, na conta dele. Um terceiro não pode reivindicar por ele sem autorização, e prometer isso é vender o que não se entrega.</p>
+        </article>
+        <article class="card">
+          <h3>Cobrança e recebimento</h3>
+          <p>Gerar o código Pix é automático. Receber, conferir no extrato e assumir compromisso é ato do titular — inclusive porque é ele que responde pelo contrato.</p>
+        </article>
+      </div>
+      <p class="note">Nenhum número de cliente, faturamento ou conversão é apresentado aqui. A receita desta operação até o momento é zero — e o processo registra isso em vez de maquiar.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>O que sobra quando a apresentação acaba</h2>
+      <p class="sub">Três coisas que continuam valendo depois que o entusiasmo passa.</p>
+      <ol class="steps">
+        <li><span><strong>Evidência vale mais que promessa</strong>Um link que abre, um repositório que roda e um antes/depois medido substituem qualquer adjetivo.</span></li>
+        <li><span><strong>Meta pequena que fecha vence meta grande que não sai do papel</strong>Vinte mensagens e uma resposta é melhor que cinquenta e nenhuma.</span></li>
+        <li><span><strong>O agente precisa saber onde parar</strong>Automação sem limite de ação é passivo, não ativo.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="contato" class="contact">
+    <div class="wrap">
+      <h2>Quer o mesmo tipo de processo no seu negócio?</h2>
+      <p class="sub">Faço diagnóstico, automação pontual e páginas que funcionam no celular. Se o seu caso não couber, eu digo antes de orçar.</p>
+      <div class="links">
+        <a href="../">Serviços e demo</a>
+        <a href="https://github.com/tufenor">GitHub</a>
+        <a href="https://linkedin.com/in/tufenor">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Gabriel de Moura Pereira · case de operação com agentes. Página estática, sem rastreadores.</p>
+  </div>
+</footer>
+</body>
+</html>
