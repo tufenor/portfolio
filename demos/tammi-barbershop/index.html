@@ -3,237 +3,272 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tammi Barbershop — Barbería</title>
-<meta name="description" content="Tammi Barbershop: Atención con hora marcada por WhatsApp. Llegás, te sentás y salís en el horario acordado.">
-<meta name="theme-color" content="#1f3d5c">
-<meta property="og:title" content="Tammi Barbershop">
-<meta property="og:description" content="Atención con hora marcada por WhatsApp. Llegás, te sentás y salís en el horario acordado.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231f3d5c'/%3E%3Ctext x='50' y='70' font-size='56' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
+<title>Tammi Barbershop — Barbería en Cochabamba</title>
+<meta name="description" content="Tammi Barbershop: barbería con hora marcada en Cochabamba. Corte, barba, pigmentación y ritual completo, con precio fijo.">
+<meta name="theme-color" content="#0e0f12">
+<meta property="og:title" content="Tammi Barbershop — Barbería">
+<meta property="og:description" content="Corte, barba y ritual completo con hora marcada y precio fijo.">
+<meta property="og:image" content="img/hero.jpg">
+<link rel="preload" as="image" href="img/hero.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230e0f12'/%3E%3Ctext x='50' y='70' font-size='54' font-family='Georgia' font-weight='bold' fill='%23c9a227' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
 <style>
   :root{
-    --accent:#1f3d5c; --accent2:#c9a227; --soft:#e8eef5;
-    --ink:#12161a; --muted:#5c6660; --paper:#fbfaf7; --line:#e7e2d7; --radius:18px; --max:1120px;
+    --ink:#0e0f12; --ink-2:#16181d; --cream:#f4efe6; --muted:#b9b2a4;
+    --gold:#c9a227; --gold-soft:#e8d089; --line:rgba(244,239,230,.14); --max:1160px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-  h1,h2,h3{letter-spacing:-.02em;line-height:1.1;margin:0}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{animation:none!important;transition:none!important}}
+  body{margin:0;background:var(--ink);color:var(--cream);font:16px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
   img{max-width:100%;display:block}
   a{color:inherit}
+  h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;letter-spacing:-.01em;line-height:1.12;margin:0}
   .wrap{width:100%;max:var(--max);margin-inline:auto;padding-inline:clamp(18px,4vw,40px)}
   .skip{position:absolute;left:-9999px}
-  .skip:focus{left:16px;top:16px;background:#fff;padding:10px 14px;border-radius:10px;outline:3px solid var(--accent);z-index:100}
+  .skip:focus{left:16px;top:16px;background:var(--gold);color:#111;padding:10px 14px;border-radius:8px;z-index:200}
 
-  header{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-  .top{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:66px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:700}
-  .mark{width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:grid;place-items:center;font-weight:800}
-  nav{display:none;gap:24px;font-size:.94rem;color:var(--muted)}
-  nav a{text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}
-  nav a:hover{color:var(--ink);border-color:var(--accent)}
-  @media (min-width:860px){nav{display:flex}}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 22px;border-radius:999px;font-weight:650;text-decoration:none;border:1px solid transparent;transition:transform .15s,box-shadow .15s}
+  .pole{height:6px;background:repeating-linear-gradient(135deg,var(--gold) 0 12px,#1b1d23 12px 24px,#8f2f2f 24px 36px,#1b1d23 36px 48px)}
+  header{position:sticky;top:0;z-index:80;background:rgba(14,15,18,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:70px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.02em}
+  .mark{width:38px;height:38px;border-radius:10px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-family:Georgia,serif;font-size:19px}
+  nav{display:none;gap:26px;font-size:.92rem;color:var(--muted)}
+  nav a{text-decoration:none}
+  nav a:hover{color:var(--cream)}
+  @media (min-width:900px){nav{display:flex}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 24px;border-radius:4px;font-weight:650;text-decoration:none;border:1px solid transparent;letter-spacing:.02em;transition:transform .15s,background .2s,color .2s}
   .btn:active{transform:translateY(1px)}
-  .btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 10px 24px -14px var(--accent)}
-  .btn-ghost{background:#fff;border-color:var(--line)}
-  @media (max-width:640px){header .btn-primary{display:none}}
+  .btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  .btn-gold{background:var(--gold);color:#141414}
+  .btn-gold:hover{background:var(--gold-soft)}
+  .btn-line{border-color:rgba(244,239,230,.34);color:var(--cream);background:transparent}
+  .btn-line:hover{border-color:var(--gold);color:var(--gold)}
+  @media (max-width:680px){header .btn-gold{display:none}}
 
-  .hero{padding-block:clamp(30px,5vw,64px);background:
-    radial-gradient(1100px 420px at 85% -10%, var(--soft), transparent 60%),
-    radial-gradient(700px 320px at 0% 110%, var(--soft), transparent 55%)}
-  .hero-grid{display:grid;gap:clamp(26px,4vw,52px);align-items:center}
-  @media (min-width:900px){.hero-grid{grid-template-columns:1.1fr .9fr}}
-  .kicker{display:inline-flex;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);color:var(--accent);font-weight:700;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
-  h1{font-size:clamp(2.05rem,5.6vw,3.6rem);margin:18px 0 14px;max-width:18ch}
-  .lead{font-size:clamp(1.02rem,1.5vw,1.18rem);color:var(--muted);max-width:50ch;margin:0 0 26px}
+  .hero{position:relative;isolation:isolate;min-height:min(88vh,760px);display:flex;align-items:flex-end;padding-block:clamp(40px,8vw,90px)}
+  .hero::before{content:"";position:absolute;inset:0;z-index:-2;background:url("img/hero.jpg") center 30%/cover no-repeat}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,15,18,.28) 0%,rgba(14,15,18,.72) 55%,var(--ink) 100%)}
+  .hero-inner{max-width:760px}
+  .pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(244,239,230,.3);background:rgba(14,15,18,.5);padding:7px 14px;border-radius:999px;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-soft)}
+  .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 4px rgba(74,222,128,.18)}
+  .dot.fechado{background:#f87171;box-shadow:0 0 0 4px rgba(248,113,113,.18)}
+  h1{font-size:clamp(2.3rem,6.4vw,4.1rem);margin:18px 0 16px}
+  .hero p{font-size:clamp(1.02rem,1.6vw,1.22rem);color:#ded7c9;max-width:46ch;margin:0 0 28px}
   .acoes{display:flex;flex-wrap:wrap;gap:12px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 22px 46px -34px rgba(18,22,26,.55)}
-  .status{display:flex;align-items:center;gap:10px;font-weight:650;margin-bottom:12px}
-  .dot{width:10px;height:10px;border-radius:50%;background:#22a06b;box-shadow:0 0 0 4px rgba(34,160,107,.16)}
-  .dot.fechado{background:#c0562f;box-shadow:0 0 0 4px rgba(192,86,47,.16)}
-  .linha{display:flex;justify-content:space-between;gap:12px;font-size:.95rem;color:var(--muted);padding:7px 0;border-bottom:1px dashed var(--line)}
-  .linha:last-child{border:0}
-  .linha b{color:var(--ink);font-weight:600}
+  .hero-lista{display:flex;flex-wrap:wrap;gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid var(--line);font-size:.9rem;color:var(--muted)}
+  .hero-lista b{display:block;color:var(--cream);font-weight:600}
 
-  section{padding-block:clamp(34px,5vw,68px)}
-  .eyebrow{color:var(--accent);font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
-  h2{font-size:clamp(1.5rem,3.2vw,2.1rem);margin:8px 0 10px}
-  .sub{color:var(--muted);margin:0 0 28px;max-width:62ch}
+  section{padding-block:clamp(46px,7vw,90px)}
+  .eyebrow{color:var(--gold);font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+  h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin:10px 0 12px}
+  .sub{color:var(--muted);max-width:62ch;margin:0 0 34px}
 
-  .destaques{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-  .destaque{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
-  .destaque h3{font-size:1rem;margin-bottom:6px}
-  .destaque p{margin:0;color:var(--muted);font-size:.93rem}
+  .servicos{display:grid;gap:14px}
+  @media (min-width:820px){.servicos{grid-template-columns:1fr 1fr;gap:16px 22px}}
+  .servico{display:flex;align-items:center;gap:16px;background:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:18px 20px;transition:border-color .2s,transform .2s}
+  .servico:hover{border-color:rgba(201,162,39,.55);transform:translateY(-2px)}
+  .servico-icone{flex:0 0 46px;height:46px;border-radius:50%;border:1px solid rgba(201,162,39,.4);display:grid;place-items:center;color:var(--gold)}
+  .servico-icone svg{width:22px;height:22px}
+  .servico-texto{flex:1}
+  .servico-texto h3{font-size:1.06rem;margin-bottom:3px}
+  .servico-texto p{margin:0 0 6px;color:var(--muted);font-size:.9rem}
+  .servico-tempo{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(244,239,230,.5)}
+  .servico-preco{font-family:Georgia,serif;color:var(--gold);font-size:1.15rem;white-space:nowrap}
 
-  .servicos{list-style:none;margin:0;padding:0;display:grid;gap:12px}
-  @media (min-width:760px){.servicos{grid-template-columns:1fr 1fr;gap:14px 40px}}
-  .servico{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
-  .servico h3{font-size:1rem;margin-bottom:4px}
-  .servico p{margin:0;color:var(--muted);font-size:.9rem}
-  .preco{font-weight:800;color:var(--accent);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .galeria{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+  .galeria figure:first-child{grid-column:span 2}
+  .galeria figure:first-child img{aspect-ratio:16/9}
+  .galeria figure{position:relative;margin:0;overflow:hidden;border-radius:6px;background:#000}
+  .galeria img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;transition:transform .6s ease,opacity .3s}
+  .galeria figure:hover img{transform:scale(1.05)}
+  .galeria figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:#f4efe6;background:linear-gradient(transparent,rgba(0,0,0,.75))}
 
-  .passos{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+  .split{display:grid;gap:clamp(24px,4vw,48px);align-items:center}
+  @media (min-width:900px){.split{grid-template-columns:1fr 1fr}}
+  .split img{border-radius:6px;aspect-ratio:5/4;object-fit:cover}
+  .lista-check{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+  .lista-check li{display:flex;gap:12px;color:#ded7c9}
+  .lista-check svg{flex:0 0 20px;color:var(--gold);margin-top:2px}
+
+  .passos{display:grid;gap:16px;counter-reset:p}
   @media (min-width:820px){.passos{grid-template-columns:repeat(3,1fr)}}
-  .passo{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
-  .passo-num{flex:0 0 34px;height:34px;border-radius:999px;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:800;font-size:.95rem}
-  .passo h3{font-size:1rem;margin-bottom:4px}
-  .passo p{margin:0;color:var(--muted);font-size:.92rem}
+  .passo{border:1px solid var(--line);border-radius:6px;padding:22px;background:var(--ink-2)}
+  .passo::before{counter-increment:p;content:"0" counter(p);display:block;font-family:Georgia,serif;font-size:1.6rem;color:var(--gold);margin-bottom:10px}
+  .passo h3{font-size:1.05rem;margin-bottom:6px}
+  .passo p{margin:0;color:var(--muted);font-size:.93rem}
 
-  .faixa{background:var(--soft);border-radius:var(--radius);padding:clamp(22px,4vw,36px);display:grid;gap:24px}
-  @media (min-width:820px){.faixa{grid-template-columns:1.1fr .9fr;align-items:center}}
-  .info h3{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .faixa{background:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:clamp(24px,4vw,40px);display:grid;gap:26px}
+  @media (min-width:820px){.faixa{grid-template-columns:1.15fr .85fr;align-items:center}}
+  .horario-linha{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);color:var(--muted)}
+  .horario-linha:last-child{border:0}
+  .horario-linha b{color:var(--cream);font-weight:600}
 
   .faq{display:grid;gap:10px;max-width:820px}
-  .faq-item{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
-  .faq-item summary{cursor:pointer;font-weight:600;list-style:none}
+  .faq-item{background:var(--ink-2);border:1px solid var(--line);border-radius:6px;padding:16px 20px}
+  .faq-item summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
   .faq-item summary::-webkit-details-marker{display:none}
-  .faq-item summary::after{content:"+";float:right;color:var(--accent);font-weight:800}
+  .faq-item summary::after{content:"+";color:var(--gold);font-weight:700}
   .faq-item[open] summary::after{content:"–"}
-  .faq-item p{margin:10px 0 0;color:var(--muted)}
+  .faq-item p{margin:12px 0 0;color:var(--muted)}
 
-  .cta-final{display:grid;gap:24px;align-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:var(--radius);padding:clamp(24px,4vw,40px)}
+  .cta-final{display:grid;gap:26px;align-items:center;border:1px solid rgba(201,162,39,.4);border-radius:6px;padding:clamp(26px,4vw,44px);background:radial-gradient(600px 240px at 90% 0%,rgba(201,162,39,.14),transparent 60%)}
   @media (min-width:820px){.cta-final{grid-template-columns:1.2fr .8fr}}
-  .cta-final h2{color:#fff;margin:0 0 8px}
-  .cta-final p{color:rgba(255,255,255,.86);margin:0 0 20px}
-  .cta-final .btn{background:#fff;color:var(--accent)}
-  .qr{background:#fff;border-radius:14px;padding:16px;text-align:center;color:var(--ink)}
+  .cta-final h2{margin:0 0 10px}
+  .cta-final p{color:var(--muted);margin:0 0 22px}
+  .qr{background:var(--cream);border-radius:6px;padding:16px;text-align:center;color:#141414}
   .qr img{width:150px;margin:0 auto 8px;image-rendering:pixelated}
-  .qr p{margin:0;font-size:.82rem;color:var(--muted)}
+  .qr p{margin:0;font-size:.8rem;color:#4b463d}
 
-  footer{border-top:1px solid var(--line);padding-block:26px;font-size:.88rem;color:var(--muted)}
-  .foot{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
-  .aviso{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;font-size:.82rem;color:var(--muted);margin-top:18px}
+  footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.88rem}
+  .foot{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+  .aviso{border:1px dashed var(--line);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--muted);margin-top:18px}
 
-  .whats{position:fixed;right:18px;bottom:18px;z-index:60;display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#fff;text-decoration:none;padding:14px 20px;border-radius:999px;font-weight:650;box-shadow:0 16px 32px -14px rgba(0,0,0,.5)}
-  .whats:focus-visible{outline:3px solid #fff;outline-offset:3px}
+  .whats{position:fixed;right:18px;bottom:18px;z-index:90;display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#141414;text-decoration:none;padding:14px 20px;border-radius:999px;font-weight:700;box-shadow:0 18px 34px -16px rgba(0,0,0,.7)}
+  .whats:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
   @media (max-width:560px){.whats{right:12px;bottom:12px;padding:13px 18px;font-size:.92rem}}
 </style>
 </head>
 <body>
-<a class="skip" href="#conteudo">Saltar al contenido</a>
+<a class="skip" href="#servicios">Saltar a servicios</a>
+<div class="pole"></div>
 
 <header>
   <div class="wrap top">
     <div class="brand"><span class="mark">T</span> Tammi Barbershop</div>
     <nav aria-label="Secciones">
       <a href="#servicios">Servicios</a>
-      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#galeria">La barbería</a>
+      <a href="#como">Cómo funciona</a>
       <a href="#horarios">Horarios</a>
       <a href="#preguntas">Preguntas</a>
-      <a href="#contacto">Contacto</a>
     </nav>
-    <a class="btn btn-primary" href="https://wa.me/59160757594?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20Tammi%20Barbershop%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n." rel="noopener">Agendar horario</a>
+    <a class="btn btn-gold" href="https://wa.me/59160757594?text=Hola%2C%20quiero%20agendar%20un%20horario%20en%20Tammi%20Barbershop" rel="noopener">Agendar horario</a>
   </div>
 </header>
 
-<main id="conteudo">
+<main>
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="kicker">Barbería</span>
-        <h1>Corte parejo, sin espera</h1>
-        <p class="lead">Atención con hora marcada por WhatsApp. Llegás, te sentás y salís en el horario acordado.</p>
-        <div class="acoes">
-          <a class="btn btn-primary" href="https://wa.me/59160757594?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20Tammi%20Barbershop%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n." rel="noopener">Agendar horario</a>
-          <a class="btn btn-ghost" href="#servicios">Ver servicios y precios</a>
-        </div>
+    <div class="wrap hero-inner">
+      <span class="pill"><span class="dot" id="status-dot"></span><span id="status-txt">Abierto ahora</span></span>
+      <h1>Corte parejo,<br>barba cuidada</h1>
+      <p>Barbería de barrio en Cochabamba. Hora marcada por WhatsApp, precio fijo y material esterilizado con cada cliente.</p>
+      <div class="acoes">
+        <a class="btn btn-gold" href="https://wa.me/59160757594?text=Hola%2C%20quiero%20agendar%20un%20horario%20en%20Tammi%20Barbershop" rel="noopener">Agendar por WhatsApp</a>
+        <a class="btn btn-line" href="#servicios">Ver servicios y precios</a>
       </div>
-      <aside class="card" aria-label="Estado y horario">
-        <div class="status"><span class="dot" id="status-dot"></span><span id="status-txt">Abierto ahora</span></div>
-<div class="linha"><span>Lunes a viernes</span><b>09:00 – 20:00</b></div><div class="linha"><span>Sábado</span><b>09:00 – 18:00</b></div><div class="linha"><span>Domingo</span><b>Cerrado</b></div>
-        <div class="linha"><span>Contacto</span><b>WhatsApp</b></div>
-      </aside>
-    </div>
-  </section>
-
-  <section id="destaques">
-    <div class="wrap">
-      <div class="destaques">
-
-        <article class="destaque">
-          <h3>Hora marcada</h3>
-          <p>Sin fila ni espera en el mostrador</p>
-        </article>
-        <article class="destaque">
-          <h3>Precio fijo</h3>
-          <p>Sabés el valor antes de sentarte</p>
-        </article>
-        <article class="destaque">
-          <h3>Máquina y navaja</h3>
-          <p>Material esterilizado con cada cliente</p>
-        </article>
+      <div class="hero-lista">
+        <div><b>40 min</b>Corte simple</div>
+        <div><b>1 h</b>Corte + barba</div>
+        <div><b>Bs 45</b>Desde</div>
       </div>
     </div>
   </section>
 
   <section id="servicios">
     <div class="wrap">
-      <span class="eyebrow">Barbería</span>
+      <span class="eyebrow">Servicios</span>
       <h2>Servicios y precios</h2>
-      <p class="sub">Cada servicio con su precio. En la versión final, estos ítems son los tuyos, con tus precios y tu tiempo de atención.</p>
-      <ul class="servicos">
+      <p class="sub">Lista completa con lo que incluye cada servicio y cuánto tarda. En la entrega final, estos ítems se reemplazan por los tuyos.</p>
+      <div class="servicos">
 
-        <li class="servico">
-          <div>
+        <article class="servico">
+          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l12 18M18 3L6 21"/><circle cx="4" cy="4" r="2"/><circle cx="20" cy="4" r="2"/></svg></span>
+          <div class="servico-texto">
             <h3>Corte clásico</h3>
-            <p>máquina, tijera y acabado a navaja</p>
+            <p>Máquina, tijera y acabado a navaja</p>
+            <span class="servico-tempo">40 min</span>
           </div>
-          <span class="preco">Bs 45</span>
-        </li>
-        <li class="servico">
-          <div>
+          <span class="servico-preco">Bs 45</span>
+        </article>
+        <article class="servico">
+          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l12 18M18 3L6 21"/><path d="M8 17h8"/></svg></span>
+          <div class="servico-texto">
             <h3>Corte + barba</h3>
-            <p>corte completo y barba perfilada</p>
+            <p>Corte completo y barba perfilada</p>
+            <span class="servico-tempo">1 h</span>
           </div>
-          <span class="preco">Bs 70</span>
-        </li>
-        <li class="servico">
-          <div>
+          <span class="servico-preco">Bs 70</span>
+        </article>
+        <article class="servico">
+          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l7-7"/><path d="M11 13l6-6a3 3 0 0 1 4 4l-6 6z"/></svg></span>
+          <div class="servico-texto">
             <h3>Barba tradicional</h3>
-            <p>toalla caliente, navaja e hidratación</p>
+            <p>Toalla caliente, navaja e hidratación</p>
+            <span class="servico-tempo">30 min</span>
           </div>
-          <span class="preco">Bs 40</span>
-        </li>
-        <li class="servico">
-          <div>
+          <span class="servico-preco">Bs 40</span>
+        </article>
+        <article class="servico">
+          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span>
+          <div class="servico-texto">
             <h3>Corte infantil</h3>
-            <p>paciencia y acabado sin apuro</p>
+            <p>Paciencia y acabado sin apuro</p>
+            <span class="servico-tempo">30 min</span>
           </div>
-          <span class="preco">Bs 35</span>
-        </li>
-        <li class="servico">
-          <div>
+          <span class="servico-preco">Bs 35</span>
+        </article>
+        <article class="servico">
+          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span>
+          <div class="servico-texto">
             <h3>Pigmentación</h3>
-            <p>disimula fallas y perfila la barba</p>
+            <p>Disimula fallas y perfila la barba</p>
+            <span class="servico-tempo">45 min</span>
           </div>
-          <span class="preco">Bs 55</span>
-        </li>
-      </ul>
+          <span class="servico-preco">Bs 55</span>
+        </article>
+        <article class="servico">
+          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M9 11h6"/></svg></span>
+          <div class="servico-texto">
+            <h3>Ritual completo</h3>
+            <p>Corte, barba, lavado y peinado</p>
+            <span class="servico-tempo">1 h 20</span>
+          </div>
+          <span class="servico-preco">Bs 95</span>
+        </article>
+      </div>
     </div>
   </section>
 
-  <section id="como-funciona">
+  <section id="galeria">
+    <div class="wrap">
+      <span class="eyebrow">La barbería</span>
+      <h2>El lugar</h2>
+      <p class="sub">Sillón, navaja, toalla caliente y buena conversación. Así se ve el ambiente antes de que llegues.</p>
+      <div class="galeria">
+        <figure><img src="img/g1.jpg" alt="Barbero trabajando con tijera y peine" loading="lazy" width="900" height="600"><figcaption>Corte con tijera</figcaption></figure>
+        <figure><img src="img/g2.jpg" alt="Detalle del corte con máquina y navaja" loading="lazy" width="900" height="600"><figcaption>Acabado a navaja</figcaption></figure>
+        <figure><img src="img/g3.jpg" alt="Herramientas de barbería sobre el mostrador" loading="lazy" width="900" height="600"><figcaption>Herramientas</figcaption></figure>
+        <figure><img src="img/g4.jpg" alt="Cliente con barba recién perfilada" loading="lazy" width="900" height="600"><figcaption>Barba cuidada</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <img src="img/local.jpg" alt="Interior de la barbería" loading="lazy" width="1100" height="880">
+      <div>
+        <span class="eyebrow">Cómo trabajamos</span>
+        <h2>Detalle que se nota</h2>
+        <ul class="lista-check">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Corte con diagnóstico.</b> Antes de encender la máquina, se conversa qué se busca y qué se puede lograr con tu tipo de cabello.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Higiene por cliente.</b> Máquina, tijera y navaja desinfectadas y toalla limpia cada vez.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Precio acordado antes.</b> Sabés lo que vas a pagar antes de sentarte en el sillón.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Producto para llevarse.</b> Cera, pomada y aceite de barba para mantener el corte en casa.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="como">
     <div class="wrap">
       <span class="eyebrow">Paso a paso</span>
       <h2>Cómo funciona</h2>
-      <p class="sub">Sin app, sin registro y sin intermediario: hablás directo con el negocio.</p>
-      <ol class="passos">
-
-        <li class="passo">
-          <span class="passo-num">1</span>
-          <div><h3>Elegís el servicio</h3><p>Mirá la lista con precio y duración de cada uno.</p></div>
-        </li>
-        <li class="passo">
-          <span class="passo-num">2</span>
-          <div><h3>Mandás mensaje</h3><p>Decís el servicio y el horario que preferís.</p></div>
-        </li>
-        <li class="passo">
-          <span class="passo-num">3</span>
-          <div><h3>Confirmás el horario</h3><p>Respuesta el mismo día con el turno disponible.</p></div>
-        </li>
-      </ol>
+      <p class="sub">Sin app, sin registro y sin intermediario: hablás directo con la barbería por WhatsApp.</p>
+      <div class="passos">
+        <article class="passo"><h3>Elegís el servicio</h3><p>Mirá la lista con precio y duración de cada uno.</p></article>
+        <article class="passo"><h3>Mandás mensaje</h3><p>Decís el servicio, el día y el horario que preferís.</p></article>
+        <article class="passo"><h3>Confirmás el turno</h3><p>Recibís la confirmación el mismo día con el horario reservado.</p></article>
+      </div>
     </div>
   </section>
 
@@ -242,14 +277,15 @@
       <span class="eyebrow">Visita</span>
       <h2>Horarios y ubicación</h2>
       <div class="faixa">
-        <div class="info">
-          <h3>Horario</h3>
-<div class="linha"><span>Lunes a viernes</span><b>09:00 – 20:00</b></div><div class="linha"><span>Sábado</span><b>09:00 – 18:00</b></div><div class="linha"><span>Domingo</span><b>Cerrado</b></div>
+        <div>
+          <div class="horario-linha"><span>Lunes a viernes</span><b>09:00 – 20:00</b></div>
+          <div class="horario-linha"><span>Sábado</span><b>09:00 – 18:00</b></div>
+          <div class="horario-linha"><span>Domingo</span><b>Cerrado</b></div>
+          <div class="horario-linha"><span>Contacto</span><b>WhatsApp</b></div>
         </div>
-        <div class="info">
-          <h3>Ubicación</h3>
-          <p style="color:var(--muted);margin:0 0 12px">Cochabamba, Bolivia</p>
-          <a class="btn btn-ghost" href="https://www.google.com/maps/search/Tammi%20Barbershop" rel="noopener">Abrir en Google Maps</a>
+        <div>
+          <p style="color:var(--muted);margin:0 0 16px">Cochabamba, Bolivia. Mandá mensaje y te paso la dirección exacta y el turno disponible.</p>
+          <a class="btn btn-line" href="https://www.google.com/maps/search/Tammi%20Barbershop" rel="noopener">Abrir en Google Maps</a>
         </div>
       </div>
     </div>
@@ -263,34 +299,38 @@
 
         <details class="faq-item">
           <summary>¿Hay que reservar?</summary>
-          <p>Recomendado. Sin hora depende de la disponibilidad del día.</p>
+          <p>Recomendado. Sin hora depende de la disponibilidad del día; escribí y te digo el primer turno libre.</p>
         </details>
         <details class="faq-item">
-          <summary>¿Aceptan tarjeta?</summary>
-          <p>Sí, además de efectivo y QR Simple.</p>
+          <summary>¿Cuánto tarda un corte?</summary>
+          <p>Corte simple: 40 minutos. Corte con barba: 1 hora. El ritual completo: 1 hora y 20.</p>
         </details>
         <details class="faq-item">
-          <summary>¿Cuánto tarda?</summary>
-          <p>Corte simple: 40 minutos. Corte con barba: 1 hora.</p>
+          <summary>¿Formas de pago?</summary>
+          <p>Efectivo, tarjeta y QR Simple. El valor se dice antes de empezar.</p>
         </details>
         <details class="faq-item">
           <summary>¿Atienden niños?</summary>
           <p>Sí, con horario reservado para que no esperen.</p>
         </details>
+        <details class="faq-item">
+          <summary>¿Usan máquina y navaja esterilizadas?</summary>
+          <p>Sí. El material se esteriliza entre un cliente y otro.</p>
+        </details>
       </div>
     </div>
   </section>
 
-  <section id="contacto">
+  <section>
     <div class="wrap">
       <div class="cta-final">
         <div>
-          <h2>Agendar horario</h2>
-          <p>Respondemos en el horario de atención. Escribí qué necesitás y para cuándo.</p>
-          <a class="btn" href="https://wa.me/59160757594?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20Tammi%20Barbershop%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n." rel="noopener">Abrir WhatsApp</a>
+          <h2>Agendá tu horario</h2>
+          <p>Respondemos dentro del horario de atención. Escribí qué servicio querés y para cuándo.</p>
+          <a class="btn btn-gold" href="https://wa.me/59160757594?text=Hola%2C%20quiero%20agendar%20un%20horario%20en%20Tammi%20Barbershop" rel="noopener">Abrir WhatsApp</a>
         </div>
         <div class="qr">
-          <img src="qr.png" alt="Código QR para abrir el WhatsApp" width="150" height="150">
+          <img src="qr.png" alt="Código QR para abrir el WhatsApp de la barbería" width="150" height="150">
           <p>Escaneá para chatear</p>
         </div>
       </div>
@@ -303,10 +343,10 @@
     <span>© 2026 Tammi Barbershop · Cochabamba, Bolivia</span>
     <span>Página hecha por Gabriel de Moura Pereira</span>
   </div>
-  <div class="wrap"><p class="aviso">Demostración: servicios, precios y horarios son de ejemplo. En la entrega se reemplazan por los datos reales del negocio.</p></div>
+  <div class="wrap"><p class="aviso">Demostración: servicios, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio.</p></div>
 </footer>
 
-<a class="whats" href="https://wa.me/59160757594?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20Tammi%20Barbershop%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n." rel="noopener" aria-label="Abrir WhatsApp">
+<a class="whats" href="https://wa.me/59160757594?text=Hola%2C%20quiero%20agendar%20un%20horario%20en%20Tammi%20Barbershop" rel="noopener" aria-label="Abrir WhatsApp">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-5.9-5.1c-.4-.7-.6-1.4-.4-2 .1-.4.5-1 .9-1.2.2-.1.5-.1.7 0 .2 0 .3.1.4.4l.6 1.5c.1.2 0 .4-.1.6l-.4.5c-.1.2-.2.3 0 .6.5.9 1.2 1.6 2.2 2.1.3.1.4.1.6-.1l.6-.7c.2-.2.3-.2.5-.1l1.4.7c.3.1.4.2.4.4 0 .2 0 .5-.1.9Z"/></svg>
   WhatsApp
 </a>
@@ -315,7 +355,7 @@
   (function(){
     try{
       var agora = new Date(), dia = agora.getDay(), h = agora.getHours();
-      var aberto = (dia >= 1 && dia <= 5 && h >= 9 && h < 19) || (dia === 6 && h >= 9 && h < 16);
+      var aberto = (dia >= 1 && dia <= 5 && h >= 9 && h < 20) || (dia === 6 && h >= 9 && h < 18);
       if (!aberto) { document.getElementById('status-dot').classList.add('fechado'); document.getElementById('status-txt').textContent = 'Cerrado ahora'; }
     }catch(e){}
   })();
