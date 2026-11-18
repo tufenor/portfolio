@@ -1,0 +1,26 @@
+name: Ideia para a vitrine
+description: Sugira uma melhoria de UX, acessibilidade, conteúdo ou demonstração.
+title: "[IDEIA] "
+labels: ["ideia", "triagem"]
+body:
+  - type: textarea
+    id: page
+    attributes:
+      label: Página ou projeto afetado
+      placeholder: Ex.: demo/cafe-aurora.html
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: O que você sugere?
+      description: Explique o problema e a melhoria desejada.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Como validar
+      description: Diga em quais larguras, navegadores ou jornadas a mudança deve ser conferida.
+    validations:
+      required: true

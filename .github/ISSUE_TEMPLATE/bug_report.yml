@@ -1,0 +1,23 @@
+name: Problema na vitrine
+description: Relate um link quebrado, erro visual ou problema de acessibilidade.
+title: "[BUG] "
+labels: ["bug", "triagem"]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: URL ou caminho
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Como reproduzir
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
