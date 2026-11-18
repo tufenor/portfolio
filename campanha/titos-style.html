@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Titos Style — propuesta visual</title>
+<style>
+:root{--ink:#2d1e2a;--paper:#f7f0ea;--accent:#a66a4b;--soft:#e8d8cc;--deep:#4a2f42;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 "Segoe UI",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{width:min(1120px,calc(100% - 2.5rem));margin-inline:auto}
+.demo-bar{background:var(--ink);color:var(--paper);text-align:center;font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;padding:.5rem 1rem}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 92%,white);border-bottom:1px solid color-mix(in srgb,var(--ink) 15%,transparent);backdrop-filter:blur(12px)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0}
+.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;font-weight:750;letter-spacing:-.02em}
+.mark{width:2.1rem;height:2.1rem;border-radius:.6rem;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:Georgia,serif;font-size:.95rem}
+nav{display:flex;gap:1.2rem;align-items:center;font-size:.9rem}
+nav a{text-decoration:none;color:color-mix(in srgb,var(--ink) 68%,transparent)}
+nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:2.8rem;padding:.65rem 1.1rem;border-radius:999px;font-weight:700;font-size:.92rem;text-decoration:none;border:1px solid transparent;transition:transform .15s}
+.btn:hover{transform:translateY(-1px)}
+.primary{background:var(--accent);color:#fff}
+.ghost{border-color:color-mix(in srgb,var(--ink) 25%,transparent);color:var(--ink)}
+.nav .btn{min-height:2.35rem;padding:.5rem .95rem;font-size:.85rem}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4rem);align-items:center;padding:clamp(3rem,7vw,6rem) 0 clamp(2.5rem,5vw,4.5rem)}
+.eyebrow{margin:0 0 1rem;color:var(--accent);font-size:.76rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+h1,h2,h3{font-family:ui-serif,Georgia,"Times New Roman",serif;font-weight:600;letter-spacing:-.035em;line-height:1.06;margin:0}
+h1{font-size:clamp(2.5rem,5.8vw,5rem);max-width:12ch}
+.lead{max-width:44ch;color:color-mix(in srgb,var(--ink) 78%,transparent);font-size:clamp(1rem,1.7vw,1.15rem);margin:1.3rem 0 0}
+.actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.6rem}
+.micro{margin:1rem 0 0;font-size:.8rem;color:color-mix(in srgb,var(--ink) 55%,transparent)}
+.visual{position:relative;min-height:24rem}
+.photo{position:absolute;inset:0;border-radius:1.3rem;background:linear-gradient(145deg,var(--deep),var(--accent));overflow:hidden;box-shadow:0 1.5rem 3rem color-mix(in srgb,var(--ink) 20%,transparent);display:grid;place-items:center;text-align:center;color:#fff;padding:2rem}
+.photo::before{content:"";position:absolute;width:18rem;height:18rem;border-radius:50%;border:1px solid rgba(255,255,255,.28);top:-5rem;right:-4rem}
+.photo::after{content:"";position:absolute;width:11rem;height:11rem;border-radius:50%;background:rgba(255,255,255,.08);bottom:-3rem;left:-3rem}
+.photo b{position:relative;z-index:1;font-family:Georgia,serif;font-size:4rem;line-height:1;opacity:.95}
+.photo span{position:absolute;top:1rem;left:1rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;opacity:.78;background:rgba(0,0,0,.16);padding:.25rem .45rem;border-radius:999px}
+.float{position:absolute;right:-.7rem;bottom:1.4rem;background:var(--paper);border:1px solid color-mix(in srgb,var(--ink) 18%,transparent);border-radius:.9rem;padding:.8rem 1rem;box-shadow:0 1rem 2rem color-mix(in srgb,var(--ink) 14%,transparent);font-size:.8rem;line-height:1.35;max-width:13rem}
+.float strong{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.float span{color:color-mix(in srgb,var(--ink) 65%,transparent)}
+.strip{border-block:1px solid color-mix(in srgb,var(--ink) 14%,transparent);background:color-mix(in srgb,var(--paper) 65%,white)}
+.strip .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding:1rem 0}
+.strip p{margin:0;font-size:.86rem;color:color-mix(in srgb,var(--ink) 68%,transparent);display:flex;gap:.5rem;align-items:center}
+.dot{width:.45rem;height:.45rem;border-radius:50%;background:var(--accent);flex:none}
+section{padding:clamp(2.8rem,6vw,5rem) 0}
+.section-head{display:flex;justify-content:space-between;gap:2rem;align-items:end;margin-bottom:1.8rem}
+.kicker{margin:0 0 .5rem;color:var(--accent);font-size:.74rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+h2{font-size:clamp(1.9rem,4vw,3.2rem);max-width:15ch}
+.section-head p{max-width:31ch;margin:0;color:color-mix(in srgb,var(--ink) 62%,transparent);font-size:.94rem}
+.services{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.service{background:color-mix(in srgb,var(--paper) 55%,white);border:1px solid color-mix(in srgb,var(--ink) 13%,transparent);border-radius:1rem;padding:1.3rem}
+.service .num{font-family:Georgia,serif;color:var(--accent);font-size:1.4rem}
+.service h3{font-size:1.3rem;margin:.35rem 0 .3rem}
+.service p{margin:0;color:color-mix(in srgb,var(--ink) 65%,transparent);font-size:.9rem}
+.audience{background:var(--ink);color:var(--paper)}
+.audience .kicker{color:color-mix(in srgb,var(--accent) 70%,white)}
+.audience h2,.audience h3{color:var(--paper)}
+.audience .section-head p{color:color-mix(in srgb,var(--paper) 68%,transparent)}
+.aud-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.aud{border:1px solid rgba(255,255,255,.18);border-radius:1rem;padding:1.2rem;background:rgba(255,255,255,.04)}
+.aud h3{font-size:1.15rem;margin:.4rem 0 .3rem}
+.aud p{margin:0;color:color-mix(in srgb,var(--paper) 68%,transparent);font-size:.9rem}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;counter-reset:s}
+.step{background:color-mix(in srgb,var(--paper) 55%,white);border:1px solid color-mix(in srgb,var(--ink) 13%,transparent);border-radius:1rem;padding:1.2rem}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:Georgia,serif;color:var(--accent);font-size:1.7rem}
+.step h3{font-size:1.2rem;margin:.4rem 0 .3rem}
+.step p{margin:0;color:color-mix(in srgb,var(--ink) 65%,transparent);font-size:.9rem}
+.contact{display:grid;grid-template-columns:1.1fr .9fr;gap:1.2rem;align-items:stretch}
+.contact-card{background:var(--deep);color:#fff;border-radius:1.2rem;padding:clamp(1.5rem,3vw,2.2rem)}
+.contact-card .kicker{color:color-mix(in srgb,var(--accent) 65%,white)}
+.contact-card h2{color:#fff}
+.contact-card p{color:rgba(255,255,255,.76);max-width:42ch}
+.contact-card .btn{margin-top:1rem;background:var(--accent)}
+.info{background:color-mix(in srgb,var(--paper) 55%,white);border:1px solid color-mix(in srgb,var(--ink) 13%,transparent);border-radius:1.2rem;padding:1.5rem;display:flex;flex-direction:column;justify-content:space-between;gap:1rem}
+.info h3{font-size:1.25rem;margin:0 0 .4rem}
+.info p{margin:0;color:color-mix(in srgb,var(--ink) 65%,transparent);font-size:.9rem}
+.info .line{border-top:1px solid color-mix(in srgb,var(--ink) 12%,transparent);padding-top:.8rem}
+footer{background:var(--ink);color:color-mix(in srgb,var(--paper) 70%,transparent);padding:1.7rem 0;font-size:.82rem}
+.foot{display:flex;justify-content:space-between;gap:2rem;align-items:start}
+.foot strong{color:var(--paper)}
+.foot p{margin:.4rem 0 0;max-width:58ch}
+@media(max-width:900px){
+ .hero{grid-template-columns:1fr;padding-top:2.5rem}
+ h1{max-width:14ch}
+ .visual{min-height:20rem;max-width:30rem}
+ .strip .wrap,.aud-grid,.steps,.contact{grid-template-columns:1fr}
+ .section-head{display:block}
+ .section-head p{margin-top:.7rem}
+ .foot{display:block}
+}
+@media(max-width:620px){
+ .wrap{width:calc(100% - 1.5rem)}
+ nav{display:none}
+ .nav .btn{min-height:2.3rem;padding:.45rem .8rem;font-size:.8rem}
+ h1{font-size:clamp(2.4rem,11vw,3.4rem)}
+ .actions .btn{width:100%}
+ .services{grid-template-columns:1fr}
+ .visual{min-height:18rem}
+ .float{display:none}
+ .photo b{font-size:3rem}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="demo-bar">Propuesta visual no oficial · contenido de ejemplo</div>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#inicio"><span class="mark">TS</span>Titos Style</a>
+    <nav><a href="#servicios">Servicios</a><a href="#contacto">Contacto</a></nav>
+    <a class="btn primary" href="#contacto">WhatsApp</a>
+  </div>
+</header>
+<main id="inicio">
+  <section class="hero wrap">
+    <div>
+      <p class="eyebrow">Salón y peluquería · Cochabamba</p>
+      <h1>Tu estilo, con una experiencia pensada para ti.</h1>
+      <p class="lead">Servicios, trabajos y reserva por WhatsApp en una página que abre rápido en el celular y muestra lo que haces.</p>
+      <div class="actions">
+        <a class="btn primary" href="#contacto">Escríbenos por WhatsApp</a>
+        <a class="btn ghost" href="#servicios">Ver servicios</a>
+      </div>
+      <p class="micro">Página de ejemplo. Las fotos, precios, horarios y textos reales se completan contigo.</p>
+    </div>
+    <div class="visual" aria-label="Espacio para foto principal">
+      <div class="photo"><b>TS</b><span>Tu foto principal</span></div>
+      <div class="float"><strong>Tu negocio, visible</strong><span>Horario, servicios y WhatsApp en un solo enlace.</span></div>
+    </div>
+  </section>
+  <div class="strip"><div class="wrap"><p><span class="dot"></span>Servicios</p><p><span class="dot"></span>Trabajos</p><p><span class="dot"></span>Reserva</p></div></div>
+
+  <section id="servicios">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Lo que ofreces</p><h2>Una vitrina clara para tus servicios.</h2></div>
+        <p>Sin listas interminables: lo importante primero, con un camino corto hasta el contacto.</p>
+      </div>
+      <div class="services">
+        <article class="service">
+          <span class="num">01</span>
+          <h3>Corte y peinado</h3>
+          <p>Un look que se adapta a ti.</p>
+        </article>
+        <article class="service">
+          <span class="num">02</span>
+          <h3>Color</h3>
+          <p>Coloración y tratamientos de color.</p>
+        </article>
+        <article class="service">
+          <span class="num">03</span>
+          <h3>Tratamientos</h3>
+          <p>Cuidado para tu cabello.</p>
+        </article>
+        <article class="service">
+          <span class="num">04</span>
+          <h3>Eventos</h3>
+          <p>Peinados para ocasiones especiales.</p>
+        </article></div>
+    </div>
+  </section>
+
+  <section class="audience">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Por qué una página</p><h2>Tus clientes ya buscan desde el celular.</h2></div>
+        <p>La ficha de Google y el WhatsApp ayudan, pero una página propia ordena la información y transmite confianza.</p>
+      </div>
+      <div class="aud-grid">
+        <article class="aud"><h3>Información completa</h3><p>Servicios, horario y ubicación sin depender de un post viejo.</p></article>
+        <article class="aud"><h3>Un enlace para compartir</h3><p>Ideal para poner en Google, Instagram, Facebook y respuestas de WhatsApp.</p></article>
+        <article class="aud"><h3>Contacto directo</h3><p>El cliente toca un botón y te escribe. Sin formularios complicados.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Cómo funciona</p><h2>Simple para ti, claro para tu cliente.</h2></div>
+        <p>La página se arma con tus fotos y datos. No necesitas aprender ninguna herramienta.</p>
+      </div>
+      <div class="steps">
+        <article class="step"><h3>Me cuentas</h3><p>Servicios, horario, dirección y WhatsApp. Las fotos pueden ser del celular.</p></article>
+        <article class="step"><h3>Yo preparo</h3><p>Armo la página, reviso el texto y la dejo lista para tu aprobación.</p></article>
+        <article class="step"><h3>Publicamos</h3><p>Te entrego el enlace y lo dejo listo para compartir con tus clientes.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="wrap contact">
+      <div class="contact-card">
+        <p class="kicker">Hablemos</p>
+        <h2>Tu negocio merece una página que trabaje por ti.</h2>
+        <p>Este botón es una muestra. En la versión final, abre tu WhatsApp con un mensaje listo para el cliente.</p>
+        <a class="btn" href="#contacto">WhatsApp (ejemplo)</a>
+      </div>
+      <div class="info">
+        <div><h3>Datos que faltan</h3><p>Horario, dirección y precios se completan con la información real del negocio.</p></div>
+        <div class="line"><h3>Sin promesas infladas</h3><p>No prometo posición en Google, ventas ni cantidad de clientes. La página ordena tu presencia.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap foot"><div><strong>Titos Style</strong><p>Propuesta visual no oficial, creada para mostrar la estructura. Las fotos, textos, precios y horarios son de ejemplo y se completan con el negocio.</p></div><p>Demostración · 2026</p></div></footer>
+</body>
+</html>
