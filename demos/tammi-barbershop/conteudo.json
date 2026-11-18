@@ -1,0 +1,88 @@
+{
+  "negocio": "Tammi Barbershop",
+  "cidade": "Cochabamba, Bolivia",
+  "whatsapp": "59160757594",
+  "ctaTexto": "Agendar horario",
+  "mensagemWhats": "Hola, quiero agendar un horario en Tammi Barbershop",
+  "kicker": "Barbería",
+  "tituloLinha1": "Corte parejo,",
+  "tituloLinha2": "barba cuidada",
+  "subtitulo": "Barbería de barrio en Cochabamba. Hora marcada por WhatsApp, precio fijo y material esterilizado con cada cliente.",
+  "numeros": [
+    {
+      "valor": "40 min",
+      "rotulo": "Corte simple"
+    },
+    {
+      "valor": "1 h",
+      "rotulo": "Corte + barba"
+    },
+    {
+      "valor": "Bs 45",
+      "rotulo": "Desde"
+    }
+  ],
+  "servicos": [
+    {
+      "icone": "tesoura",
+      "nome": "Corte clásico",
+      "detalhe": "Máquina, tijera y acabado a navaja",
+      "tempo": "40 min",
+      "preco": "Bs 45"
+    },
+    {
+      "icone": "tesoura",
+      "nome": "Corte + barba",
+      "detalhe": "Corte completo y barba perfilada",
+      "tempo": "1 h",
+      "preco": "Bs 70"
+    },
+    {
+      "icone": "navalha",
+      "nome": "Barba tradicional",
+      "detalhe": "Toalla caliente, navaja e hidratación",
+      "tempo": "30 min",
+      "preco": "Bs 40"
+    },
+    {
+      "icone": "estrela",
+      "nome": "Ritual completo",
+      "detalhe": "Corte, barba, lavado y peinado",
+      "tempo": "1 h 20",
+      "preco": "Bs 95"
+    }
+  ],
+  "horario": [
+    {
+      "dia": "Lunes a viernes",
+      "hora": "09:00 – 20:00"
+    },
+    {
+      "dia": "Sábado",
+      "hora": "09:00 – 18:00"
+    },
+    {
+      "dia": "Domingo",
+      "hora": "Cerrado"
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Hay que reservar?",
+      "a": "Recomendado. Sin hora depende de la disponibilidad del día."
+    },
+    {
+      "q": "¿Cuánto tarda un corte?",
+      "a": "Corte simple: 40 minutos. Corte con barba: 1 hora."
+    },
+    {
+      "q": "¿Formas de pago?",
+      "a": "Efectivo, tarjeta y QR Simple."
+    },
+    {
+      "q": "¿Atienden niños?",
+      "a": "Sí, con horario reservado para que no esperen."
+    }
+  ],
+  "aviso": "Demostración: servicios, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio."
+}

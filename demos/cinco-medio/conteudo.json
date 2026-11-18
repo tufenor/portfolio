@@ -1,0 +1,96 @@
+{
+  "negocio": "Cinco&Medio",
+  "cidade": "Cochabamba, Bolivia",
+  "whatsapp": "59167566606",
+  "ctaTexto": "Pedir por WhatsApp",
+  "mensagemWhats": "Hola, quiero pedir en Cinco&Medio",
+  "kicker": "Café de especialidad",
+  "galeriaTitulo": "El café",
+  "tituloLinha1": "Café de barrio,",
+  "tituloLinha2": "tostado aquí",
+  "subtitulo": "Cafés, dulces y salados para quedarse o llevar. El menú completo está acá, con precio y tiempo de preparación.",
+  "numeros": [
+    {
+      "valor": "Torra",
+      "rotulo": "Propia"
+    },
+    {
+      "valor": "Bs 12",
+      "rotulo": "Espresso"
+    },
+    {
+      "valor": "08:00",
+      "rotulo": "Apertura"
+    }
+  ],
+  "servicos": [
+    {
+      "icone": "cafe",
+      "nome": "Espresso",
+      "detalhe": "Doble, grano de la casa",
+      "tempo": "3 min",
+      "preco": "Bs 12"
+    },
+    {
+      "icone": "cafe",
+      "nome": "Flat white",
+      "detalhe": "Leche vaporizada y café extraído",
+      "tempo": "5 min",
+      "preco": "Bs 18"
+    },
+    {
+      "icone": "grao",
+      "nome": "Cold brew",
+      "detalhe": "12 horas de extracción en frío",
+      "tempo": "listo",
+      "preco": "Bs 20"
+    },
+    {
+      "icone": "pao",
+      "nome": "Tostada con palta",
+      "detalhe": "Pan de fermentación natural",
+      "tempo": "8 min",
+      "preco": "Bs 22"
+    },
+    {
+      "icone": "bolo",
+      "nome": "Torta del día",
+      "detalhe": "Consultá la opción del día",
+      "tempo": "listo",
+      "preco": "Bs 18"
+    }
+  ],
+  "horario": [
+    {
+      "dia": "Lunes a viernes",
+      "hora": "07:30 – 20:00"
+    },
+    {
+      "dia": "Sábado",
+      "hora": "08:00 – 18:00"
+    },
+    {
+      "dia": "Domingo",
+      "hora": "Cerrado"
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Tienen leche vegetal?",
+      "a": "Sí: avena y almendra, con costo aparte cuando aplica."
+    },
+    {
+      "q": "¿Hacen tortas por encargo?",
+      "a": "Sí, con 24 horas de anticipación."
+    },
+    {
+      "q": "¿Hay opción sin gluten?",
+      "a": "Hay ítems sin gluten; consultá disponibilidad del día."
+    },
+    {
+      "q": "¿Hay Wi-Fi?",
+      "a": "Sí, y enchufes en las mesas junto a la ventana."
+    }
+  ],
+  "aviso": "Demostración: servicios, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio."
+}

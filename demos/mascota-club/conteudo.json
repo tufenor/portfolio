@@ -1,0 +1,84 @@
+{
+  "negocio": "Mascota Club",
+  "cidade": "Cochabamba, Bolivia",
+  "whatsapp": "59177901609",
+  "ctaTexto": "Hablar con la tienda",
+  "mensagemWhats": "Hola, quiero consultar en Mascota Club",
+  "kicker": "Petshop y veterinaria",
+  "tituloLinha1": "Baño, alimento",
+  "tituloLinha2": "y consulta en un lugar",
+  "subtitulo": "Servicios con precio según el tamaño del animal, consulta veterinaria y productos de uso diario.",
+  "numeros": [
+    {
+      "valor": "Bs 90",
+      "rotulo": "Baño y corte"
+    },
+    {
+      "valor": "3 kg",
+      "rotulo": "Alimento"
+    },
+    {
+      "valor": "Mismo día",
+      "rotulo": "Consulta"
+    }
+  ],
+  "servicos": [
+    {
+      "icone": "pata",
+      "nome": "Consulta veterinaria",
+      "detalhe": "Evaluación de 30 minutos",
+      "tempo": "30 min",
+      "preco": "Bs 100"
+    },
+    {
+      "icone": "banho",
+      "nome": "Baño y corte",
+      "detalhe": "Según tamaño y tipo de pelo",
+      "tempo": "1 h",
+      "preco": "Bs 90"
+    },
+    {
+      "icone": "dente",
+      "nome": "Desparasitación",
+      "detalhe": "Según peso del animal",
+      "tempo": "15 min",
+      "preco": "Bs 60"
+    },
+    {
+      "icone": "estrela",
+      "nome": "Vacuna antirrábica",
+      "detalhe": "Con carnet y registro",
+      "tempo": "15 min",
+      "preco": "Bs 80"
+    }
+  ],
+  "horario": [
+    {
+      "dia": "Lunes a sábado",
+      "hora": "09:00 – 19:00"
+    },
+    {
+      "dia": "Domingo",
+      "hora": "Cerrado"
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Hay que reservar el baño?",
+      "a": "Sí, para no tener espera con el animal."
+    },
+    {
+      "q": "¿Hacen recojo?",
+      "a": "Consultá la zona cubierta y el costo."
+    },
+    {
+      "q": "¿La vacuna necesita carnet?",
+      "a": "Sí, para registrar la dosis."
+    },
+    {
+      "q": "¿Atienden gatos?",
+      "a": "Sí, en horario separado de los perros."
+    }
+  ],
+  "aviso": "Demostración: servicios, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio."
+}

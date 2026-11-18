@@ -1,0 +1,88 @@
+{
+  "negocio": "Clinica dental DENTYX",
+  "cidade": "Cochabamba, Bolivia",
+  "whatsapp": "59172793493",
+  "ctaTexto": "Agendar evaluación",
+  "mensagemWhats": "Hola, quiero agendar una evaluación en Clinica dental DENTYX",
+  "kicker": "Clínica dental",
+  "tituloLinha1": "Diagnóstico primero,",
+  "tituloLinha2": "tratamiento después",
+  "subtitulo": "Consulta de evaluación, plan explicado por escrito y pago en cuotas acordado antes de empezar.",
+  "numeros": [
+    {
+      "valor": "Bs 80",
+      "rotulo": "Evaluación"
+    },
+    {
+      "valor": "Plan",
+      "rotulo": "Por escrito"
+    },
+    {
+      "valor": "Urgencia",
+      "rotulo": "Mismo día"
+    }
+  ],
+  "servicos": [
+    {
+      "icone": "dente",
+      "nome": "Consulta y diagnóstico",
+      "detalhe": "Evaluación completa y plan de tratamiento",
+      "tempo": "30 min",
+      "preco": "Bs 80"
+    },
+    {
+      "icone": "escova",
+      "nome": "Limpieza dental",
+      "detalhe": "Profilaxis y orientación de higiene",
+      "tempo": "40 min",
+      "preco": "Bs 180"
+    },
+    {
+      "icone": "dente",
+      "nome": "Empaste",
+      "detalhe": "Restauración en resina",
+      "tempo": "45 min",
+      "preco": "Bs 220"
+    },
+    {
+      "icone": "estrela",
+      "nome": "Blanqueamiento",
+      "detalhe": "En consultorio, sesión con control",
+      "tempo": "1 h",
+      "preco": "Bs 450"
+    }
+  ],
+  "horario": [
+    {
+      "dia": "Lunes a viernes",
+      "hora": "08:30 – 19:00"
+    },
+    {
+      "dia": "Sábado",
+      "hora": "08:30 – 12:30"
+    },
+    {
+      "dia": "Domingo",
+      "hora": "Cerrado"
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Trabajan con seguro?",
+      "a": "Consultá tu seguro antes de agendar; no todos están cubiertos."
+    },
+    {
+      "q": "¿Se puede pagar en cuotas?",
+      "a": "Sí, con tarjeta o acuerdo directo según el tratamiento."
+    },
+    {
+      "q": "¿Atienden urgencias?",
+      "a": "Hay espacio para dolor agudo; avisá por WhatsApp."
+    },
+    {
+      "q": "¿Atienden niños?",
+      "a": "Sí, desde el cambio de dientes."
+    }
+  ],
+  "aviso": "Demostración: servicios, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio."
+}

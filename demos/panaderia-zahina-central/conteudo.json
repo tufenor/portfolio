@@ -1,0 +1,91 @@
+{
+  "negocio": "Panadería Zahína Central",
+  "cidade": "Cochabamba, Bolivia",
+  "whatsapp": "59179969623",
+  "ctaTexto": "Encargar",
+  "mensagemWhats": "Hola, quiero encargar en Panadería Zahína Central",
+  "kicker": "Panadería",
+  "tituloLinha1": "Pan saliendo del horno",
+  "tituloLinha2": "cada mañana",
+  "subtitulo": "Fermentación natural, horneado del día y encargos para fiesta. Precio por unidad y por kilo, sin sorpresa.",
+  "numeros": [
+    {
+      "valor": "06:00",
+      "rotulo": "Primer horneado"
+    },
+    {
+      "valor": "Bs 30",
+      "rotulo": "Pan 1 kg"
+    },
+    {
+      "valor": "24 h",
+      "rotulo": "Encargos"
+    }
+  ],
+  "servicos": [
+    {
+      "icone": "pao",
+      "nome": "Pan de masa madre",
+      "detalhe": "Hogaza de 1 kg, corteza crujiente",
+      "tempo": "del día",
+      "preco": "Bs 30"
+    },
+    {
+      "icone": "pao",
+      "nome": "Baguette",
+      "detalhe": "Unidad, horneada en la mañana",
+      "tempo": "del día",
+      "preco": "Bs 15"
+    },
+    {
+      "icone": "bolo",
+      "nome": "Cuñapé",
+      "detalhe": "Unidad, queso de la casa",
+      "tempo": "del día",
+      "preco": "Bs 6"
+    },
+    {
+      "icone": "bolo",
+      "nome": "Trenza de queso",
+      "detalhe": "Unidad, masa con mantequilla",
+      "tempo": "del día",
+      "preco": "Bs 18"
+    },
+    {
+      "icone": "bolo",
+      "nome": "Torta de chocolate",
+      "detalhe": "Entera, con 24 h de encargo",
+      "tempo": "24 h",
+      "preco": "Bs 90"
+    }
+  ],
+  "horario": [
+    {
+      "dia": "Lunes a sábado",
+      "hora": "06:00 – 20:00"
+    },
+    {
+      "dia": "Domingo",
+      "hora": "07:00 – 13:00"
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Hacen envío?",
+      "a": "Sí, dentro del barrio, con costo según la distancia."
+    },
+    {
+      "q": "¿Encargos para fiesta?",
+      "a": "Con 24 horas de anticipación y 50% de seña."
+    },
+    {
+      "q": "¿Tienen integral?",
+      "a": "Sí, consultá disponibilidad del día."
+    },
+    {
+      "q": "¿Formas de pago?",
+      "a": "Efectivo, tarjeta y QR Simple."
+    }
+  ],
+  "aviso": "Demostración: servicios, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio."
+}

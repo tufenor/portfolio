@@ -1,0 +1,95 @@
+{
+  "negocio": "Nelson Spa Peluqueria",
+  "cidade": "Cochabamba, Bolivia",
+  "whatsapp": "59178311113",
+  "ctaTexto": "Reservar horario",
+  "mensagemWhats": "Hola, quiero reservar en Nelson Spa Peluqueria",
+  "kicker": "Spa y peluquería",
+  "tituloLinha1": "Un tiempo",
+  "tituloLinha2": "solo para vos",
+  "subtitulo": "Tratamientos con hora marcada, ambiente reservado y profesionales fijas. Precio cerrado por sesión.",
+  "numeros": [
+    {
+      "valor": "60 min",
+      "rotulo": "Masaje"
+    },
+    {
+      "valor": "Bs 150",
+      "rotulo": "Desde"
+    },
+    {
+      "valor": "3 y 6",
+      "rotulo": "Sesiones"
+    }
+  ],
+  "servicos": [
+    {
+      "icone": "massagem",
+      "nome": "Masaje relajante",
+      "detalhe": "60 minutos, aceite tibio",
+      "tempo": "60 min",
+      "preco": "Bs 150"
+    },
+    {
+      "icone": "spa",
+      "nome": "Limpieza facial",
+      "detalhe": "50 minutos, según tipo de piel",
+      "tempo": "50 min",
+      "preco": "Bs 120"
+    },
+    {
+      "icone": "estrela",
+      "nome": "Manicure",
+      "detalhe": "40 minutos, esmaltado y cutícula",
+      "tempo": "40 min",
+      "preco": "Bs 60"
+    },
+    {
+      "icone": "estrela",
+      "nome": "Pedicure",
+      "detalhe": "50 minutos con masaje de pies",
+      "tempo": "50 min",
+      "preco": "Bs 70"
+    },
+    {
+      "icone": "spa",
+      "nome": "Depilación",
+      "detalhe": "Según la zona a trabajar",
+      "tempo": "variable",
+      "preco": "Bs 50"
+    }
+  ],
+  "horario": [
+    {
+      "dia": "Lunes a viernes",
+      "hora": "09:00 – 19:00"
+    },
+    {
+      "dia": "Sábado",
+      "hora": "09:00 – 16:00"
+    },
+    {
+      "dia": "Domingo",
+      "hora": "Cerrado"
+    }
+  ],
+  "faq": [
+    {
+      "q": "¿Puedo ir con acompañante?",
+      "a": "Sí, hay espacio de espera."
+    },
+    {
+      "q": "¿Cancelación?",
+      "a": "Sin costo con 4 horas de anticipación."
+    },
+    {
+      "q": "¿Venden paquete?",
+      "a": "Sí, de 3 o 6 sesiones, con menor valor por sesión."
+    },
+    {
+      "q": "¿Qué llevo?",
+      "a": "Solo ropa cómoda; toalla y bata las ponemos nosotros."
+    }
+  ],
+  "aviso": "Demostración: servicios, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio."
+}
