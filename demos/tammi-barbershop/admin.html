@@ -33,7 +33,7 @@
   <div class="row">
     <button id="baixar">Descargar conteudo.json</button>
     <button class="sec" id="ver">Ver la página</button>
-    <a class="btn sec" href="index.html">Abrir la página</a>
+    <a class="btn sec" href="index-dinamico.html">Ver con el contenido nuevo</a>
   </div>
 
   <div class="nota">
@@ -71,7 +71,7 @@
     const obj = validar();
     if (!obj) return;
     localStorage.setItem('preview', JSON.stringify(obj));
-    window.open('index.html', '_blank');
+    window.open('index-dinamico.html', '_blank');
   });
 </script>
 </body>

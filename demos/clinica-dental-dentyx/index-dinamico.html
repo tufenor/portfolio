@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ual — cargando</title>
+<meta name="description" content="Página del negocio con menú, horarios y contacto directo por WhatsApp.">
+<meta name="theme-color" content="#0e0f12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilo.css">
+<link rel="stylesheet" href="movimento.css">
+</head>
+<body>
+<a class="skip" href="#servicios">Saltar a servicios</a>
+<div class="pole"></div>
+
+<header>
+  <div class="wrap top">
+    <div class="brand"><span class="mark" id="marca"><span id="marca-conteudo">·</span></span> <span id="nome"></span></div>
+    <nav aria-label="Secciones">
+      <a href="#servicios">Servicios</a><a href="#galeria" id="nav-galeria">Galería</a>
+      <a href="#como">Cómo funciona</a><a href="#horarios">Horarios</a><a href="#preguntas">Preguntas</a>
+    </nav>
+    <a class="btn btn-gold" id="cta-topo" href="#" rel="noopener">Agendar</a>
+  </div>
+</header>
+
+<main>
+  <p id="carregando-conteudo" style="padding:16px 20px;font:14px system-ui;opacity:.7">Cargando la página…</p>
+  <section class="hero"><div class="wrap hero-inner">
+    <span class="pill"><span class="dot" id="status-dot"></span><span id="status-txt">Abierto ahora</span></span>
+    <h1><span id="titulo1"></span><br><span id="titulo2"></span></h1>
+    <p id="subtitulo"></p>
+    <div class="acoes">
+      <a class="btn btn-gold" id="cta-hero" href="#" rel="noopener">Agendar</a>
+      <a class="btn btn-line" href="#servicios">Ver servicios y precios</a>
+    </div>
+    <div class="hero-lista" id="numeros"></div>
+  </div></section>
+
+  <section id="servicios"><div class="wrap">
+    <span class="eyebrow" id="kicker"></span>
+    <h2>Servicios y precios</h2>
+    <p class="sub">Lista completa con lo que incluye cada servicio y cuánto tarda.</p>
+    <div class="servicos" id="servicos-lista"></div>
+  </div></section>
+
+  <section id="galeria"><div class="wrap">
+    <span class="eyebrow">La barbería</span><h2>El lugar</h2>
+    <p class="sub">Sillón, navaja, toalla caliente y buena conversación.</p>
+    <div class="galeria">
+      <figure><img src="img/g1.jpg" alt="Corte con tijera" loading="lazy" width="900" height="600"><figcaption>Corte con tijera</figcaption></figure>
+      <figure><img src="img/g2.jpg" alt="Acabado a navaja" loading="lazy" width="900" height="600"><figcaption>Acabado a navaja</figcaption></figure>
+      <figure><img src="img/g3.jpg" alt="Herramientas" loading="lazy" width="900" height="600"><figcaption>Herramientas</figcaption></figure>
+      <figure><img src="img/g4.jpg" alt="Barba cuidada" loading="lazy" width="900" height="600"><figcaption>Barba cuidada</figcaption></figure>
+    </div>
+  </div></section>
+
+  <section><div class="wrap split">
+    <img src="img/local.jpg" alt="Interior" loading="lazy" width="1100" height="880">
+    <div><span class="eyebrow">Cómo trabajamos</span><h2>Detalle que se nota</h2>
+      <ul class="lista-check">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Higiene por cliente.</b> Máquina, tijera y navaja desinfectadas y toalla limpia cada vez.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Precio acordado antes.</b> Sabés lo que vas a pagar antes de sentarte en el sillón.</span></li>
+      </ul>
+    </div>
+  </div></section>
+
+  <section id="horarios"><div class="wrap">
+    <span class="eyebrow">Visita</span><h2>Horarios y ubicación</h2>
+    <div class="faixa">
+      <div id="horarios-lista"></div>
+      <div><p style="color:var(--muted);margin:0 0 16px" id="cidade"></p>
+      <a class="btn btn-line" id="maps" href="#" rel="noopener">Abrir en Google Maps</a></div>
+    </div>
+  </div></section>
+
+  <section id="preguntas"><div class="wrap">
+    <span class="eyebrow">Antes de escribir</span><h2>Preguntas frecuentes</h2>
+    <div class="faq" id="faq-lista"></div>
+  </div></section>
+
+  <section><div class="wrap"><div class="cta-final">
+    <div><h2 id="cta-titulo">Escribinos</h2><p>Respondemos dentro del horario de atención.</p>
+    <a class="btn btn-gold" id="cta-final" href="#" rel="noopener">Abrir WhatsApp</a></div>
+    <div class="qr"><img src="qr.png" alt="Código QR" width="150" height="150"><p>Escaneá para chatear</p></div>
+  </div></div></section>
+</main>
+
+<footer>
+  <div class="wrap foot"><span>© <span id="ano"></span> <span id="nome-pé"></span> · <span id="cidade-pé"></span></span><span>Página hecha por Gabriel de Moura Pereira</span></div>
+  <div class="wrap"><p class="aviso" id="aviso"></p></div>
+</footer>
+
+<a class="whats" id="whats" href="#" rel="noopener" aria-label="Abrir WhatsApp">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-5.9-5.1c-.4-.7-.6-1.4-.4-2 .1-.4.5-1 .9-1.2.2-.1.5-.1.7 0 .2 0 .3.1.4.4l.6 1.5c.1.2 0 .4-.1.6l-.4.5c-.1.2-.2.3 0 .6.5.9 1.2 1.6 2.2 2.1.3.1.4.1.6-.1l.6-.7c.2-.2.3-.2.5-.1l1.4.7c.3.1.4.2.4.4 0 .2 0 .5-.1.9Z"/></svg>
+  WhatsApp
+</a>
+
+<script>
+const ICONES = {
+  tesoura: '<path d="M6 3l12 18M18 3L6 21"/><circle cx="4" cy="4" r="2"/><circle cx="20" cy="4" r="2"/>',
+  navalha: '<path d="M4 20l7-7"/><path d="M11 13l6-6a3 3 0 0 1 4 4l-6 6z"/>',
+  nino: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+  pigmento: '<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>',
+  producto: '<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M9 11h6"/>',
+  cafe: '<path d="M4 8h12v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M16 9h2a2 2 0 0 1 0 4h-2"/><path d="M4 20h16"/>',
+  grao: '<ellipse cx="12" cy="12" rx="5" ry="8" transform="rotate(35 12 12)"/><path d="M8 17c3-3 5-6 8-11"/>',
+  pao: '<path d="M4 13a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v4a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z"/><path d="M9 10v6M13 10v6"/>',
+  bolo: '<path d="M4 20h16v-6a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3z"/><path d="M12 8V5M9 5h6"/>',
+  dente: '<path d="M7 4c3 0 3 2 5 2s2-2 5-2 3 4 2 8c-.7 3-2 6-3.5 6-1.3 0-1.5-3-3.5-3s-2.2 3-3.5 3C7 18 5.7 15 5 12 4 8 5 4 7 4z"/>',
+  escova: '<rect x="8" y="3" width="8" height="10" rx="2"/><path d="M12 13v8M9 21h6"/>',
+  pata: '<circle cx="8" cy="8" r="1.8"/><circle cx="16" cy="8" r="1.8"/><circle cx="5" cy="13" r="1.6"/><circle cx="19" cy="13" r="1.6"/><path d="M12 12c3 0 5 3 3.5 5.5S12 21 12 21s-2-1-3.5-3.5S9 12 12 12z"/>',
+  banho: '<path d="M4 14c0-3 3-5 8-5s8 2 8 5"/><path d="M4 14v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><path d="M8 7l2 2M14 5v3"/>',
+  spa: '<path d="M12 3c3 4 6 6 6 10a6 6 0 0 1-12 0c0-4 3-6 6-10z"/><path d="M12 11v8"/>',
+  massagem: '<circle cx="12" cy="6" r="2.5"/><path d="M5 21c1-5 4-7 7-7s6 2 7 7"/>',
+  estrela: '<path d="M12 3l2.6 5.6 6.4.8-4.7 4.3 1.3 6.3L12 17l-5.6 3 1.3-6.3L3 9.4l6.4-.8z"/>'
+};
+const icon = (n) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONES[n] || ICONES.tesoura) + '</svg>';
+
+const $ = (id) => document.getElementById(id);
+const wa = (c, txt) => 'https://wa.me/' + String(c.whatsapp).replace(/\D/g, '') + '?text=' + encodeURIComponent(txt || c.mensagemWhats || '');
+
+fetch('conteudo.json').then((r) => r.json()).then((c) => {
+  document.title = c.negocio + ' — ' + c.kicker;
+  const inicial = (c.negocio || '?').trim().charAt(0).toUpperCase();
+  const logo = new Image();
+  logo.onload = () => { document.getElementById('marca-conteudo').innerHTML = '<img src="' + logo.src + '" alt="Logo de ' + c.negocio + '">'; };
+  logo.onerror = () => {
+    document.getElementById('marca-conteudo').innerHTML = '<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="24" cy="24" r="21"/><text x="24" y="31" text-anchor="middle" font-size="17" font-family="Fraunces,Georgia,serif" font-weight="700" fill="currentColor" stroke="none">' + inicial + '</text></svg>';
+  };
+  logo.src = 'img/logo.png';
+  $('nome').textContent = c.negocio;
+  $('nome-pé').textContent = c.negocio;
+  $('cidade').textContent = c.cidade;
+  $('cidade-pé').textContent = c.cidade;
+  $('ano').textContent = new Date().getFullYear();
+  $('kicker').textContent = c.kicker;
+  if (c.galeriaTitulo) document.getElementById('nav-galeria').textContent = c.galeriaTitulo;
+  $('titulo1').textContent = c.tituloLinha1;
+  $('titulo2').textContent = c.tituloLinha2;
+  $('subtitulo').textContent = c.subtitulo;
+  $('aviso').textContent = c.aviso;
+  $('cta-titulo').textContent = c.ctaTexto;
+  const link = wa(c);
+  ['cta-topo', 'cta-hero', 'cta-final', 'whats'].forEach((id) => { $(id).href = link; });
+  $('cta-topo').textContent = c.ctaTexto;
+  $('cta-hero').textContent = c.ctaTexto;
+  $('maps').href = 'https://www.google.com/maps/search/' + encodeURIComponent(c.negocio + ', ' + c.cidade);
+
+  const av = document.getElementById('carregando-conteudo'); if (av) av.remove();
+  $('numeros').innerHTML = (c.numeros || []).map((n) => '<div><b>' + n.valor + '</b>' + n.rotulo + '</div>').join('');
+  $('servicos-lista').innerHTML = (c.servicos || []).map((s) =>
+    '<article class="servico"><span class="servico-icone">' + icon(s.icone) + '</span>' +
+    '<div class="servico-texto"><h3>' + s.nome + '</h3><p>' + s.detalhe + '</p><span class="servico-tempo">' + s.tempo + '</span></div>' +
+    '<span class="servico-preco">' + s.preco + '</span></article>').join('');
+  $('horarios-lista').innerHTML = (c.horario || []).map((h) =>
+    '<div class="horario-linha"><span>' + h.dia + '</span><b>' + h.hora + '</b></div>').join('') +
+    '<div class="horario-linha"><span>Contacto</span><b>WhatsApp</b></div>';
+  $('faq-lista').innerHTML = (c.faq || []).map((f) =>
+    '<details class="faq-item"><summary>' + f.q + '</summary><p>' + f.a + '</p></details>').join('');
+
+  // aberto/fechado pela primeira faixa de horário
+  try {
+    const agora = new Date(), dia = agora.getDay(), h = agora.getHours() + agora.getMinutes() / 60;
+    const faixa = (c.horario && c.horario[0] && c.horario[0].hora || '').match(/(\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})/);
+    if (faixa) {
+      const ini = +faixa[1] + faixa[2] / 60, fim = +faixa[3] + faixa[4] / 60;
+      if (dia === 0 || h < ini || h >= fim) {
+        document.getElementById('status-dot').classList.add('fechado');
+        document.getElementById('status-txt').textContent = 'Cerrado ahora';
+      }
+    }
+  } catch (e) {}
+  // revela os blocos conforme entram na tela
+  const alvos = document.querySelectorAll('section .wrap > *, .servicos .servico, .galeria figure, .faq .faq-item');
+  alvos.forEach((el, i) => {
+    el.classList.add('reveal');
+    el.setAttribute('data-atraso', String((i % 4) + 1));
+  });
+  const io = new IntersectionObserver((entradas) => {
+    entradas.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('entrou'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+}).catch(() => { const n = document.getElementById('nome'); if (n) n.textContent = 'Error al cargar el contenido'; });
+</script>
+</body>
+</html>

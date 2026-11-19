@@ -4,29 +4,82 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cafe Plaza Specialty Coffee — vista previa</title>
-<meta name="description" content="Vista previa responsiva para Cafe Plaza Specialty Coffee en Cochabamba.">
 <meta name="robots" content="noindex">
 <style>
-:root{--ink:#20211d;--paper:#f6f1e7;--surface:#fffdf8;--coffee:#263d32;--accent:#c9a86a;--line:#ded5c3;--muted:#667067}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}a{color:inherit}.wrap{width:min(70rem,calc(100% - 2rem));margin-inline:auto}.demo{background:var(--ink);color:#f8f3e8;text-align:center;font-size:.78rem;padding:.45rem .8rem;letter-spacing:.01em}.skip{position:absolute;left:-999px;top:auto}.skip:focus{left:1rem;top:1rem;background:#fff;padding:.7rem 1rem;z-index:5;border-radius:.35rem}
-header{position:sticky;top:0;z-index:4;background:rgba(246,241,231,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav{min-height:4.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}.brand{display:flex;align-items:center;gap:.65rem;font-weight:750;letter-spacing:-.02em}.brand-mark{width:2.25rem;height:2.25rem;display:grid;place-items:center;border-radius:50%;background:var(--coffee);color:var(--accent);font-size:1.15rem}.nav-links{display:flex;align-items:center;gap:1.2rem;font-size:.9rem}.nav-links a{text-decoration:none;color:var(--muted)}.nav-links a:hover,.nav-links a:focus-visible{color:var(--coffee)}.button{display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;padding:.65rem 1rem;border-radius:.45rem;text-decoration:none;font-weight:700;border:1px solid transparent;transition:transform .18s ease,background .18s ease}.button:hover{transform:translateY(-1px)}.button-primary{background:var(--coffee);color:#fffdf8}.button-outline{border-color:var(--coffee);color:var(--coffee)}
-.hero{padding:clamp(3.5rem,8vw,7rem) 0 4rem;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(15rem,.85fr);gap:3rem;align-items:center}.eyebrow{font-size:.75rem;letter-spacing:.16em;text-transform:uppercase;color:var(--coffee);font-weight:800}.hero h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(2.8rem,7vw,5.5rem);line-height:.98;letter-spacing:-.05em;max-width:10ch;margin:.65rem 0 1.2rem}.hero p{max-width:38rem;color:var(--muted);font-size:1.1rem;margin:0 0 1.5rem}.actions{display:flex;flex-wrap:wrap;gap:.75rem}.hero-card{background:var(--coffee);color:#f8f3e8;border-radius:.85rem;padding:1.5rem;box-shadow:0 1.5rem 3rem rgba(38,61,50,.14)}.hero-card strong{display:block;font-family:Georgia,serif;font-size:2rem;font-weight:500;margin:.25rem 0}.hero-card p{color:#d8e0d5;font-size:.95rem;margin:0}.hero-card .line{height:1px;background:rgba(255,255,255,.18);margin:1.25rem 0}.hero-card a{color:#f7d9a1;font-weight:700}
-.section{padding:4.5rem 0}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:1rem;margin-bottom:1.5rem}.section h2{font-family:Georgia,serif;font-weight:500;letter-spacing:-.03em;font-size:clamp(2rem,4vw,3rem);line-height:1.05;margin:.4rem 0 0}.section-heading p{max-width:30rem;color:var(--muted);margin:0}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.card{background:var(--surface);border:1px solid var(--line);border-radius:.7rem;padding:1.35rem}.card-icon{width:2.75rem;height:2.75rem;border-radius:50%;display:grid;place-items:center;background:#eee1c8;color:var(--coffee);font-size:1.25rem}.card h3{margin:1rem 0 .35rem;font-size:1.1rem}.card p{color:var(--muted);margin:0}.price{display:inline-block;margin-top:1rem;color:var(--coffee);font-weight:800;font-size:.9rem}.band{background:var(--coffee);color:#f8f3e8}.band .inner{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}.band p{color:#d8e0d5;max-width:40rem}.qr-box{display:flex;align-items:center;gap:1.2rem;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.2);border-radius:.7rem;padding:1rem}.qr-box img{width:6rem;height:6rem;background:#fff;padding:.3rem;border-radius:.3rem}.qr-box p{font-size:.9rem;margin:0}.visit{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.visit-box{background:var(--surface);border:1px solid var(--line);border-radius:.7rem;padding:1.35rem}.visit-box h3{margin-top:0}.visit-box p{color:var(--muted);margin:.3rem 0 1rem}.contact{background:#e9dfcd}.contact .inner{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap}.contact h2{font-family:Georgia,serif;font-weight:500;font-size:clamp(2rem,4vw,3rem);margin:0 0 .4rem}.contact p{color:var(--muted);margin:0}.note{font-size:.82rem;color:var(--muted);margin:1rem 0 0}.footer{padding:2rem 0 3rem;color:var(--muted);font-size:.82rem}.footer a{color:var(--coffee);font-weight:700}
-@media (max-width:760px){.wrap{width:min(100% - 1.25rem,70rem)}.nav{min-height:4rem}.nav-links{display:none}.hero{grid-template-columns:1fr;gap:2rem;padding-top:3.25rem}.hero h1{font-size:clamp(2.8rem,14vw,4.5rem)}.hero-card{max-width:30rem}.section{padding:3.5rem 0}.section-heading{display:block}.section-heading p{margin-top:.8rem}.cards,.visit,.band .inner{grid-template-columns:1fr}.qr-box{align-items:flex-start}.contact .inner{align-items:flex-start;display:block}.contact .button{margin-top:1rem;width:100%}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}.button:hover{transform:none}}
+  :root{--ink:#1e2320;--paper:#f8f4ea;--green:#2e4935;--lime:#c3d4a3;--line:#ded6c3;--muted:#5b665e}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 ui-sans-serif,system-ui,"Segoe UI",Arial,sans-serif}
+  .demo{background:var(--ink);color:#f3eee2;text-align:center;font-size:.8rem;padding:.4rem .8rem}
+  .wrap{max-width:60rem;margin:0 auto;padding:0 1.2rem}
+  header{border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:1rem 1.2rem;max-width:60rem;margin:0 auto;gap:1rem;flex-wrap:wrap}
+  .brand{font-weight:650;font-size:1.1rem}
+  .pill{border:1px solid var(--green);color:var(--green);border-radius:999px;padding:.3rem .8rem;font-size:.85rem;text-decoration:none}
+  .hero{padding:clamp(2rem,6vw,4rem) 0}
+  h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.06;letter-spacing:-.02em;margin:.2rem 0 1rem;max-width:18ch}
+  .lead{color:var(--muted);font-size:1.1rem;max-width:52ch;margin:0 0 1.6rem}
+  .cta{display:inline-block;background:var(--green);color:#f7f3e8;padding:.9rem 1.4rem;border-radius:.4rem;text-decoration:none;font-weight:600}
+  .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));padding:1rem 0 3rem}
+  .card{background:#fffdf7;border:1px solid var(--line);border-radius:.6rem;padding:1.1rem}
+  .card h3{margin:0 0 .4rem;font-size:1rem}
+  .card p{margin:0;color:var(--muted);font-size:.95rem}
+  .band{background:var(--green);color:#f3eee2;padding:2.4rem 0}
+  .band h2{margin:0 0 .5rem;font-size:1.5rem}
+  .band p{margin:0;color:#d9e2cd;max-width:52ch}
+  footer{padding:2rem 0 3rem;color:var(--muted);font-size:.85rem}
+  .note{font-size:.82rem;color:var(--muted)}
+  .contact{background:var(--ink);color:#f3eee2;padding:2.4rem 0}
+  .contact a{color:var(--lime)}
 </style>
 </head>
 <body>
-<a class="skip" href="#menu">Saltar al menú de ejemplo</a>
 <div class="demo">Vista previa de demostración · Cafe Plaza Specialty Coffee · hecha por Gabriel de Moura Pereira</div>
-<header><nav class="nav wrap" aria-label="Navegación principal"><a class="brand" href="#inicio"><span class="brand-mark" aria-hidden="true">☕</span><span>Cafe Plaza Specialty Coffee</span></a><div class="nav-links"><a href="#menu">Menú</a><a href="#visita">Visita</a><a href="#contacto">Contacto</a></div><a class="button button-outline" href="https://wa.me/59167401463" rel="noopener">WhatsApp</a></nav></header>
-<main id="inicio">
-<section class="hero wrap"><div><span class="eyebrow">Café · Cochabamba</span><h1>Una pausa que sabe a café.</h1><p>Una página clara para presentar el café, mostrar el menú y facilitar reservas o consultas desde el celular.</p><div class="actions"><a class="button button-primary" href="#menu">Ver menú de ejemplo</a><a class="button button-outline" href="https://wa.me/59167401463" rel="noopener">Hablar con el negocio</a></div><p class="note">Vista previa: el negocio confirma productos, precios, horarios y fotos antes de publicar la versión final.</p></div><aside class="hero-card" aria-label="Resumen de la propuesta"><span class="eyebrow" style="color:#f7d9a1">Lo esencial</span><strong>Menú + reservas</strong><p>Una experiencia ligera, pensada para abrir rápido en el teléfono y llevar a la persona a la acción.</p><div class="line"></div><a href="#visita">Ver cómo llegar →</a></aside></section>
-<section class="section wrap" id="menu"><div class="section-heading"><div><span class="eyebrow">Ejemplo de carta</span><h2>Lo que puede aparecer</h2></div><p>Contenido demostrativo para mostrar la estructura. Los precios reales se completan con Cafe Plaza.</p></div><div class="cards"><article class="card"><div class="card-icon" aria-hidden="true">☕</div><h3>Café de especialidad</h3><p>Notas, origen y método de preparación en una descripción breve.</p><span class="price">Precio a confirmar</span></article><article class="card"><div class="card-icon" aria-hidden="true">🍰</div><h3>Postres del día</h3><p>Una selección que puede actualizarse sin rehacer toda la página.</p><span class="price">Precio a confirmar</span></article><article class="card"><div class="card-icon" aria-hidden="true">🥤</div><h3>Algo fresco</h3><p>Bebidas frías y opciones para acompañar la pausa.</p><span class="price">Precio a confirmar</span></article></div></section>
-<section class="section band"><div class="inner wrap"><div><span class="eyebrow" style="color:#f7d9a1">Menú digital</span><h2>Un QR en la mesa, un clic para abrir.</h2><p>El código QR puede imprimirse para mesas o mostrador. La persona apunta la cámara y entra al menú desde su teléfono, sin instalar nada.</p></div><div class="qr-box"><img src="qr.png" alt="Código QR para abrir el menú de Cafe Plaza" width="96" height="96"><p>Ejemplo de QR.<br>Se reemplaza por la versión final del negocio.</p></div></div></section>
-<section class="section wrap" id="visita"><div class="section-heading"><div><span class="eyebrow">Información útil</span><h2>Visita y contacto</h2></div><p>Dos bloques para que nadie tenga que buscar la información en publicaciones antiguas.</p></div><div class="visit"><article class="visit-box"><h3>Horarios</h3><p>El horario real lo confirma Cafe Plaza antes de la publicación.</p><a class="button button-outline" href="https://wa.me/59167401463" rel="noopener">Consultar horario</a></article><article class="visit-box"><h3>Cómo llegar</h3><p>La dirección se conecta con Google Maps cuando el negocio la confirma.</p><a class="button button-outline" href="https://www.google.com/maps/search/Cafe+Plaza+Specialty+Coffee+Cochabamba" rel="noopener">Abrir Maps</a></article></div></section>
-<section class="contact" id="contacto"><div class="inner wrap"><div><span class="eyebrow">¿Te sirve?</span><h2>Hablemos de la página.</h2><p>Este botón abre WhatsApp para revisar el menú, las fotos y los datos reales.</p></div><a class="button button-primary" href="https://wa.me/59167401463?text=Hola%2C%20quiero%20revisar%20la%20vista%20previa%20de%20Cafe%20Plaza" rel="noopener">Abrir WhatsApp</a></div></section>
+<header>
+  <span class="brand">☕ Cafe Plaza Specialty Coffee</span>
+  <a class="pill" href="https://wa.me/59167401463" rel="noopener">WhatsApp</a>
+</header>
+<main>
+  <section class="hero wrap">
+    <p style="color:var(--green);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 .6rem">CAFE · COCHABAMBA</p>
+    <h1>Cafe Plaza Specialty Coffee</h1>
+    <p class="lead">Café, postres y algo fresco para tu pausa.</p>
+    <a class="cta" href="#contacto">Hablar con el negocio</a>
+    <p class="note" style="margin-top:1.4rem">Esta página es una vista previa. Los textos, precios y fotos los define el negocio.</p>
+  </section>
+
+  <div class="wrap">
+    <div class="grid">
+      <article class="card"><h3>Lo que ofrecemos</h3><p>Tres servicios o productos principales, con precio y descripción corta.</p></article>
+      <article class="card"><h3>Horarios</h3><p>Abierto de lunes a sábado. El horario real lo confirma el negocio.</p></article>
+      <article class="card"><h3>Dónde estamos</h3><p>Dirección con enlace al mapa, para que el cliente llegue sin preguntar.</p></article>
+    </div>
+  </div>
+
+  <section class="wrap" style="padding:1rem 0 2rem">
+    <div class="card" style="display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap">
+      <img src="qr.png" alt="Código QR para abrir el menú en el celular" width="132" height="132" style="border:8px solid #fff;border-radius:.4rem">
+      <div style="flex:1;min-width:14rem">
+        <h3 style="margin:0 0 .3rem">Menú digital con QR</h3>
+        <p style="margin:0;color:var(--muted)">El cliente apunta la cámara y abre el menú, sin instalar nada. Se puede imprimir en la mesa o en el mostrador.</p>
+      </div>
+    </div>
+  </section>
+  <section class="band">
+    <div class="wrap">
+      <h2>Hecho para verse bien en el celular</h2>
+      <p>Sin zoom, sin scroll lateral y sin instalar nada. Se abre rápido porque es una página ligera.</p>
+    </div>
+  </section>
+
+  <section class="contact" id="contacto">
+    <div class="wrap">
+      <h2 style="margin:0 0 .6rem;font-size:1.4rem">Escribinos</h2>
+      <p style="margin:0 0 1rem;color:#cfd6c8">Este botón abre tu WhatsApp. El número lo configuramos con el del negocio.</p>
+      <a class="cta" href="https://wa.me/59167401463" rel="noopener" style="background:var(--lime);color:#1e2320">Abrir WhatsApp</a>
+    </div>
+  </section>
 </main>
-<footer class="footer wrap"><p>Vista previa creada por Gabriel de Moura Pereira · <a href="https://tufenor.github.io/portfolio/">ver portafolio</a></p></footer>
+<footer class="wrap">
+  <p>Vista previa creada por Gabriel de Moura Pereira · <a href="https://tufenor.github.io/portfolio/" style="color:var(--green)">portafolio</a></p>
+</footer>
 </body>
 </html>
