@@ -3,83 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Titos Style — vista previa</title>
+<title>Titos Style — abriendo la página</title>
 <meta name="robots" content="noindex">
+<link rel="canonical" href="../../demos/titos-style/">
+<meta http-equiv="refresh" content="0; url=../../demos/titos-style/">
 <style>
-  :root{--ink:#1e2320;--paper:#f8f4ea;--green:#2e4935;--lime:#c3d4a3;--line:#ded6c3;--muted:#5b665e}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 ui-sans-serif,system-ui,"Segoe UI",Arial,sans-serif}
-  .demo{background:var(--ink);color:#f3eee2;text-align:center;font-size:.8rem;padding:.4rem .8rem}
-  .wrap{max-width:60rem;margin:0 auto;padding:0 1.2rem}
-  header{border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:1rem 1.2rem;max-width:60rem;margin:0 auto;gap:1rem;flex-wrap:wrap}
-  .brand{font-weight:650;font-size:1.1rem}
-  .pill{border:1px solid var(--green);color:var(--green);border-radius:999px;padding:.3rem .8rem;font-size:.85rem;text-decoration:none}
-  .hero{padding:clamp(2rem,6vw,4rem) 0}
-  h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.06;letter-spacing:-.02em;margin:.2rem 0 1rem;max-width:18ch}
-  .lead{color:var(--muted);font-size:1.1rem;max-width:52ch;margin:0 0 1.6rem}
-  .cta{display:inline-block;background:var(--green);color:#f7f3e8;padding:.9rem 1.4rem;border-radius:.4rem;text-decoration:none;font-weight:600}
-  .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));padding:1rem 0 3rem}
-  .card{background:#fffdf7;border:1px solid var(--line);border-radius:.6rem;padding:1.1rem}
-  .card h3{margin:0 0 .4rem;font-size:1rem}
-  .card p{margin:0;color:var(--muted);font-size:.95rem}
-  .band{background:var(--green);color:#f3eee2;padding:2.4rem 0}
-  .band h2{margin:0 0 .5rem;font-size:1.5rem}
-  .band p{margin:0;color:#d9e2cd;max-width:52ch}
-  footer{padding:2rem 0 3rem;color:var(--muted);font-size:.85rem}
-  .note{font-size:.82rem;color:var(--muted)}
-  .contact{background:var(--ink);color:#f3eee2;padding:2.4rem 0}
-  .contact a{color:var(--lime)}
+  html,body{height:100%;margin:0}
+  body{display:grid;place-items:center;background:#0e0f12;color:#f4efe6;font:16px/1.6 system-ui,Segoe UI,Arial,sans-serif}
+  a{color:#c9a227}
 </style>
 </head>
 <body>
-<div class="demo">Vista previa de demostración · Titos Style · hecha por Gabriel de Moura Pereira</div>
-<header>
-  <span class="brand">💇 Titos Style</span>
-  <a class="pill" href="https://wa.me/59172213283" rel="noopener">WhatsApp</a>
-</header>
-<main>
-  <section class="hero wrap">
-    <p style="color:var(--green);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 .6rem">SALAO · COCHABAMBA</p>
-    <h1>Titos Style</h1>
-    <p class="lead">Cuidado, color y estilo en un solo lugar.</p>
-    <a class="cta" href="#contacto">Hablar con el negocio</a>
-    <p class="note" style="margin-top:1.4rem">Esta página es una vista previa. Los textos, precios y fotos los define el negocio.</p>
-  </section>
-
-  <div class="wrap">
-    <div class="grid">
-      <article class="card"><h3>Lo que ofrecemos</h3><p>Tres servicios o productos principales, con precio y descripción corta.</p></article>
-      <article class="card"><h3>Horarios</h3><p>Abierto de lunes a sábado. El horario real lo confirma el negocio.</p></article>
-      <article class="card"><h3>Dónde estamos</h3><p>Dirección con enlace al mapa, para que el cliente llegue sin preguntar.</p></article>
-    </div>
-  </div>
-
-  <section class="wrap" style="padding:1rem 0 2rem">
-    <div class="card" style="display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap">
-      <img src="qr.png" alt="Código QR para abrir el menú en el celular" width="132" height="132" style="border:8px solid #fff;border-radius:.4rem">
-      <div style="flex:1;min-width:14rem">
-        <h3 style="margin:0 0 .3rem">Menú digital con QR</h3>
-        <p style="margin:0;color:var(--muted)">El cliente apunta la cámara y abre el menú, sin instalar nada. Se puede imprimir en la mesa o en el mostrador.</p>
-      </div>
-    </div>
-  </section>
-  <section class="band">
-    <div class="wrap">
-      <h2>Hecho para verse bien en el celular</h2>
-      <p>Sin zoom, sin scroll lateral y sin instalar nada. Se abre rápido porque es una página ligera.</p>
-    </div>
-  </section>
-
-  <section class="contact" id="contacto">
-    <div class="wrap">
-      <h2 style="margin:0 0 .6rem;font-size:1.4rem">Escribinos</h2>
-      <p style="margin:0 0 1rem;color:#cfd6c8">Este botón abre tu WhatsApp. El número lo configuramos con el del negocio.</p>
-      <a class="cta" href="https://wa.me/59172213283" rel="noopener" style="background:var(--lime);color:#1e2320">Abrir WhatsApp</a>
-    </div>
-  </section>
-</main>
-<footer class="wrap">
-  <p>Vista previa creada por Gabriel de Moura Pereira · <a href="https://tufenor.github.io/portfolio/" style="color:var(--green)">portafolio</a></p>
-</footer>
+  <p>Abriendo la página de <a href="../../demos/titos-style/">Titos Style</a>…</p>
+  <script>location.replace("../../demos/titos-style/");</script>
 </body>
 </html>

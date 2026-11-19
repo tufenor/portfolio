@@ -28,6 +28,7 @@
 </header>
 
 <main>
+  <p id="carregando-conteudo" style="padding:16px 20px;font:14px system-ui;opacity:.7">Cargando la página…</p>
   <section class="hero"><div class="wrap hero-inner">
     <span class="pill"><span class="dot" id="status-dot"></span><span id="status-txt">Abierto ahora</span></span>
     <h1><span id="titulo1"></span><br><span id="titulo2"></span></h1>
@@ -149,6 +150,7 @@ fetch('conteudo.json').then((r) => r.json()).then((c) => {
   $('cta-hero').textContent = c.ctaTexto;
   $('maps').href = 'https://www.google.com/maps/search/' + encodeURIComponent(c.negocio + ', ' + c.cidade);
 
+  const av = document.getElementById('carregando-conteudo'); if (av) av.remove();
   $('numeros').innerHTML = (c.numeros || []).map((n) => '<div><b>' + n.valor + '</b>' + n.rotulo + '</div>').join('');
   $('servicos-lista').innerHTML = (c.servicos || []).map((s) =>
     '<article class="servico"><span class="servico-icone">' + icon(s.icone) + '</span>' +
