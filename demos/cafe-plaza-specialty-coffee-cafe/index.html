@@ -1,15 +1,358 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cafe Plaza Specialty Coffee — vista previa</title>
-  <meta http-equiv="refresh" content="0; url=/portfolio/preview/cafe-plaza-specialty-coffee-cafe/">
-  <link rel="canonical" href="https://tufenor.github.io/portfolio/preview/cafe-plaza-specialty-coffee-cafe/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cafe Plaza Specialty Coffee — Café de especialidad en Cochabamba</title>
+<meta name="description" content="Cafe Plaza Specialty Coffee: café tostado en el local, menú digital con precios y pedidos por WhatsApp. Cochabamba, Bolivia.">
+<meta name="theme-color" content="#1b120c">
+<meta property="og:title" content="Cafe Plaza Specialty Coffee"><meta property="og:description" content="Café de especialidad, tostado aquí. Menú completo con precios."><meta property="og:image" content="img/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/hero.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%231b120c'/%3E%3Ctext x='50' y='70' font-size='52' font-family='Georgia,serif' font-weight='600' fill='%23d8a15f' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --tinta:#1b120c; --tinta2:#241a12; --creme:#f7f1e6; --creme2:#efe5d5;
+    --cafe:#b9743a; --dourado:#d8a15f; --verde:#5c6b46;
+    --linha:rgba(27,18,12,.14);
+    --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,Segoe UI,Arial,sans-serif;
+    --max:1200px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--creme);color:var(--tinta);font:16.5px/1.7 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.02em;line-height:1.05;margin:0}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{max:var(--max);width:100%;margin-inline:auto;padding-inline:clamp(20px,4vw,48px)}
+  .wrap{max-width:var(--max)}
+
+  /* ---------- topo ---------- */
+  .topo{position:fixed;top:0;left:0;right:0;z-index:90;transition:background .35s ease,box-shadow .35s ease,padding .35s ease;padding:18px 0}
+  .topo.compacto{background:rgba(247,241,230,.92);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--linha);padding:10px 0}
+  .topo-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .marca{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:1.05rem;letter-spacing:-.01em}
+  .marca-selo{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--tinta);display:grid;place-items:center;font-size:15px;font-weight:600}
+  nav{display:none;gap:30px;font-size:.9rem;letter-spacing:.02em}
+  nav a{text-decoration:none;position:relative;padding:4px 0;color:rgba(27,18,12,.78)}
+  nav a::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:0;background:var(--cafe);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+  nav a:hover::after{width:100%}
+  @media(min-width:900px){nav{display:flex}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 26px;border-radius:2px;font-weight:600;font-size:.95rem;letter-spacing:.01em;text-decoration:none;border:1px solid transparent;transition:transform .2s ease,background .3s ease,color .3s ease,box-shadow .3s ease}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:focus-visible{outline:3px solid var(--cafe);outline-offset:3px}
+  /* no topo o cabeçalho fica sobre a foto: texto claro; ao rolar, escuro */
+  .topo:not(.compacto) .marca,.topo:not(.compacto) nav a{color:var(--creme)}
+  .topo:not(.compacto) .marca-selo{border-color:rgba(247,241,230,.7);color:var(--creme)}
+  .topo:not(.compacto) nav a::after{background:var(--dourado)}
+  .topo:not(.compacto) .btn-escuro{background:var(--creme);color:var(--tinta)}
+  .btn-escuro{background:var(--tinta);color:var(--creme)}
+  .btn-escuro:hover{box-shadow:0 14px 28px -18px rgba(27,18,12,.9)}
+  .btn-linha{border-color:rgba(27,18,12,.4)}
+  .btn-linha:hover{border-color:var(--tinta);background:var(--tinta);color:var(--creme)}
+  .btn-claro{background:var(--creme);color:var(--tinta)}
+  @media(max-width:700px){.topo .btn{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding-bottom:clamp(40px,7vw,80px);isolation:isolate;overflow:hidden;background:var(--tinta)}
+  .hero-foto{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:center 40%;will-change:transform}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(27,18,12,.35) 0%,rgba(27,18,12,.55) 45%,rgba(27,18,12,.92) 100%)}
+  .hero-conteudo{color:var(--creme);max-width:820px}
+  .selo{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(247,241,230,.35);padding:8px 16px;border-radius:999px;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--creme2)}
+  .selo .ponto{width:7px;height:7px;border-radius:50%;background:#7cc47f;box-shadow:0 0 0 0 rgba(124,196,127,.5);animation:pulso 2.8s ease-in-out infinite}
+  .selo .ponto.fechado{background:#e08a6a}
+  @keyframes pulso{0%,100%{box-shadow:0 0 0 0 rgba(124,196,127,.45)}50%{box-shadow:0 0 0 8px rgba(124,196,127,0)}}
+  .hero h1{font-size:clamp(2.6rem,7.4vw,5rem);margin:26px 0 20px;font-weight:400;letter-spacing:-.03em}
+  .hero h1 em{font-style:italic;color:var(--dourado)}
+  .hero p{font-size:clamp(1.02rem,1.7vw,1.22rem);color:rgba(247,241,230,.86);max-width:52ch;margin:0 0 34px}
+  .hero-acoes{display:flex;flex-wrap:wrap;gap:14px}
+  .descer{position:absolute;bottom:28px;right:clamp(20px,4vw,48px);display:flex;align-items:center;gap:10px;color:rgba(247,241,230,.7);font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
+  .descer span{display:block;width:1px;height:38px;background:linear-gradient(rgba(247,241,230,.7),transparent);animation:desce 2.2s ease-in-out infinite}
+  @keyframes desce{0%,100%{transform:translateY(-6px);opacity:.4}50%{transform:translateY(6px);opacity:1}}
+
+  /* ---------- faixa rolante ---------- */
+  .faixa-rolante{background:var(--tinta);color:var(--creme2);border-top:1px solid rgba(247,241,230,.12);border-bottom:1px solid rgba(247,241,230,.12);overflow:hidden;padding:14px 0}
+  .faixa-trilho{display:flex;gap:48px;white-space:nowrap;animation:rola 34s linear infinite;width:max-content}
+  .faixa-trilho span{font-family:var(--serif);font-size:clamp(1rem,1.6vw,1.25rem);letter-spacing:.04em;opacity:.85}
+  .faixa-trilho span::after{content:"·";margin-left:48px;color:var(--cafe)}
+  @keyframes rola{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- seções ---------- */
+  section{padding-block:clamp(56px,8vw,110px)}
+  .olho{font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cafe);font-weight:600}
+  h2{font-size:clamp(1.9rem,4.2vw,3rem);margin:14px 0 18px;font-weight:400}
+  .intro{color:rgba(27,18,12,.68);max-width:62ch;font-size:1.03rem}
+
+  /* menu com abas */
+  .abas{display:flex;gap:10px;flex-wrap:wrap;margin:34px 0 26px;border-bottom:1px solid var(--linha);padding-bottom:0}
+  .aba{background:none;border:0;padding:12px 4px;margin-right:26px;font:inherit;font-weight:600;font-size:.95rem;color:rgba(27,18,12,.5);cursor:pointer;position:relative;transition:color .25s ease}
+  .aba::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--cafe);transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .aba.ativa{color:var(--tinta)}
+  .aba.ativa::after{transform:scaleX(1)}
+  .painel{display:none;animation:entra .45s ease}
+  .painel.ativo{display:block}
+  @keyframes entra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .item{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid var(--linha)}
+  .item h3{font-size:1.12rem;font-weight:600;margin-bottom:2px}
+  .item p{margin:0;color:rgba(27,18,12,.6);font-size:.92rem}
+  .preco{font-family:var(--serif);font-size:1.15rem;color:var(--cafe);white-space:nowrap}
+
+  /* história */
+  .split{display:grid;gap:clamp(28px,5vw,64px);align-items:center}
+  @media(min-width:900px){.split{grid-template-columns:1.05fr .95fr}}
+  .split img{aspect-ratio:4/5;object-fit:cover;width:100%}
+  .lista-check{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:16px}
+  .lista-check li{display:flex;gap:14px;font-size:.98rem}
+  .lista-check svg{flex:0 0 18px;margin-top:5px;color:var(--cafe)}
+
+  /* galeria */
+  .galeria{display:grid;gap:14px;grid-template-columns:repeat(2,1fr);margin-top:38px}
+  @media(min-width:820px){.galeria{grid-template-columns:repeat(4,1fr)}}
+  .galeria figure{margin:0;overflow:hidden;background:#000}
+  .galeria img{width:100%;height:100%;object-fit:cover;aspect-ratio:3/4;transition:transform 1s cubic-bezier(.2,.7,.2,1),filter .6s ease}
+  .galeria figure:hover img{transform:scale(1.06);filter:saturate(1.1)}
+
+  /* horários e contato */
+  .cartoes{display:grid;gap:18px;margin-top:36px}
+  @media(min-width:820px){.cartoes{grid-template-columns:1fr 1fr 1fr}}
+  .cartao{border:1px solid var(--linha);padding:26px;background:rgba(255,255,255,.4);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+  .cartao:hover{transform:translateY(-4px);box-shadow:0 22px 44px -34px rgba(27,18,12,.5);border-color:rgba(185,116,58,.5)}
+  .cartao h3{font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;font-family:var(--sans);font-weight:600;color:var(--cafe);margin-bottom:14px}
+  .cartao p{margin:0;font-size:.98rem}
+  .linha-hora{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--linha);color:rgba(27,18,12,.7);font-size:.95rem}
+  .linha-hora:last-child{border:0}
+  .linha-hora b{font-weight:600;color:var(--tinta)}
+
+  /* faq */
+  .faq{max-width:860px;margin-top:34px}
+  .faq details{border-bottom:1px solid var(--linha);padding:20px 0}
+  .faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-family:var(--serif);font-size:1.15rem}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--cafe);font-family:var(--sans);font-weight:600;transition:transform .3s ease}
+  .faq details[open] summary::after{content:"–"}
+  .faq p{margin:14px 0 0;color:rgba(27,18,12,.68);max-width:70ch}
+
+  /* cta final */
+  .final{background:var(--tinta);color:var(--creme)}
+  .final .wrap{display:grid;gap:36px;align-items:center}
+  @media(min-width:820px){.final .wrap{grid-template-columns:1.3fr .7fr}}
+  .final h2{color:var(--creme);font-weight:400}
+  .final p{color:rgba(247,241,230,.75);margin:0 0 26px}
+  .qr{background:var(--creme);padding:20px;text-align:center;color:var(--tinta)}
+  .qr img{width:170px;margin:0 auto 10px}
+  .qr p{margin:0;font-size:.8rem;color:rgba(27,18,12,.6)}
+
+  footer{padding-block:34px;font-size:.86rem;color:rgba(27,18,12,.55)}
+  .rodape{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+  .aviso{border-top:1px solid var(--linha);margin-top:20px;padding-top:16px;font-size:.8rem}
+
+  .zap{position:fixed;right:20px;bottom:20px;z-index:95;display:inline-flex;align-items:center;gap:10px;background:var(--tinta);color:var(--creme);text-decoration:none;padding:15px 22px;border-radius:999px;font-weight:600;font-size:.94rem;box-shadow:0 18px 36px -18px rgba(27,18,12,.85);transition:transform .2s ease}
+  .zap:hover{transform:translateY(-2px)}
+  @media(max-width:560px){.zap{right:14px;bottom:14px;padding:13px 18px}}
+
+  /* revelação */
+  .rev{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
+  .rev.entrou{opacity:1;transform:none}
+  .rev[data-d="1"]{transition-delay:.08s}.rev[data-d="2"]{transition-delay:.16s}.rev[data-d="3"]{transition-delay:.24s}
+  @media(prefers-reduced-motion:reduce){.rev{opacity:1!important;transform:none!important}html{scroll-behavior:auto}.faixa-trilho{animation:none}.hero-foto{transform:none!important}}
+</style>
 </head>
 <body>
-  <p>Abriendo la vista previa de Cafe Plaza…</p>
-  <p><a href="/portfolio/preview/cafe-plaza-specialty-coffee-cafe/">Continuar</a></p>
-  <script>location.replace('/portfolio/preview/cafe-plaza-specialty-coffee-cafe/');</script>
-</body>
-</html>
+
+<header class="topo" id="topo">
+  <div class="wrap topo-inner">
+    <div class="marca"><span class="marca-selo">C</span> Cafe Plaza Specialty Coffee</div>
+    <nav>
+      <a href="#menu">Menú</a><a href="#historia">El café</a><a href="#galeria">El lugar</a><a href="#horarios">Horarios</a><a href="#preguntas">Preguntas</a>
+    </nav>
+    <a class="btn btn-escuro" href="https://wa.me/59167401463?text=Hola%2C%20quiero%20pedir%20en%20Cafe%20Plaza%20Specialty%20Coffee">Pedir por WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <img class="hero-foto" id="heroFoto" src="img/hero.jpg" alt="Café de especialidad servido en la barra" width="1600" height="1067">
+    <div class="wrap hero-conteudo">
+      <span class="selo"><span class="ponto" id="ponto"></span><span id="estado">Abierto ahora</span></span>
+      <h1>Café de barrio,<br><em>tostado aquí</em></h1>
+      <p>Tres mesas, una barra y grano tostado en casa cada semana. El menú completo está acá, con precio y tiempo de preparación.</p>
+      <div class="hero-acoes">
+        <a class="btn btn-claro" href="https://wa.me/59167401463?text=Hola%2C%20quiero%20pedir%20en%20Cafe%20Plaza%20Specialty%20Coffee">Pedir por WhatsApp</a>
+        <a class="btn btn-linha" style="color:var(--creme);border-color:rgba(247,241,230,.45)" href="#menu">Ver el menú</a>
+      </div>
+    </div>
+    <a class="descer" href="#menu">Menú <span></span></a>
+  </section>
+
+  <div class="faixa-rolante" aria-hidden="true">
+    <div class="faixa-trilho">
+      <span>Tueste propio</span><span>Granos de altura</span><span>Métodos filtrados</span><span>Pastelería del día</span><span>Para llevar</span>
+      <span>Tueste propio</span><span>Granos de altura</span><span>Métodos filtrados</span><span>Pastelería del día</span><span>Para llevar</span>
+    </div>
+  </div>
+
+  <section id="menu">
+    <div class="wrap">
+      <span class="olho rev">Menú</span>
+      <h2 class="rev" data-d="1">Lo que hay hoy en la barra</h2>
+      <p class="intro rev" data-d="2">Precios en bolivianos, con el tiempo de preparación al lado. En la entrega final, estos ítems se reemplazan por los tuyos.</p>
+      <div class="abas rev" data-d="2" role="tablist"><button class="aba ativa" data-aba="cafes" role="tab" aria-selected="true">Cafés</button><button class="aba" data-aba="dulces" role="tab" aria-selected="false">Dulces</button><button class="aba" data-aba="salados" role="tab" aria-selected="false">Salados</button></div>
+      <div class="painel ativo" data-painel="cafes" role="tabpanel">
+        <article class="item"><div><h3>Espresso</h3><p>Doble, grano de la casa tostado aquí</p></div><span class="preco">Bs 12</span></article>
+        <article class="item"><div><h3>Cortado</h3><p>Espresso con un poco de leche vaporizada</p></div><span class="preco">Bs 15</span></article>
+        <article class="item"><div><h3>Flat white</h3><p>Doble ristretto y leche texturizada</p></div><span class="preco">Bs 18</span></article>
+        <article class="item"><div><h3>Cold brew</h3><p>12 horas de extracción en frío</p></div><span class="preco">Bs 20</span></article>
+        <article class="item"><div><h3>Filtrado V60</h3><p>Preparado al momento, grano del día</p></div><span class="preco">Bs 22</span></article>
+      </div>
+      <div class="painel" data-painel="dulces" role="tabpanel">
+        <article class="item"><div><h3>Croissant de mantequilla</h3><p>Horneado en la mañana</p></div><span class="preco">Bs 14</span></article>
+        <article class="item"><div><h3>Torta de zanahoria</h3><p>Con frosting de queso crema</p></div><span class="preco">Bs 18</span></article>
+        <article class="item"><div><h3>Alfajor de dulce de leche</h3><p>Receta de la casa</p></div><span class="preco">Bs 10</span></article>
+        <article class="item"><div><h3>Brownie</h3><p>Chocolate 70%, centro húmedo</p></div><span class="preco">Bs 16</span></article>
+      </div>
+      <div class="painel" data-painel="salados" role="tabpanel">
+        <article class="item"><div><h3>Tostada con palta</h3><p>Pan de masa madre, huevo opcional</p></div><span class="preco">Bs 22</span></article>
+        <article class="item"><div><h3>Sándwich de pollo</h3><p>Pan ciabatta y mayonesa de la casa</p></div><span class="preco">Bs 25</span></article>
+        <article class="item"><div><h3>Quiche del día</h3><p>Con ensalada pequeña</p></div><span class="preco">Bs 20</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="historia">
+    <div class="wrap split">
+      <img class="rev" src="img/story.jpg" alt="Barista preparando café filtrado" width="1000" height="1250">
+      <div>
+        <span class="olho rev">El café</span>
+        <h2 class="rev" data-d="1">De la finca a la taza,<br>sin apuro</h2>
+        <p class="intro rev" data-d="2">Trabajamos con grano de altura de Yungas y Chapare. Cada lote se tuesta en el local, en tandas pequeñas, y se deja reposar antes de moler.</p>
+        <ul class="lista-check rev" data-d="3">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Tueste propio.</b> Semanal, con la fecha anotada en cada bolsa.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Métodos filtrados.</b> V60 y prensa francesa preparados al momento.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Para llevar.</b> Pedís por WhatsApp y retirás en el horario que elijas.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria" style="padding-top:0">
+    <div class="wrap">
+      <span class="olho rev">El lugar</span>
+      <h2 class="rev" data-d="1">Tres mesas junto a la ventana</h2>
+      <div class="galeria">
+        <figure class="rev"><img src="img/g1.jpg" alt="Barra de espresso" loading="lazy" width="900" height="1200"></figure>
+        <figure class="rev" data-d="1"><img src="img/g2.jpg" alt="Latte art" loading="lazy" width="900" height="1200"></figure>
+        <figure class="rev" data-d="2"><img src="img/g3.jpg" alt="Granos de café" loading="lazy" width="900" height="1200"></figure>
+        <figure class="rev" data-d="3"><img src="img/hero.jpg" alt="Ambiente del café" loading="lazy" width="900" height="1200"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="horarios" style="padding-top:0">
+    <div class="wrap">
+      <span class="olho rev">Visita</span>
+      <h2 class="rev" data-d="1">Horarios y contacto</h2>
+      <div class="cartoes">
+        <article class="cartao rev"><h3>Horario</h3>
+          <div class="linha-hora"><span>Lunes a viernes</span><b>07:30 – 20:00</b></div>
+          <div class="linha-hora"><span>Sábado</span><b>08:00 – 18:00</b></div>
+          <div class="linha-hora"><span>Domingo</span><b>Cerrado</b></div>
+        </article>
+        <article class="cartao rev" data-d="1"><h3>Dónde</h3>
+          <p>Cochabamba, Bolivia</p>
+          <p style="margin-top:10px"><a class="btn btn-linha" style="min-height:42px;padding:0 18px;font-size:.86rem" href="https://www.google.com/maps/search/Cafe%20Plaza%20Specialty%20Coffee" rel="noopener">Abrir en Maps</a></p>
+        </article>
+        <article class="cartao rev" data-d="2"><h3>Pedidos</h3>
+          <p>Por WhatsApp, con retiro en la barra o envío dentro del barrio.</p>
+          <p style="margin-top:10px"><a class="btn btn-escuro" style="min-height:42px;padding:0 18px;font-size:.86rem" href="https://wa.me/59167401463?text=Hola%2C%20quiero%20pedir%20en%20Cafe%20Plaza%20Specialty%20Coffee">Escribir ahora</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="preguntas" style="padding-top:0">
+    <div class="wrap">
+      <span class="olho rev">Antes de venir</span>
+      <h2 class="rev" data-d="1">Preguntas frecuentes</h2>
+      <div class="faq">
+        <details class="rev"><summary>¿Tienen leche vegetal?</summary><p>Sí: avena y almendra, con costo aparte cuando aplica.</p></details>
+        <details class="rev" data-d="1"><summary>¿Hacen tortas por encargo?</summary><p>Sí, con 24 horas de anticipación y 50% de seña.</p></details>
+        <details class="rev" data-d="2"><summary>¿Hay Wi-Fi?</summary><p>Sí, y enchufes en las mesas junto a la ventana.</p></details>
+        <details class="rev" data-d="3"><summary>¿Formas de pago?</summary><p>Efectivo, tarjeta y QR Simple.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <div class="rev">
+        <h2>Pedí tu café<br>antes de llegar</h2>
+        <p>Escribinos con lo que querés y la hora. Tu pedido queda listo en la barra.</p>
+        <a class="btn btn-claro" href="https://wa.me/59167401463?text=Hola%2C%20quiero%20pedir%20en%20Cafe%20Plaza%20Specialty%20Coffee">Abrir WhatsApp</a>
+      </div>
+      <div class="qr rev" data-d="1">
+        <img src="qr.png" alt="Código QR para abrir el WhatsApp del café" width="170" height="170">
+        <p>Escaneá para chatear</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap rodape"><span>© 2026 Cafe Plaza Specialty Coffee · Cochabamba, Bolivia</span><span>Página hecha por Gabriel de Moura Pereira</span></div>
+  <div class="wrap"><p class="aviso">Demostración: ítems, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio.</p></div>
+</footer>
+
+<a class="zap" href="https://wa.me/59167401463?text=Hola%2C%20quiero%20pedir%20en%20Cafe%20Plaza%20Specialty%20Coffee" aria-label="Abrir WhatsApp">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-5.9-5.1c-.4-.7-.6-1.4-.4-2 .1-.4.5-1 .9-1.2.2-.1.5-.1.7 0 .2 0 .3.1.4.4l.6 1.5c.1.2 0 .4-.1.6l-.4.5c-.1.2-.2.3 0 .6.5.9 1.2 1.6 2.2 2.1.3.1.4.1.6-.1l.6-.7c.2-.2.3-.2.5-.1l1.4.7c.3.1.4.2.4.4 0 .2 0 .5-.1.9Z"/></svg>
+  WhatsApp
+</a>
+
+<script>
+(function(){
+  var topo = document.getElementById('topo');
+  var foto = document.getElementById('heroFoto');
+  var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // cabeçalho compacto + parallax leve
+  var ultimo = 0;
+  function aoRolar(){
+    var y = window.scrollY;
+    topo.classList.toggle('compacto', y > 40);
+    if (!reduz && foto && y < window.innerHeight) foto.style.transform = 'translate3d(0,' + (y * 0.18) + 'px,0) scale(1.06)';
+    ultimo = y;
+  }
+  window.addEventListener('scroll', aoRolar, { passive: true });
+  aoRolar();
+
+  // revelação
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('entrou'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('.rev').forEach(function(el){ io.observe(el); });
+
+  // abas do menu
+  var abas = document.querySelectorAll('.aba');
+  var paineis = document.querySelectorAll('.painel');
+  abas.forEach(function(b){
+    b.addEventListener('click', function(){
+      abas.forEach(function(x){ x.classList.remove('ativa'); x.setAttribute('aria-selected','false'); });
+      paineis.forEach(function(x){ x.classList.remove('ativo'); });
+      b.classList.add('ativa'); b.setAttribute('aria-selected','true');
+      var alvo = document.querySelector('[data-painel="' + b.dataset.aba + '"]');
+      if (alvo) alvo.classList.add('ativo');
+    });
+  });
+
+  // aberto/fechado agora
+  try {
+    var agora = new Date(), dia = agora.getDay(), h = agora.getHours() + agora.getMinutes()/60;
+    var aberto = (dia >= 1 && dia <= 5 && h >= 7.5 && h < 20) || (dia === 6 && h >= 8 && h < 18);
+    if (!aberto) {
+      document.getElementById('ponto').classList.add('fechado');
+      document.getElementById('estado').textContent = 'Cerrado ahora';
+    }
+  } catch (e) {}
+})();
+</script>
+</body></html>
