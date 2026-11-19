@@ -1,0 +1,28 @@
+﻿{
+  "negocio": "Cafe Plaza Specialty Coffee",
+  "whatsapp": "59167401463",
+  "titulo1": "Café de barrio,",
+  "titulo2": "tostado aquí",
+  "subtitulo": "Tres mesas, una barra y grano tostado en casa cada semana. El menú completo está acá, con precio y tiempo de preparación.",
+  "horario": { "lv": "07:30 – 20:00", "sab": "08:00 – 18:00", "dom": "Cerrado" },
+  "itens": {
+    "cafes": [
+      { "nome": "Espresso", "detalhe": "Doble, grano de la casa tostado aquí", "preco": "Bs 12" },
+      { "nome": "Cortado", "detalhe": "Espresso con un poco de leche vaporizada", "preco": "Bs 15" },
+      { "nome": "Flat white", "detalhe": "Doble ristretto y leche texturizada", "preco": "Bs 18" },
+      { "nome": "Cold brew", "detalhe": "12 horas de extracción en frío", "preco": "Bs 20" },
+      { "nome": "Filtrado V60", "detalhe": "Preparado al momento, grano del día", "preco": "Bs 22" }
+    ],
+    "dulces": [
+      { "nome": "Croissant de mantequilla", "detalhe": "Horneado en la mañana", "preco": "Bs 14" },
+      { "nome": "Torta de zanahoria", "detalhe": "Con frosting de queso crema", "preco": "Bs 18" },
+      { "nome": "Alfajor de dulce de leche", "detalhe": "Receta de la casa", "preco": "Bs 10" },
+      { "nome": "Brownie", "detalhe": "Chocolate 70%, centro húmedo", "preco": "Bs 16" }
+    ],
+    "salados": [
+      { "nome": "Tostada con palta", "detalhe": "Pan de masa madre, huevo opcional", "preco": "Bs 22" },
+      { "nome": "Sándwich de pollo", "detalhe": "Pan ciabatta y mayonesa de la casa", "preco": "Bs 25" },
+      { "nome": "Quiche del día", "detalhe": "Con ensalada pequeña", "preco": "Bs 20" }
+    ]
+  }
+}
