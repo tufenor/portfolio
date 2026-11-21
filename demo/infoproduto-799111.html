@@ -106,6 +106,13 @@
     transform: rotate(9deg); box-shadow: 0 1rem 2rem rgba(232, 93, 63, .25);
   }
 
+  /* Motion layer: gives the concept a contemporary, tactile feel without adding dependencies. */
+  .hero-visual { animation: visual-in .8s cubic-bezier(.2,.8,.2,1) both; }
+  .orbit { animation: orbit-breathe 9s ease-in-out infinite; }
+  .day-card { transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; animation: card-float 6s ease-in-out infinite; }
+  .day-card:hover { transform: rotate(0deg) translateY(-7px); box-shadow: 0 2rem 4rem rgba(24,32,27,.18); }
+  .stamp { animation: stamp-in .7s .35s cubic-bezier(.2,.8,.2,1) both; }
+
   .strip { border-block: 1px solid var(--line); background: var(--cream); }
   .strip .wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1.1rem 0; }
   .strip p { margin: 0; font-size: .88rem; color: var(--muted); display: flex; gap: .55rem; align-items: flex-start; }
@@ -119,7 +126,8 @@
   .section-head p { max-width: 33ch; margin: 0; color: var(--muted); font-size: .97rem; }
 
   .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .pain { border-top: 2px solid var(--ink); padding-top: 1rem; }
+  .pain { border-top: 2px solid var(--ink); padding-top: 1rem; transition: transform .25s ease, border-color .25s ease; }
+  .pain:hover { transform: translateY(-5px); border-color: var(--coral); }
   .pain span { font-family: Georgia, serif; font-size: 1.7rem; color: var(--muted); }
   .pain h3 { font-size: 1.25rem; margin: .65rem 0 .45rem; }
   .pain p { margin: 0; color: var(--muted); font-size: .93rem; }
@@ -131,8 +139,9 @@
   .modules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .module {
     border: 1px solid rgba(255, 250, 240, .19); border-radius: var(--radius); padding: 1.35rem;
-    background: rgba(255, 250, 240, .04);
+    background: rgba(255, 250, 240, .04); transition: transform .3s ease, background .3s ease, border-color .3s ease;
   }
+  .module:hover { transform: translateY(-6px); background: rgba(255,250,240,.09); border-color: rgba(242,164,143,.55); }
   .module-top { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
   .module .num { font-family: Georgia, serif; font-size: 2.1rem; color: #f2a48f; line-height: 1; }
   .module .tag { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: #c9d2ca; border: 1px solid rgba(255,255,255,.22); padding: .25rem .5rem; border-radius: 999px; }
@@ -141,7 +150,8 @@
   .module ul { margin: .8rem 0 0; padding-left: 1rem; color: #c2cbc3; font-size: .9rem; }
 
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; counter-reset: step; }
-  .step { background: var(--cream); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; }
+  .step { background: var(--cream); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; transition: transform .3s ease, box-shadow .3s ease; }
+  .step:hover { transform: translateY(-6px); box-shadow: 0 1.2rem 2.5rem rgba(24,32,27,.1); }
   .step::before { counter-increment: step; content: "0" counter(step); font-family: Georgia, serif; font-size: 1.9rem; color: var(--coral); }
   .step h3 { font-size: 1.25rem; margin: .6rem 0 .4rem; }
   .step p { margin: 0; color: var(--muted); font-size: .92rem; }
@@ -150,7 +160,8 @@
   .offer-note { background: var(--paper-2); border-radius: var(--radius); padding: 1.6rem; display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; }
   .offer-note h3 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
   .offer-note p { color: var(--muted); font-size: .95rem; margin: .8rem 0 0; }
-  .offer-card { background: var(--cream); border: 2px solid var(--ink); border-radius: 1.35rem; padding: clamp(1.5rem, 3vw, 2.2rem); box-shadow: .45rem .45rem 0 var(--moss); }
+  .offer-card { background: var(--cream); border: 2px solid var(--ink); border-radius: 1.35rem; padding: clamp(1.5rem, 3vw, 2.2rem); box-shadow: .45rem .45rem 0 var(--moss); transition: transform .3s ease, box-shadow .3s ease; }
+  .offer-card:hover { transform: translateY(-6px); box-shadow: .65rem .65rem 0 var(--coral); }
   .offer-card .label { font-size: .74rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--coral); }
   .price { display: flex; align-items: baseline; gap: .55rem; margin: .7rem 0 .3rem; }
   .price strong { font-family: Georgia, serif; font-size: clamp(2.7rem, 5vw, 4rem); line-height: 1; letter-spacing: -.04em; }
@@ -202,7 +213,11 @@
     .stamp { display: none; }
     .offer-card { box-shadow: .25rem .25rem 0 var(--moss); }
   }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+  @keyframes visual-in { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes orbit-breathe { 50% { transform: rotate(-4deg) scale(1.025); } }
+  @keyframes card-float { 0%,100% { transform: rotate(3deg) translateY(0); } 50% { transform: rotate(1deg) translateY(-7px); } }
+  @keyframes stamp-in { from { opacity: 0; transform: rotate(-12deg) scale(.75); } to { opacity: 1; transform: rotate(9deg) scale(1); } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn,.pain,.module,.step,.offer-card,.day-card { transition: none; animation: none; } .day-card { transform: rotate(3deg); } }
 </style>
 </head>
 <body>
