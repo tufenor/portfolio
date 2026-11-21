@@ -1,201 +1,338 @@
 <!doctype html>
 <html lang="es"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clinica dental DENTYX — Clínica dental</title>
+<title>Clinica dental DENTYX — Clínica dental en Cochabamba</title>
 <meta name="description" content="Clinica dental DENTYX: Consulta de evaluación, plan explicado por escrito y pago en cuotas acordado antes de empezar.">
-<meta name="theme-color" content="#0f6b74">
+<meta name="theme-color" content="#1b120c">
 <meta property="og:title" content="Clinica dental DENTYX"><meta property="og:description" content="Consulta de evaluación, plan explicado por escrito y pago en cuotas acordado antes de empezar."><meta property="og:image" content="img/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="img/hero.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23f7fbfc'/%3E%3Ctext x='50' y='70' font-size='54' font-family='Georgia' font-weight='bold' fill='%230f6b74' text-anchor='middle'%3EC%3C/text%3E%3C/svg%3E">
 <style>
-  :root{--ink:#f7fbfc;--ink2:#eaf4f6;--cream:#10262a;--muted:#5d6660;--gold:#0f6b74;--line:rgba(20,30,25,.12);--max:1160px}
+  :root{
+    --tinta:#1b120c; --tinta2:#241a12; --creme:#f7f1e6; --creme2:#efe5d5;
+    --cafe:#b9743a; --dourado:#d8a15f; --verde:#5c6b46;
+    --linha:rgba(27,18,12,.14);
+    --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,Segoe UI,Arial,sans-serif;
+    --max:1200px;
+  }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-  body{margin:0;background:var(--ink);color:var(--cream);font:16px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-  img{max-width:100%;display:block}a{color:inherit}
-  h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:600;letter-spacing:-.01em;line-height:1.12;margin:0}
-  .wrap{width:100%;max:var(--max);margin-inline:auto;padding-inline:clamp(18px,4vw,40px)}
-  .skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;background:var(--gold);color:#111;padding:10px 14px;border-radius:8px;z-index:200}
-  .pole{height:6px;background:repeating-linear-gradient(135deg,var(--gold) 0 12px,#ffffff 12px 24px,var(--gold) 24px 36px,#ffffff 36px 48px)}
-  header{position:sticky;top:0;z-index:80;background:color-mix(in srgb,var(--ink) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:70px}
-  .brand{display:flex;align-items:center;gap:12px;font-weight:700}
-  .mark{width:38px;height:38px;border-radius:10px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-family:Georgia,serif;font-size:19px}
-  nav{display:none;gap:26px;font-size:.92rem;color:var(--muted)}nav a{text-decoration:none}nav a:hover{color:var(--cream)}
-  @media (min-width:900px){nav{display:flex}}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:48px;padding:0 24px;border-radius:4px;font-weight:650;text-decoration:none;border:1px solid transparent;transition:transform .15s,background .2s,color .2s}
-  .btn:active{transform:translateY(1px)}.btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-  .btn-gold{background:var(--gold);color:#ffffff}.btn-gold:hover{filter:brightness(1.08)}
-  .btn-line{border-color:var(--line);color:var(--cream);background:transparent}.btn-line:hover{border-color:var(--gold);color:var(--gold)}
-  @media (max-width:680px){header .btn-gold{display:none}}
-  .hero{position:relative;isolation:isolate;min-height:min(86vh,740px);display:flex;align-items:flex-end;padding-block:clamp(40px,8vw,90px)}
-  .hero::before{content:"";position:absolute;inset:0;z-index:-2;background:url("img/hero.jpg") center 35%/cover no-repeat}
-  .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,15,18,.35),rgba(14,15,18,.72) 60%,var(--ink) 100%)}
-  .pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.3);background:rgba(14,15,18,.5);padding:7px 14px;border-radius:999px;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:#f7f2e7}
-  .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 4px rgba(74,222,128,.18)}
-  .dot.fechado{background:#f87171;box-shadow:0 0 0 4px rgba(248,113,113,.18)}
-  .hero h1{color:#fff;font-size:clamp(2.2rem,6vw,3.9rem);margin:18px 0 16px}
-  .hero p{font-size:clamp(1rem,1.6vw,1.2rem);color:#ece6da;max-width:48ch;margin:0 0 28px}
-  .acoes{display:flex;flex-wrap:wrap;gap:12px}
-  .hero-lista{display:flex;flex-wrap:wrap;gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.22);font-size:.9rem;color:#cfc7b8}
-  .hero-lista b{display:block;color:#fff;font-weight:600}
-  .hero .btn-line{color:#fff;border-color:rgba(255,255,255,.34)}
-  section{padding-block:clamp(46px,7vw,90px)}
-  .eyebrow{color:var(--gold);font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
-  h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin:10px 0 12px}
-  .sub{color:var(--muted);max-width:62ch;margin:0 0 34px}
-  .servicos{display:grid;gap:14px}
-  @media (min-width:820px){.servicos{grid-template-columns:1fr 1fr;gap:16px 22px}}
-  .servico{display:flex;align-items:center;gap:16px;background:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:18px 20px;transition:border-color .2s,transform .2s}
-  .servico:hover{border-color:var(--gold);transform:translateY(-2px)}
-  .servico-icone{flex:0 0 46px;height:46px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--gold)}
-  .servico-icone svg{width:22px;height:22px}
-  .servico-texto{flex:1}.servico-texto h3{font-size:1.06rem;margin-bottom:3px}
-  .servico-texto p{margin:0 0 6px;color:var(--muted);font-size:.9rem}
-  .servico-tempo{font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-  .servico-preco{font-family:Georgia,serif;color:var(--gold);font-size:1.15rem;white-space:nowrap}
-  .galeria{display:grid;gap:12px;grid-template-columns:1fr 1fr}
-  .galeria figure:first-child{grid-column:span 2}
-  .galeria figure:first-child img{aspect-ratio:16/9}
-  .galeria figure{position:relative;margin:0;overflow:hidden;border-radius:6px;background:#000}
-  .galeria img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;transition:transform .6s ease}
-  .galeria figure:hover img{transform:scale(1.05)}
-  .galeria figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 16px 12px;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:#f4efe6;background:linear-gradient(transparent,rgba(0,0,0,.75))}
-  .split{display:grid;gap:clamp(24px,4vw,48px);align-items:center}
-  @media (min-width:900px){.split{grid-template-columns:1fr 1fr}}
-  .split img{border-radius:6px;aspect-ratio:5/4;object-fit:cover}
-  .lista-check{list-style:none;margin:0;padding:0;display:grid;gap:14px}
-  .lista-check li{display:flex;gap:12px;color:var(--cream)}
-  .lista-check svg{flex:0 0 20px;color:var(--gold);margin-top:2px}
-  .passos{display:grid;gap:16px;counter-reset:p}
-  @media (min-width:820px){.passos{grid-template-columns:repeat(3,1fr)}}
-  .passo{border:1px solid var(--line);border-radius:6px;padding:22px;background:var(--ink2)}
-  .passo::before{counter-increment:p;content:"0" counter(p);display:block;font-family:Georgia,serif;font-size:1.6rem;color:var(--gold);margin-bottom:10px}
-  .passo h3{font-size:1.05rem;margin-bottom:6px}.passo p{margin:0;color:var(--muted);font-size:.93rem}
-  .faixa{background:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:clamp(24px,4vw,40px);display:grid;gap:26px}
-  @media (min-width:820px){.faixa{grid-template-columns:1.15fr .85fr;align-items:center}}
-  .horario-linha{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);color:var(--muted)}
-  .horario-linha:last-child{border:0}.horario-linha b{color:var(--cream);font-weight:600}
-  .faq{display:grid;gap:10px;max-width:820px}
-  .faq-item{background:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:16px 20px}
-  .faq-item summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
-  .faq-item summary::-webkit-details-marker{display:none}
-  .faq-item summary::after{content:"+";color:var(--gold);font-weight:700}
-  .faq-item[open] summary::after{content:"–"}.faq-item p{margin:12px 0 0;color:var(--muted)}
-  .cta-final{display:grid;gap:26px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:clamp(26px,4vw,44px);background:radial-gradient(600px 240px at 90% 0%,color-mix(in srgb,var(--gold) 16%,transparent),transparent 60%)}
-  @media (min-width:820px){.cta-final{grid-template-columns:1.2fr .8fr}}
-  .cta-final p{color:var(--muted);margin:0 0 22px}
-  .qr{background:#fff;border-radius:6px;padding:16px;text-align:center;color:#141414}
-  .qr img{width:150px;margin:0 auto 8px;image-rendering:pixelated}.qr p{margin:0;font-size:.8rem;color:#4b463d}
-  footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:.88rem}
-  .foot{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
-  .aviso{border:1px dashed var(--line);border-radius:6px;padding:10px 14px;font-size:.8rem;color:var(--muted);margin-top:18px}
-  .whats{position:fixed;right:18px;bottom:18px;z-index:90;display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#fff;text-decoration:none;padding:14px 20px;border-radius:999px;font-weight:700;box-shadow:0 18px 34px -16px rgba(0,0,0,.7)}
-  @media (max-width:560px){.whats{right:12px;bottom:12px;padding:13px 18px;font-size:.92rem}}
-</style><link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="movimento.css">
+  body{margin:0;background:var(--creme);color:var(--tinta);font:16.5px/1.7 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.02em;line-height:1.05;margin:0}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{max:var(--max);width:100%;margin-inline:auto;padding-inline:clamp(20px,4vw,48px)}
+  .wrap{max-width:var(--max)}
+
+  /* ---------- topo ---------- */
+  .topo{position:fixed;top:0;left:0;right:0;z-index:90;transition:background .35s ease,box-shadow .35s ease,padding .35s ease;padding:18px 0}
+  .topo.compacto{background:rgba(247,241,230,.92);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--linha);padding:10px 0}
+  .topo-inner{display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .marca{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:1.05rem;letter-spacing:-.01em}
+  .marca-selo{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--tinta);display:grid;place-items:center;font-size:15px;font-weight:600}
+  nav{display:none;gap:30px;font-size:.9rem;letter-spacing:.02em}
+  nav a{text-decoration:none;position:relative;padding:4px 0;color:rgba(27,18,12,.78)}
+  nav a::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:0;background:var(--cafe);transition:width .35s cubic-bezier(.2,.7,.2,1)}
+  nav a:hover::after{width:100%}
+  @media(min-width:900px){nav{display:flex}}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 26px;border-radius:2px;font-weight:600;font-size:.95rem;letter-spacing:.01em;text-decoration:none;border:1px solid transparent;transition:transform .2s ease,background .3s ease,color .3s ease,box-shadow .3s ease}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:focus-visible{outline:3px solid var(--cafe);outline-offset:3px}
+  /* no topo o cabeçalho fica sobre a foto: texto claro; ao rolar, escuro */
+  .topo:not(.compacto) .marca,.topo:not(.compacto) nav a{color:var(--creme)}
+  .topo:not(.compacto) .marca-selo{border-color:rgba(247,241,230,.7);color:var(--creme)}
+  .topo:not(.compacto) nav a::after{background:var(--dourado)}
+  .topo:not(.compacto) .btn-escuro{background:var(--creme);color:var(--tinta)}
+  .btn-escuro{background:var(--tinta);color:var(--creme)}
+  .btn-escuro:hover{box-shadow:0 14px 28px -18px rgba(27,18,12,.9)}
+  .btn-linha{border-color:rgba(27,18,12,.4)}
+  .btn-linha:hover{border-color:var(--tinta);background:var(--tinta);color:var(--creme)}
+  .btn-claro{background:var(--creme);color:var(--tinta)}
+  @media(max-width:700px){.topo .btn{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding-bottom:clamp(40px,7vw,80px);isolation:isolate;overflow:hidden;background:var(--tinta)}
+  .hero-foto{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:center 40%;will-change:transform}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(27,18,12,.35) 0%,rgba(27,18,12,.55) 45%,rgba(27,18,12,.92) 100%)}
+  .hero-conteudo{color:var(--creme);max-width:820px}
+  .selo{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(247,241,230,.35);padding:8px 16px;border-radius:999px;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--creme2)}
+  .selo .ponto{width:7px;height:7px;border-radius:50%;background:#7cc47f;box-shadow:0 0 0 0 rgba(124,196,127,.5);animation:pulso 2.8s ease-in-out infinite}
+  .selo .ponto.fechado{background:#e08a6a}
+  @keyframes pulso{0%,100%{box-shadow:0 0 0 0 rgba(124,196,127,.45)}50%{box-shadow:0 0 0 8px rgba(124,196,127,0)}}
+  .hero h1{font-size:clamp(2.6rem,7.4vw,5rem);margin:26px 0 20px;font-weight:400;letter-spacing:-.03em}
+  .hero h1 em{font-style:italic;color:var(--dourado)}
+  .hero p{font-size:clamp(1.02rem,1.7vw,1.22rem);color:rgba(247,241,230,.86);max-width:52ch;margin:0 0 34px}
+  .hero-acoes{display:flex;flex-wrap:wrap;gap:14px}
+  .descer{position:absolute;bottom:28px;right:clamp(20px,4vw,48px);display:flex;align-items:center;gap:10px;color:rgba(247,241,230,.7);font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
+  .descer span{display:block;width:1px;height:38px;background:linear-gradient(rgba(247,241,230,.7),transparent);animation:desce 2.2s ease-in-out infinite}
+  @keyframes desce{0%,100%{transform:translateY(-6px);opacity:.4}50%{transform:translateY(6px);opacity:1}}
+
+  /* ---------- faixa rolante ---------- */
+  .faixa-rolante{background:var(--tinta);color:var(--creme2);border-top:1px solid rgba(247,241,230,.12);border-bottom:1px solid rgba(247,241,230,.12);overflow:hidden;padding:14px 0}
+  .faixa-trilho{display:flex;gap:48px;white-space:nowrap;animation:rola 34s linear infinite;width:max-content}
+  .faixa-trilho span{font-family:var(--serif);font-size:clamp(1rem,1.6vw,1.25rem);letter-spacing:.04em;opacity:.85}
+  .faixa-trilho span::after{content:"·";margin-left:48px;color:var(--cafe)}
+  @keyframes rola{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- seções ---------- */
+  section{padding-block:clamp(56px,8vw,110px)}
+  .olho{font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cafe);font-weight:600}
+  h2{font-size:clamp(1.9rem,4.2vw,3rem);margin:14px 0 18px;font-weight:400}
+  .intro{color:rgba(27,18,12,.68);max-width:62ch;font-size:1.03rem}
+
+  /* menu com abas */
+  .abas{display:flex;gap:10px;flex-wrap:wrap;margin:34px 0 26px;border-bottom:1px solid var(--linha);padding-bottom:0}
+  .aba{background:none;border:0;padding:12px 4px;margin-right:26px;font:inherit;font-weight:600;font-size:.95rem;color:rgba(27,18,12,.5);cursor:pointer;position:relative;transition:color .25s ease}
+  .aba::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--cafe);transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .aba.ativa{color:var(--tinta)}
+  .aba.ativa::after{transform:scaleX(1)}
+  .painel{display:none;animation:entra .45s ease}
+  .painel.ativo{display:block}
+  @keyframes entra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .item{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid var(--linha)}
+  .item h3{font-size:1.12rem;font-weight:600;margin-bottom:2px}
+  .item p{margin:0;color:rgba(27,18,12,.6);font-size:.92rem}
+  .preco{font-family:var(--serif);font-size:1.15rem;color:var(--cafe);white-space:nowrap}
+
+  /* história */
+  .split{display:grid;gap:clamp(28px,5vw,64px);align-items:center}
+  @media(min-width:900px){.split{grid-template-columns:1.05fr .95fr}}
+  .split img{aspect-ratio:4/5;object-fit:cover;width:100%}
+  .lista-check{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:16px}
+  .lista-check li{display:flex;gap:14px;font-size:.98rem}
+  .lista-check svg{flex:0 0 18px;margin-top:5px;color:var(--cafe)}
+
+  /* galeria */
+  .galeria{display:grid;gap:14px;grid-template-columns:repeat(2,1fr);margin-top:38px}
+  @media(min-width:820px){.galeria{grid-template-columns:repeat(4,1fr)}}
+  .galeria figure{margin:0;overflow:hidden;background:#000}
+  .galeria img{width:100%;height:100%;object-fit:cover;aspect-ratio:3/4;transition:transform 1s cubic-bezier(.2,.7,.2,1),filter .6s ease}
+  .galeria figure:hover img{transform:scale(1.06);filter:saturate(1.1)}
+
+  /* horários e contato */
+  .cartoes{display:grid;gap:18px;margin-top:36px}
+  @media(min-width:820px){.cartoes{grid-template-columns:1fr 1fr 1fr}}
+  .cartao{border:1px solid var(--linha);padding:26px;background:rgba(255,255,255,.4);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+  .cartao:hover{transform:translateY(-4px);box-shadow:0 22px 44px -34px rgba(27,18,12,.5);border-color:rgba(185,116,58,.5)}
+  .cartao h3{font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;font-family:var(--sans);font-weight:600;color:var(--cafe);margin-bottom:14px}
+  .cartao p{margin:0;font-size:.98rem}
+  .linha-hora{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--linha);color:rgba(27,18,12,.7);font-size:.95rem}
+  .linha-hora:last-child{border:0}
+  .linha-hora b{font-weight:600;color:var(--tinta)}
+
+  /* faq */
+  .faq{max-width:860px;margin-top:34px}
+  .faq details{border-bottom:1px solid var(--linha);padding:20px 0}
+  .faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-family:var(--serif);font-size:1.15rem}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--cafe);font-family:var(--sans);font-weight:600;transition:transform .3s ease}
+  .faq details[open] summary::after{content:"–"}
+  .faq p{margin:14px 0 0;color:rgba(27,18,12,.68);max-width:70ch}
+
+  /* cta final */
+  .final{background:var(--tinta);color:var(--creme)}
+  .final .wrap{display:grid;gap:36px;align-items:center}
+  @media(min-width:820px){.final .wrap{grid-template-columns:1.3fr .7fr}}
+  .final h2{color:var(--creme);font-weight:400}
+  .final p{color:rgba(247,241,230,.75);margin:0 0 26px}
+  .qr{background:var(--creme);padding:20px;text-align:center;color:var(--tinta)}
+  .qr img{width:170px;margin:0 auto 10px}
+  .qr p{margin:0;font-size:.8rem;color:rgba(27,18,12,.6)}
+
+  footer{padding-block:34px;font-size:.86rem;color:rgba(27,18,12,.55)}
+  .rodape{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+  .aviso{border-top:1px solid var(--linha);margin-top:20px;padding-top:16px;font-size:.8rem}
+
+  .zap{position:fixed;right:20px;bottom:20px;z-index:95;display:inline-flex;align-items:center;gap:10px;background:var(--tinta);color:var(--creme);text-decoration:none;padding:15px 22px;border-radius:999px;font-weight:600;font-size:.94rem;box-shadow:0 18px 36px -18px rgba(27,18,12,.85);transition:transform .2s ease}
+  .zap:hover{transform:translateY(-2px)}
+  @media(max-width:560px){.zap{right:14px;bottom:14px;padding:13px 18px}}
+
+  /* ---------- logo ---------- */
+  .logo{width:44px;height:44px;flex:0 0 44px}
+  .marca-nome{font-family:var(--serif);font-size:1.06rem;letter-spacing:-.015em;white-space:nowrap}
+  @media(max-width:420px){.marca-nome{display:none}.logo{width:40px;height:40px}}
+
+  /* ---------- menu mobile ---------- */
+  .menu-btn{display:none;background:none;border:0;padding:10px;cursor:pointer;flex-direction:column;gap:5px;border-radius:6px}
+  .menu-btn span{display:block;width:24px;height:2px;background:var(--creme);transition:transform .3s ease,opacity .2s ease}
+  .topo.compacto .menu-btn span{background:var(--tinta)}
+  .menu-btn:focus-visible{outline:3px solid var(--cafe);outline-offset:2px}
+  @media(max-width:899px){
+    .menu-btn{display:flex}
+    .menu{display:flex;position:fixed;inset:0;flex-direction:column;justify-content:center;align-items:center;gap:8px;background:rgba(27,18,12,.97);transform:translateY(-100%);opacity:0;pointer-events:none;transition:transform .4s cubic-bezier(.2,.7,.2,1),opacity .3s ease;z-index:85}
+    .menu.aberto{transform:none;opacity:1;pointer-events:auto}
+    .menu a{color:var(--creme)!important;font-size:1.5rem;font-family:var(--serif);padding:14px 0}
+  }
+
+  /* ---------- tipografia: alinhamento ---------- */
+  h1,h2,h3{text-wrap:balance}
+  .hero p,.intro,.cartao p,.faq p{text-wrap:pretty}
+  h2{max-width:22ch}
+  .hero h1{max-width:18ch}
+  .item h3,.linha-hora,.preco{font-variant-numeric:tabular-nums}
+  .item{gap:16px}
+  .item>div{min-width:0}
+  .cartao{display:flex;flex-direction:column}
+  .cartao p{max-width:34ch}
+
+  /* ---------- mobile ---------- */
+  @media(max-width:560px){
+    body{font-size:16px}
+    .hero{min-height:92svh;padding-bottom:clamp(28px,8vw,48px)}
+    .hero h1{font-size:clamp(2.1rem,11vw,3rem);line-height:1.06}
+    .hero p{font-size:1rem;margin-bottom:26px}
+    .selo{font-size:.66rem;padding:7px 13px}
+    .btn{min-height:48px;width:100%;max-width:320px}
+    .descer{display:none}
+    .faixa-rolante{padding:10px 0}
+    .faixa-trilho span{font-size:.95rem}
+    .abas{overflow-x:auto;scrollbar-width:none;margin:24px -20px 20px;padding:0 20px}
+    .abas::-webkit-scrollbar{display:none}
+    .aba{white-space:nowrap;margin-right:20px;padding:12px 0}
+    .item{padding:15px 0;gap:12px}
+    .item h3{font-size:1.02rem}
+    .item p{font-size:.88rem}
+    .preco{font-size:1.05rem}
+    .cartoes{gap:14px}
+    .cartao{padding:20px}
+    .galeria{gap:10px}
+    .split img{aspect-ratio:1/1}
+    h2{max-width:100%}
+    section{padding-block:clamp(40px,9vw,64px)}
+  }
+  @media(max-width:360px){.hero h1{font-size:2rem}.marca-nome{display:none}}
+  /* revelação */
+  .rev{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1)}
+  .rev.entrou{opacity:1;transform:none}
+  .rev[data-d="1"]{transition-delay:.08s}.rev[data-d="2"]{transition-delay:.16s}.rev[data-d="3"]{transition-delay:.24s}
+  @media(prefers-reduced-motion:reduce){.rev{opacity:1!important;transform:none!important}html{scroll-behavior:auto}.faixa-trilho{animation:none}.hero-foto{transform:none!important}}
+  .item{align-items:center}
+  .item-foto{flex:0 0 72px;width:72px;height:72px;overflow:hidden;border-radius:4px;background:#e8dccb}
+  .item-foto img{width:100%;height:100%;object-fit:cover}
+
+  /* extras do template compartilhado */
+  .tempo{display:block;margin-top:2px;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(27,18,12,.42)}
+  .item{align-items:center}
+  .item > div{flex:1;min-width:0}
+</style>
 </head>
 <body>
-<a class="skip" href="#servicios">Saltar a servicios</a>
-<div class="pole"></div>
-<header><div class="wrap top">
-  <div class="brand"><span class="mark">C</span> Clinica dental DENTYX</div>
-  <nav aria-label="Secciones"><a href="#servicios">Servicios</a><a href="#galeria">La clínica</a><a href="#como">Cómo funciona</a><a href="#horarios">Horarios</a><a href="#preguntas">Preguntas</a></nav>
-  <a class="btn btn-gold" href="https://wa.me/59172793493?text=Hola%2C%20quiero%20agendar%20una%20evaluaci%C3%B3n%20en%20Clinica%20dental%20DENTYX" rel="noopener">Agendar evaluación</a>
-</div></header>
+<header class="topo" id="topo">
+  <div class="wrap topo-inner">
+    <a class="marca" href="#inicio"><img class="logo" src="img/logo.svg" alt="" width="44" height="44"><span class="marca-nome">Clinica dental DENTYX</span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav id="menuMobile" class="menu"><a href="#menu">Menú</a><a href="#historia">Clínica</a><a href="#horarios">Horarios</a><a href="#preguntas">Preguntas</a></nav>
+    <a class="btn btn-escuro" href="https://wa.me/59172793493?text=Hola%2C%20quiero%20consultar%20en%20Clinica%20dental%20DENTYX">Escribir por WhatsApp</a>
+  </div>
+</header>
 <main>
-  <section class="hero"><div class="wrap">
-    <span class="pill"><span class="dot" id="status-dot"></span><span id="status-txt">Abierto ahora</span></span>
-    <h1>Diagnóstico primero,<br>tratamiento después</h1>
-    <p>Consulta de evaluación, plan explicado por escrito y pago en cuotas acordado antes de empezar.</p>
-    <div class="acoes">
-      <a class="btn btn-gold" href="https://wa.me/59172793493?text=Hola%2C%20quiero%20agendar%20una%20evaluaci%C3%B3n%20en%20Clinica%20dental%20DENTYX" rel="noopener">Agendar evaluación</a>
-      <a class="btn btn-line" href="#servicios">Ver servicios y precios</a>
+  <section class="hero" id="inicio">
+    <img class="hero-foto" id="heroFoto" src="img/hero.jpg" alt="" width="1600" height="1067">
+    <div class="wrap hero-conteudo">
+      <span class="selo"><span class="ponto" id="ponto"></span><span id="estado">Abierto ahora</span></span>
+      <h1>Diagnóstico primero,<br><em>tratamiento después</em></h1>
+      <p>Consulta de evaluación, plan explicado por escrito y pago en cuotas acordado antes de empezar.</p>
+      <div class="hero-acoes">
+        <a class="btn btn-claro" href="https://wa.me/59172793493?text=Hola%2C%20quiero%20consultar%20en%20Clinica%20dental%20DENTYX">Escribir por WhatsApp</a>
+        <a class="btn btn-linha" style="color:var(--creme);border-color:rgba(247,241,230,.45)" href="#menu">Ver precios</a>
+      </div>
     </div>
-    <div class="hero-lista"><div><b>Bs 80</b>Evaluación</div><div><b>Plan</b>Por escrito</div><div><b>Urgencia</b>Mismo día</div></div>
+    <a class="descer" href="#menu">Menú <span></span></a>
+  </section>
+  <div class="faixa-rolante" aria-hidden="true"><div class="faixa-trilho"><span>Diagnóstico primero</span><span>Plan por escrito</span><span>Cuotas acordadas</span><span>Urgencia el mismo día</span><span>Esterilización</span><span>Diagnóstico primero</span><span>Plan por escrito</span><span>Cuotas acordadas</span><span>Urgencia el mismo día</span><span>Esterilización</span></div></div>
+  <section id="menu"><div class="wrap">
+    <span class="olho rev">Clínica dental</span>
+    <h2 class="rev" data-d="1">Precios claros, sin sorpresa</h2>
+    <p class="intro rev" data-d="2">En la entrega final estos ítems se reemplazan por los tuyos, con tus precios y tus fotos.</p>
+    <div class="abas rev" role="tablist"><button class="aba ativa" data-aba="0">Consultas</button><button class="aba" data-aba="1">Tratamientos</button><button class="aba" data-aba="2">Estética</button></div>
+    <div class="painel ativo" data-painel="0">
+        <article class="item"><div><h3>Consulta y diagnóstico</h3><p>Evaluación completa y plan</p><span class="tempo">30 min</span></div><span class="preco">Bs 80</span></article>
+        <article class="item"><div><h3>Limpieza dental</h3><p>Profilaxis y orientación</p><span class="tempo">40 min</span></div><span class="preco">Bs 180</span></article>
+      </div>
+      <div class="painel" data-painel="1">
+        <article class="item"><div><h3>Empaste</h3><p>Restauración en resina</p><span class="tempo">45 min</span></div><span class="preco">Bs 220</span></article>
+        <article class="item"><div><h3>Extracción simple</h3><p>Con anestesia local</p><span class="tempo">40 min</span></div><span class="preco">Bs 200</span></article>
+        <article class="item"><div><h3>Ortodoncia</h3><p>Control mensual</p><span class="tempo">mensual</span></div><span class="preco">Bs 350</span></article>
+      </div>
+      <div class="painel" data-painel="2">
+        <article class="item"><div><h3>Blanqueamiento</h3><p>En consultorio, con control</p><span class="tempo">1 h</span></div><span class="preco">Bs 450</span></article>
+        <article class="item"><div><h3>Carillas</h3><p>Por pieza, evaluación previa</p><span class="tempo">a evaluar</span></div><span class="preco">Bs 900</span></article>
+      </div>
   </div></section>
-  <section id="servicios"><div class="wrap">
-    <span class="eyebrow">Servicios</span><h2>Servicios y precios</h2>
-    <p class="sub">Lista completa con lo que incluye cada servicio y cuánto tarda. En la entrega final, estos ítems se reemplazan por los tuyos.</p>
-    <div class="servicos">
-        <article class="servico">
-          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4c3 0 3 2 5 2s2-2 5-2 3 4 2 8c-.7 3-2 6-3.5 6-1.3 0-1.5-3-3.5-3s-2.2 3-3.5 3C7 18 5.7 15 5 12 4 8 5 4 7 4z"/></svg></span>
-          <div class="servico-texto"><h3>Consulta y diagnóstico</h3><p>Evaluación completa y plan de tratamiento</p><span class="servico-tempo">30 min</span></div>
-          <span class="servico-preco">Bs 80</span>
-        </article>
-        <article class="servico">
-          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="3" width="8" height="10" rx="2"/><path d="M12 13v8M9 21h6"/></svg></span>
-          <div class="servico-texto"><h3>Limpieza dental</h3><p>Profilaxis y orientación de higiene</p><span class="servico-tempo">40 min</span></div>
-          <span class="servico-preco">Bs 180</span>
-        </article>
-        <article class="servico">
-          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4c3 0 3 2 5 2s2-2 5-2 3 4 2 8c-.7 3-2 6-3.5 6-1.3 0-1.5-3-3.5-3s-2.2 3-3.5 3C7 18 5.7 15 5 12 4 8 5 4 7 4z"/></svg></span>
-          <div class="servico-texto"><h3>Empaste</h3><p>Restauración en resina</p><span class="servico-tempo">45 min</span></div>
-          <span class="servico-preco">Bs 220</span>
-        </article>
-        <article class="servico">
-          <span class="servico-icone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.6 6.4.8-4.7 4.3 1.3 6.3L12 17l-5.6 3 1.3-6.3L3 9.4l6.4-.8z"/></svg></span>
-          <div class="servico-texto"><h3>Blanqueamiento</h3><p>En consultorio, sesión con control</p><span class="servico-tempo">1 h</span></div>
-          <span class="servico-preco">Bs 450</span>
-        </article></div>
-  </div></section>
-  <section id="galeria"><div class="wrap">
-    <span class="eyebrow">La clínica</span><h2>El lugar</h2>
-    <p class="sub">Consultorio equipado, esterilización y sala de espera. Nada empieza sin que entiendas el plan.</p>
-    <div class="galeria">
-      <figure><img src="img/g1.jpg" alt="Consultorio" loading="lazy" width="1000" height="750"><figcaption>Consultorio</figcaption></figure>
-      <figure><img src="img/g2.jpg" alt="Radiografía" loading="lazy" width="1000" height="750"><figcaption>Radiografía</figcaption></figure>
-      <figure><img src="img/g3.jpg" alt="Esterilización" loading="lazy" width="1000" height="750"><figcaption>Esterilización</figcaption></figure>
-    </div>
-  </div></section>
-  <section><div class="wrap split">
-    <img src="img/local.jpg" alt="Interior de Clinica dental DENTYX" loading="lazy" width="1000" height="800">
-    <div><span class="eyebrow">Cómo trabajamos</span><h2>Cómo funciona la atención</h2>
-      <ul class="lista-check"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Diagnóstico primero.</b> La evaluación muestra qué pasa y qué opciones hay, antes de cualquier procedimiento.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Plan por escrito.</b> Orden de los tratamientos, plazo y valor de cada etapa.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Cuotas acordadas.</b> Se combina antes de empezar, sin sorpresa al final.</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Urgencia con espacio.</b> Dolor agudo tiene espacio el mismo día; avisá por WhatsApp.</span></li></ul></div>
-  </div></section>
-  <section id="como"><div class="wrap">
-    <span class="eyebrow">Paso a paso</span><h2>Cómo funciona</h2>
-    <p class="sub">Sin app, sin registro y sin intermediario: hablás directo con el negocio por WhatsApp.</p>
-    <div class="passos"><article class="passo"><h3>Agendás la evaluación</h3><p>Primera consulta para ver qué necesitás.</p></article><article class="passo"><h3>Recibís el plan</h3><p>Orden de tratamientos, plazo y valor.</p></article><article class="passo"><h3>Empezás cuando quieras</h3><p>Cuotas acordadas antes de iniciar.</p></article></div>
-  </div></section>
-  <section id="horarios"><div class="wrap">
-    <span class="eyebrow">Visita</span><h2>Horarios y ubicación</h2>
-    <div class="faixa">
-      <div><div class="horario-linha"><span>Lunes a viernes</span><b>08:30 – 19:00</b></div><div class="horario-linha"><span>Sábado</span><b>08:30 – 12:30</b></div><div class="horario-linha"><span>Domingo</span><b>Cerrado</b></div><div class="horario-linha"><span>Contacto</span><b>WhatsApp</b></div></div>
-      <div><p style="color:var(--muted);margin:0 0 16px">Cochabamba, Bolivia. Mandá mensaje y te paso la dirección exacta.</p>
-      <a class="btn btn-line" href="https://www.google.com/maps/search/Clinica%20dental%20DENTYX" rel="noopener">Abrir en Google Maps</a></div>
+  <section id="historia"><div class="wrap split">
+    <img class="rev" src="img/story.jpg" alt="" width="1000" height="1250">
+    <div>
+      <span class="olho rev">Clínica</span>
+      <h2 class="rev" data-d="1">Nada empieza sin que entiendas el plan</h2>
+      <p class="intro rev" data-d="2">La primera consulta sirve para ver qué pasa y qué opciones hay. Después recibís el plan por escrito: orden de los tratamientos, plazo y valor de cada etapa.</p>
+      <ul class="lista-check rev" data-d="3"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Diagnóstico primero.</b> La evaluación muestra qué pasa antes de cualquier procedimiento.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Plan por escrito.</b> Orden, plazo y valor de cada etapa.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Cuotas acordadas.</b> Se combina antes de empezar.</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Urgencia con espacio.</b> Dolor agudo tiene espacio el mismo día.</span></li></ul>
     </div>
   </div></section>
-  <section id="preguntas"><div class="wrap">
-    <span class="eyebrow">Antes de escribir</span><h2>Preguntas frecuentes</h2>
-    <div class="faq"><details class="faq-item"><summary>¿Trabajan con seguro?</summary><p>Consultá tu seguro antes de agendar; no todos están cubiertos.</p></details><details class="faq-item"><summary>¿Se puede pagar en cuotas?</summary><p>Sí, con tarjeta o acuerdo directo según el tratamiento.</p></details><details class="faq-item"><summary>¿Atienden urgencias?</summary><p>Hay espacio para dolor agudo; avisá por WhatsApp.</p></details><details class="faq-item"><summary>¿Atienden niños?</summary><p>Sí, desde el cambio de dientes.</p></details></div>
+  <section id="horarios" style="padding-top:0"><div class="wrap">
+    <span class="olho rev">Visita</span><h2 class="rev" data-d="1">Horarios y contacto</h2>
+    <div class="cartoes">
+      <article class="cartao rev"><h3>Horario</h3><div class="linha-hora"><span>Lunes a viernes</span><b>08:30 – 19:00</b></div>
+          <div class="linha-hora"><span>Sábado</span><b>08:30 – 12:30</b></div>
+          <div class="linha-hora"><span>Domingo</span><b>Cerrado</b></div></article>
+      <article class="cartao rev" data-d="1"><h3>Dónde</h3><p>Cochabamba, Bolivia</p>
+        <p style="margin-top:10px"><a class="btn btn-linha" style="min-height:42px;padding:0 18px;font-size:.86rem" href="https://www.google.com/maps/search/Clinica%20dental%20DENTYX" rel="noopener">Abrir en Maps</a></p></article>
+      <article class="cartao rev" data-d="2"><h3>Contacto</h3><p>Por WhatsApp, con respuesta en el horario de atención.</p>
+        <p style="margin-top:10px"><a class="btn btn-escuro" style="min-height:42px;padding:0 18px;font-size:.86rem" href="https://wa.me/59172793493?text=Hola%2C%20quiero%20consultar%20en%20Clinica%20dental%20DENTYX">Escribir ahora</a></p></article>
+    </div>
   </div></section>
-  <section><div class="wrap"><div class="cta-final">
-    <div><h2>Agendar evaluación</h2><p>Respondemos dentro del horario de atención. Escribí qué necesitás y para cuándo.</p>
-    <a class="btn btn-gold" href="https://wa.me/59172793493?text=Hola%2C%20quiero%20agendar%20una%20evaluaci%C3%B3n%20en%20Clinica%20dental%20DENTYX" rel="noopener">Abrir WhatsApp</a></div>
-    <div class="qr"><img src="qr.png" alt="Código QR para abrir el WhatsApp" width="150" height="150"><p>Escaneá para chatear</p></div>
-  </div></div></section>
+  <section id="preguntas" style="padding-top:0"><div class="wrap">
+    <span class="olho rev">Antes de escribir</span><h2 class="rev" data-d="1">Preguntas frecuentes</h2>
+    <div class="faq"><details class="rev"><summary>¿Trabajan con seguro?</summary><p>Consultá tu seguro antes de agendar; no todos están cubiertos.</p></details>
+        <details class="rev"><summary>¿Se puede pagar en cuotas?</summary><p>Sí, con tarjeta o acuerdo directo.</p></details>
+        <details class="rev"><summary>¿Atienden urgencias?</summary><p>Hay espacio para dolor agudo; avisá por WhatsApp.</p></details>
+        <details class="rev"><summary>¿Atienden niños?</summary><p>Sí, desde el cambio de dientes.</p></details></div>
+  </div></section>
+  <section class="final"><div class="wrap">
+    <div class="rev"><h2>Escribinos<br>y te respondemos hoy</h2>
+      <p>Contanos qué necesitás y en qué horario te queda cómodo.</p>
+      <a class="btn btn-claro" href="https://wa.me/59172793493?text=Hola%2C%20quiero%20consultar%20en%20Clinica%20dental%20DENTYX">Abrir WhatsApp</a></div>
+    <div class="qr rev" data-d="1"><img src="qr.png" alt="Código QR" width="170" height="170"><p>Escaneá para chatear</p></div>
+  </div></section>
 </main>
-<footer>
-  <div class="wrap foot"><span>© 2026 Clinica dental DENTYX · Cochabamba, Bolivia</span><span>Página hecha por Gabriel de Moura Pereira</span></div>
-  <div class="wrap"><p class="aviso">Demostración: servicios, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio.</p></div>
-</footer>
-<a class="whats" href="https://wa.me/59172793493?text=Hola%2C%20quiero%20agendar%20una%20evaluaci%C3%B3n%20en%20Clinica%20dental%20DENTYX" rel="noopener" aria-label="Abrir WhatsApp">
+<footer><div class="wrap rodape"><span>© 2026 Clinica dental DENTYX · Cochabamba, Bolivia</span><span>Página hecha por Gabriel de Moura Pereira · +591 62709599</span></div>
+<div class="wrap"><p class="aviso">Demostración: ítems, precios, horarios e imágenes son de referencia. En la entrega se reemplazan por los datos y las fotos reales del negocio.</p></div></footer>
+<a class="zap" href="https://wa.me/59172793493?text=Hola%2C%20quiero%20consultar%20en%20Clinica%20dental%20DENTYX" aria-label="Abrir WhatsApp">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-5.9-5.1c-.4-.7-.6-1.4-.4-2 .1-.4.5-1 .9-1.2.2-.1.5-.1.7 0 .2 0 .3.1.4.4l.6 1.5c.1.2 0 .4-.1.6l-.4.5c-.1.2-.2.3 0 .6.5.9 1.2 1.6 2.2 2.1.3.1.4.1.6-.1l.6-.7c.2-.2.3-.2.5-.1l1.4.7c.3.1.4.2.4.4 0 .2 0 .5-.1.9Z"/></svg>
   WhatsApp
 </a>
 <script>
-  (function(){
-    try{
-      var h = new Date().getHours(), dia = new Date().getDay();
-      var faixa = "08:30–19:00".split("–");
-      var ini = parseInt(faixa[0], 10), fim = parseInt((faixa[1] || faixa[0]).split(":")[0], 10);
-      var aberto = dia !== 0 && h >= ini && h < fim;
-      if (!aberto) { document.getElementById('status-dot').classList.add('fechado'); document.getElementById('status-txt').textContent = 'Cerrado ahora'; }
-    }catch(e){}
-  })();
+(function(){
+  var reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var topo = document.getElementById('topo'), foto = document.getElementById('heroFoto');
+  function aoRolar(){
+    var y = scrollY;
+    topo.classList.toggle('compacto', y > 40);
+    if (!reduz && foto && y < innerHeight) foto.style.transform = 'translate3d(0,' + (y*0.18) + 'px,0) scale(1.06)';
+  }
+  addEventListener('scroll', aoRolar, { passive: true }); aoRolar();
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('entrou'); io.unobserve(e.target); } }); }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('.rev').forEach(function(el){ io.observe(el); });
+  var abas = document.querySelectorAll('.aba'), paineis = document.querySelectorAll('.painel');
+  abas.forEach(function(b){ b.addEventListener('click', function(){
+    abas.forEach(function(x){ x.classList.remove('ativa'); }); paineis.forEach(function(x){ x.classList.remove('ativo'); });
+    b.classList.add('ativa'); var alvo = document.querySelector('[data-painel="' + b.dataset.aba + '"]'); if (alvo) alvo.classList.add('ativo');
+  }); });
+  var btn = document.getElementById('menuBtn'), mm = document.getElementById('menuMobile');
+  if (btn && mm) {
+    var fechar = function(){ mm.classList.remove('aberto'); btn.setAttribute('aria-expanded','false'); document.body.style.overflow=''; };
+    btn.addEventListener('click', function(){ var abrir = !mm.classList.contains('aberto'); mm.classList.toggle('aberto', abrir); btn.setAttribute('aria-expanded', String(abrir)); document.body.style.overflow = abrir ? 'hidden' : ''; });
+    Array.prototype.forEach.call(mm.querySelectorAll('a'), function(a){ a.addEventListener('click', fechar); });
+    addEventListener('keydown', function(e){ if (e.key === 'Escape') fechar(); });
+  }
+  try {
+    var h = new Date().getHours(), dia = new Date().getDay();
+    var aberto = dia !== 0 && h >= 8 && h < 20;
+    if (!aberto) { document.getElementById('ponto').classList.add('fechado'); document.getElementById('estado').textContent = 'Cerrado ahora'; }
+  } catch(e){}
+})();
 </script>
 </body></html>

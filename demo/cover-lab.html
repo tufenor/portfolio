@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cover Lab — protótipo offline para compor e exportar capas em PNG.">
+  <title>Cover Lab — protótipo offline</title>
+  <style>
+    :root{--ink:#15232b;--muted:#5d6a70;--paper:#f4f1e8;--surface:#fffdf8;--line:#d8d3c8;--accent:#e45b35;--navy:#173247;--cream:#fff7e2;--focus:#0b6f75}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+    button,input,select{font:inherit}
+    .shell{max-width:1180px;margin:0 auto;padding:28px 20px 52px}
+    header{display:flex;gap:22px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:18px}
+    .eyebrow{margin:0 0 8px;text-transform:uppercase;letter-spacing:.13em;font-size:11px;font-weight:750;color:var(--accent)}
+    h1,h2,p{margin-top:0}h1{margin-bottom:8px;font:700 clamp(1.9rem,4vw,3.1rem)/1.05 Georgia,serif;letter-spacing:-.035em}h2{font-size:1.05rem;margin-bottom:14px}
+    .lede{max-width:620px;color:var(--muted);margin-bottom:0}
+    .tag{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:12px;white-space:nowrap}.tag i{width:8px;height:8px;background:#d79b32;border-radius:50%;display:block}
+    main{display:grid;grid-template-columns:minmax(250px,340px) minmax(0,1fr);gap:24px;margin-top:24px}
+    .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 9px 22px rgba(21,35,43,.05)}
+    .panel + .panel{margin-top:16px}.field{display:grid;gap:6px;margin-bottom:16px}.field label{font-size:12px;font-weight:750;color:var(--muted)}
+    input[type=text],select,input[type=color]{width:100%;min-height:42px;border:1px solid #c8c3b9;border-radius:8px;background:#fff;padding:9px 11px;color:var(--ink)}input[type=color]{padding:4px;height:42px}
+    input:focus,select:focus,button:focus-visible{outline:3px solid rgba(11,111,117,.28);outline-offset:2px;border-color:var(--focus)}
+    .drop{border:1px dashed #aaa49a;border-radius:10px;padding:14px;background:#fbfaf5}.drop input{width:100%;font-size:12px}.hint{font-size:12px;color:var(--muted);margin:7px 0 0}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{border:1px solid var(--navy);border-radius:8px;padding:10px 13px;cursor:pointer;font-weight:750;background:var(--navy);color:white}.btn.secondary{background:transparent;color:var(--navy)}.btn:active{transform:translateY(1px)}
+    .preview-wrap{background:#ddd8ce;border-radius:14px;padding:clamp(12px,3vw,28px);min-height:580px;display:grid;place-items:center}.stage{width:min(100%,820px);aspect-ratio:16/10;position:relative;overflow:hidden;background:#162b3b;color:#fff;border-radius:9px;box-shadow:0 22px 45px rgba(21,35,43,.19)}
+    .stage::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(228,91,53,.9),transparent 42%),linear-gradient(310deg,rgba(244,201,93,.64),transparent 35%),radial-gradient(circle at 68% 32%,rgba(255,255,255,.25),transparent 18%);mix-blend-mode:screen}.stage::after{content:"";position:absolute;inset:8%;border:1px solid rgba(255,255,255,.45);transform:rotate(-4deg);opacity:.8}
+    .cover-photo{position:absolute;inset:0;background-position:center;background-size:cover;opacity:.45;mix-blend-mode:soft-light}.cover-content{position:absolute;z-index:2;inset:9% 9%;display:flex;flex-direction:column;justify-content:space-between}.cover-kicker{font-size:clamp(9px,1.2vw,14px);letter-spacing:.18em;text-transform:uppercase;font-weight:750}.cover-title{max-width:75%;font:700 clamp(2rem,7vw,6.6rem)/.88 Georgia,serif;letter-spacing:-.06em;text-wrap:balance;text-shadow:0 2px 12px rgba(0,0,0,.24)}.cover-bottom{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;font-size:clamp(10px,1.3vw,15px)}.cover-bottom strong{font-size:1.1em}.mark{font-size:clamp(9px,1.1vw,13px);letter-spacing:.12em;text-transform:uppercase;opacity:.9}
+    .note{border-left:3px solid var(--accent);padding-left:12px;color:var(--muted);font-size:12px;margin:18px 0 0}.status{min-height:20px;color:var(--focus);font-size:12px;margin-top:11px}
+    @media(max-width:760px){.shell{padding:20px 14px 40px}header{align-items:flex-start;flex-direction:column;gap:12px}main{grid-template-columns:1fr}.preview-wrap{min-height:0;padding:12px}.stage{width:100%;aspect-ratio:4/3}.cover-title{max-width:90%}}
+    @media(max-width:380px){.shell{padding-left:10px;padding-right:10px}.panel{padding:15px}.cover-content{inset:8%}.cover-title{font-size:clamp(1.75rem,12vw,3.4rem)}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div><p class="eyebrow">MoneyIA · protótipo de produto</p><h1>Cover Lab</h1><p class="lede">Uma composição de capa offline para testar hierarquia, imagem e exportação sem depender de servidor.</p></div>
+      <span class="tag"><i aria-hidden="true"></i> dados somente no navegador</span>
+    </header>
+    <main>
+      <section aria-labelledby="controls-title">
+        <div class="panel">
+          <h2 id="controls-title">Composição</h2>
+          <div class="field"><label for="title">Título da capa</label><input id="title" type="text" value="Night Shift" maxlength="38"></div>
+          <div class="field"><label for="subtitle">Linha de apoio</label><input id="subtitle" type="text" value="Edição de teste · 2026" maxlength="46"></div>
+          <div class="field"><label for="mood">Direção visual</label><select id="mood"><option value="ember">Âmbar e coral</option><option value="ocean">Azul e areia</option><option value="lime">Verde e carvão</option></select></div>
+          <div class="field"><label for="accent">Cor de destaque</label><input id="accent" type="color" value="#e45b35"></div>
+          <div class="drop"><label for="photo"><strong>Imagem opcional</strong></label><input id="photo" type="file" accept="image/png,image/jpeg,image/webp"><p class="hint">A imagem não é enviada: fica apenas nesta aba.</p></div>
+          <div class="actions"><button class="btn" id="export" type="button">Exportar PNG</button><button class="btn secondary" id="reset" type="button">Restaurar exemplo</button></div>
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+        </div>
+        <div class="panel"><h2>Sobre este demo</h2><p class="note">Protótipo local para avaliação de uma competição de composição visual. Ainda não é uma submissão e não usa marca ou material de cliente.</p></div>
+      </section>
+      <section class="preview-wrap" aria-labelledby="preview-title"><h2 id="preview-title" class="sr-only" style="position:absolute;left:-10000px">Prévia da capa</h2><div class="stage" id="stage"><div class="cover-photo" id="cover-photo"></div><div class="cover-content"><div class="cover-kicker">Field notes / issue 01</div><div class="cover-title" id="cover-title">Night Shift</div><div class="cover-bottom"><span id="cover-subtitle">Edição de teste · 2026</span><span class="mark">MoneyIA / Cover Lab</span></div></div></div></section>
+    </main>
+  </div>
+  <script>
+    const title=document.querySelector('#title'), subtitle=document.querySelector('#subtitle'), mood=document.querySelector('#mood'), accent=document.querySelector('#accent'), photo=document.querySelector('#photo');
+    const stage=document.querySelector('#stage'), coverTitle=document.querySelector('#cover-title'), coverSubtitle=document.querySelector('#cover-subtitle'), coverPhoto=document.querySelector('#cover-photo'), status=document.querySelector('#status');
+    const themes={ember:['#162b3b','#e45b35','#f4c95d'],ocean:['#173247','#2f8f9d','#e4c27b'],lime:['#182b26','#8ab449','#e5b85a']};
+    function render(){coverTitle.textContent=title.value.trim()||'Sem título';coverSubtitle.textContent=subtitle.value.trim()||'Edição sem linha de apoio';const [base,one,two]=themes[mood.value];stage.style.background=`linear-gradient(135deg,${base},#101b23)`;stage.style.setProperty('--accent',accent.value);stage.style.setProperty('--theme-one',one);stage.style.setProperty('--theme-two',two);stage.style.setProperty('background-image',`linear-gradient(135deg,${one}e6,transparent 42%),linear-gradient(310deg,${two}a6,transparent 35%),linear-gradient(135deg,${base},#101b23)`)}
+    [title,subtitle,mood,accent].forEach(el=>el.addEventListener('input',render));
+    photo.addEventListener('change',()=>{const file=photo.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{coverPhoto.style.backgroundImage=`url(${reader.result})`;status.textContent='Imagem carregada localmente.'};reader.readAsDataURL(file)});
+    document.querySelector('#reset').addEventListener('click',()=>{title.value='Night Shift';subtitle.value='Edição de teste · 2026';mood.value='ember';accent.value='#e45b35';photo.value='';coverPhoto.style.backgroundImage='';status.textContent='Exemplo restaurado.';render()});
+    document.querySelector('#export').addEventListener('click',()=>{const w=1600,h=1000,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');const [base,one,two]=themes[mood.value];x.fillStyle=base;x.fillRect(0,0,w,h);const g=x.createLinearGradient(0,0,w,h);g.addColorStop(0,one);g.addColorStop(.45,'transparent');x.globalAlpha=.9;x.fillStyle=g;x.fillRect(0,0,w,h);const g2=x.createLinearGradient(w,h,0,0);g2.addColorStop(0,two);g2.addColorStop(.45,'transparent');x.fillStyle=g2;x.fillRect(0,0,w,h);x.globalAlpha=1;x.strokeStyle='rgba(255,255,255,.45)';x.lineWidth=2;x.strokeRect(128,80,w-256,h-160);x.fillStyle='#fff';x.font='700 25px Arial';x.letterSpacing='4px';x.fillText('FIELD NOTES / ISSUE 01',145,145);x.font='700 128px Georgia';const lines=(title.value.trim()||'Sem título').slice(0,38).split(' ');let line='',y=500;for(const word of lines){const next=line?line+' '+word:word;if(x.measureText(next).width>1080){x.fillText(line,145,y);y+=120;line=word}else line=next}x.fillText(line,145,y);x.font='24px Arial';x.fillText(subtitle.value.trim()||'Edição sem linha de apoio',145,875);x.font='700 18px Arial';x.fillText('MONEYIA / COVER LAB',w-380,875);const a=document.createElement('a');a.download='cover-lab-demo.png';a.href=c.toDataURL('image/png');a.click();status.textContent='PNG exportado para os downloads.'});
+    render();
+  </script>
+</body>
+</html>
