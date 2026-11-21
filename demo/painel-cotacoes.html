@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demo pública de painel responsivo para cotações, aprovação e auditoria.">
+  <title>Painel de cotações — demo</title>
+  <style>
+    :root{--ink:#17211b;--muted:#66736a;--paper:#f7f8f5;--surface:#fff;--line:#dfe6df;--brand:#1f6b4b;--brand-soft:#e7f2eb;--amber:#9b6515;--amber-soft:#fff3d8;--red:#a54542;--shadow:0 14px 34px rgba(28,54,38,.08)}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    button,input,select{font:inherit}button{cursor:pointer}.shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.side{background:#173326;color:#f4faf5;padding:26px 18px;display:flex;flex-direction:column;gap:28px}.logo{display:flex;gap:10px;align-items:center;font-weight:750;font-size:1.05rem}.mark{width:34px;height:34px;border-radius:10px;background:#9bd3ad;color:#173326;display:grid;place-items:center;font-weight:900}.side nav{display:grid;gap:6px}.side a{color:#cfe2d5;text-decoration:none;padding:10px 12px;border-radius:9px}.side a[aria-current="page"],.side a:hover{background:#285943;color:#fff}.tip{margin-top:auto;border:1px solid #38654d;border-radius:12px;padding:14px;color:#cfe2d5;font-size:.86rem}.main{padding:30px clamp(18px,4vw,56px);max-width:1400px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:26px}.eyebrow{color:var(--brand);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.top h1{margin:4px 0 5px;font-size:clamp(1.65rem,3vw,2.4rem);letter-spacing:-.03em}.sub{margin:0;color:var(--muted)}.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:9px;padding:10px 14px;font-weight:700}.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}.btn:focus-visible,.filter:focus-visible,input:focus-visible{outline:3px solid #8ec9a5;outline-offset:2px}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.metric{padding:18px}.metric span{display:block;color:var(--muted);font-size:.85rem}.metric strong{display:block;margin-top:8px;font-size:1.7rem;letter-spacing:-.03em}.metric small{display:block;margin-top:4px;color:var(--brand);font-weight:650}.toolbar{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter,input{border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 11px;color:var(--ink)}.search{min-width:min(280px,100%)}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:740px}.table th,.table td{text-align:left;padding:15px 16px;border-bottom:1px solid var(--line);vertical-align:middle}.table th{font-size:.77rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#fbfcfa}.table tr:last-child td{border-bottom:0}.project{display:flex;gap:10px;align-items:flex-start}.dot{width:9px;height:9px;border-radius:50%;background:#d59a38;margin-top:8px;flex:0 0 auto}.project b{display:block}.project small{color:var(--muted)}.pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:.78rem;font-weight:750}.pill.green{background:var(--brand-soft);color:var(--brand)}.pill.amber{background:var(--amber-soft);color:var(--amber)}.pill.red{background:#fce9e7;color:var(--red)}.row-action{white-space:nowrap}.row-action button{border:0;background:none;color:var(--brand);font-weight:800;padding:6px}.empty{display:none;padding:28px;text-align:center;color:var(--muted)}.note{margin-top:18px;padding:14px 16px;border-left:4px solid var(--brand);background:var(--brand-soft);border-radius:8px;color:#24553d}.drawer{position:fixed;inset:0;background:rgba(16,29,21,.45);display:none;align-items:flex-end;justify-content:flex-end}.drawer.open{display:flex}.panel{background:#fff;width:min(520px,100%);height:100%;padding:28px;overflow:auto;box-shadow:-14px 0 40px rgba(0,0,0,.15)}.panel header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.panel h2{margin:0;font-size:1.3rem}.close{border:0;background:#eef2ee;border-radius:50%;width:34px;height:34px;font-size:1.2rem}.panel dl{display:grid;grid-template-columns:120px 1fr;gap:10px;margin:24px 0}.panel dt{color:var(--muted);font-size:.84rem}.panel dd{margin:0;font-weight:650}.panel .scope{border-top:1px solid var(--line);padding-top:18px}.panel footer{display:flex;gap:10px;margin-top:26px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media (max-width:900px){.shell{grid-template-columns:1fr}.side{padding:14px 18px;gap:12px}.side nav{display:flex;overflow:auto}.tip{display:none}.main{padding-top:22px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.top{flex-direction:column}}
+    @media (max-width:520px){.metrics{grid-template-columns:1fr 1fr}.metric{padding:14px}.metric strong{font-size:1.35rem}.toolbar{align-items:stretch}.search{width:100%;min-width:0}.filters{width:100%}.filter{flex:1}.panel{padding:22px}.panel dl{grid-template-columns:1fr;gap:3px}.panel dd{margin-bottom:10px}}
+    .sub{max-width:58rem}
+    .top>div:first-child{min-width:0}
+    .sub{overflow-wrap:anywhere}
+    .btn:focus-visible,.filter:focus-visible,input:focus-visible,.row-action button:focus-visible,.close:focus-visible{outline:3px solid #8ec9a5;outline-offset:2px}
+    @media (max-width:520px){.table-wrap::before{content:'Deslize horizontalmente para ver todas as colunas.';display:block;padding:9px 16px;color:var(--muted);font-size:.8rem;border-bottom:1px solid var(--line)}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side" aria-label="Navegação principal">
+      <div class="logo"><span class="mark">Q</span><span>QuoteFlow <small style="display:block;font-size:.68rem;font-weight:500;color:#b9d2c0">demo de operação</small></span></div>
+      <nav>
+        <a href="#painel" aria-current="page">Visão geral</a>
+        <a href="#cotacoes">Cotações</a>
+        <a href="#aprovacoes">Aprovações</a>
+        <a href="#historico">Histórico</a>
+      </nav>
+      <div class="tip"><strong>Demo pública</strong><br>Dados fictícios para mostrar uma jornada de aprovação com rastreabilidade e estados claros.</div>
+    </aside>
+    <main class="main" id="painel">
+      <header class="top">
+        <div><div class="eyebrow">Operações internas</div><h1>Painel de cotações</h1><p class="sub">Uma fila enxuta para revisar valores, aprovar compras e registrar o próximo passo.</p></div>
+        <div class="actions"><button class="btn" id="exportBtn" type="button">Exportar resumo</button><button class="btn primary" id="newBtn" type="button">+ Nova cotação</button></div>
+      </header>
+      <section class="metrics" aria-label="Resumo da operação">
+        <article class="card metric"><span>Em análise</span><strong id="metricReview">08</strong><small>+2 desde ontem</small></article>
+        <article class="card metric"><span>Aguardando aprovação</span><strong id="metricApproval">03</strong><small>R$ 18.420,00</small></article>
+        <article class="card metric"><span>Economia estimada</span><strong>R$ 4.860</strong><small>comparada ao histórico</small></article>
+        <article class="card metric"><span>Tempo médio</span><strong>1,8 d</strong><small>da entrada à decisão</small></article>
+      </section>
+      <section class="card" id="cotacoes" aria-labelledby="quotesTitle">
+        <div class="toolbar"><div><h2 id="quotesTitle" style="margin:0;font-size:1.05rem">Cotações recentes</h2><span style="color:var(--muted);font-size:.86rem">Amostra para validação da jornada</span></div><div class="filters"><label class="sr-only" for="search">Buscar cotação</label><input class="search" id="search" type="search" placeholder="Buscar fornecedor ou categoria"><label class="sr-only" for="status">Filtrar status</label><select class="filter" id="status"><option value="all">Todos os status</option><option value="review">Em análise</option><option value="approval">Aguardando aprovação</option><option value="approved">Aprovada</option></select></div></div>
+        <div class="table-wrap"><table class="table"><thead><tr><th>Solicitação</th><th>Fornecedor</th><th>Valor</th><th>Status</th><th>Responsável</th><th><span class="sr-only">Ação</span></th></tr></thead><tbody id="rows"></tbody></table><div class="empty" id="empty">Nenhuma cotação corresponde aos filtros.</div></div>
+      </section>
+      <div class="note" id="aprovacoes"><strong>Regra demonstrada:</strong> uma aprovação só aparece depois que o valor, o responsável e o próximo passo estão explícitos. A demo não dispara compras nem integra dados reais.</div>
+    </main>
+  </div>
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle"><section class="panel"><header><div><div class="eyebrow">Detalhes da solicitação</div><h2 id="drawerTitle">Cotação</h2></div><button class="close" id="closeBtn" type="button" aria-label="Fechar detalhes">×</button></header><dl id="details"></dl><div class="scope"><strong>Critério de aceite</strong><p id="scopeText" style="color:var(--muted)"></p></div><footer><button class="btn" id="markBtn" type="button">Marcar como revisada</button><button class="btn primary" id="approveBtn" type="button">Aprovar demo</button></footer></section></div>
+  <script>
+    const quotes=[
+      {id:'QT-1042',name:'Painel de compras — fase 1',vendor:'Andes Sistemas',category:'Software',value:'R$ 8.400,00',status:'approval',statusLabel:'Aguardando aprovação',owner:'Marina Lopes',scope:'Protótipo de uma jornada de cotação, aprovação e registro de decisão. Sem integração de produção nesta fase.'},
+      {id:'QT-1041',name:'Licenças de atendimento',vendor:'Nexo Cloud',category:'Operação',value:'R$ 4.920,00',status:'review',statusLabel:'Em análise',owner:'Gabriel Moura',scope:'Comparar três alternativas, registrar premissas e encaminhar recomendação com fonte.'},
+      {id:'QT-1040',name:'Automação de relatório mensal',vendor:'Dados Claros',category:'Automação',value:'R$ 5.100,00',status:'approval',statusLabel:'Aguardando aprovação',owner:'Marina Lopes',scope:'Entrada CSV, validação, resumo e exportação. Falhas devem aparecer no relatório de execução.'},
+      {id:'QT-1039',name:'Pesquisa de satisfação',vendor:'Voz do Cliente',category:'Pesquisa',value:'R$ 2.780,00',status:'approved',statusLabel:'Aprovada',owner:'Rafael Lima',scope:'Questionário e leitura de resultados em amostra fictícia; dados reais entram só após autorização.'}
+    ];
+    const rows=document.querySelector('#rows'),empty=document.querySelector('#empty'),search=document.querySelector('#search'),status=document.querySelector('#status'),drawer=document.querySelector('#drawer'),details=document.querySelector('#details'),scopeText=document.querySelector('#scopeText'),drawerTitle=document.querySelector('#drawerTitle');let selected=null;
+    function render(){const q=search.value.toLowerCase(),s=status.value;const list=quotes.filter(x=>(s==='all'||x.status===s)&&[x.name,x.vendor,x.category].join(' ').toLowerCase().includes(q));rows.innerHTML=list.map(x=>`<tr><td><div class="project"><span class="dot" aria-hidden="true"></span><div><b>${x.name}</b><small>${x.id} · ${x.category}</small></div></div></td><td>${x.vendor}</td><td><strong>${x.value}</strong></td><td><span class="pill ${x.status==='approved'?'green':x.status==='approval'?'amber':'red'}">${x.statusLabel}</span></td><td>${x.owner}</td><td class="row-action"><button type="button" data-id="${x.id}">Ver</button></td></tr>`).join('');empty.style.display=list.length?'none':'block';rows.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>openDrawer(b.dataset.id)));}
+    function openDrawer(id){selected=quotes.find(x=>x.id===id);drawerTitle.textContent=selected.name;details.innerHTML=`<dt>Fornecedor</dt><dd>${selected.vendor}</dd><dt>Valor</dt><dd>${selected.value}</dd><dt>Status</dt><dd>${selected.statusLabel}</dd><dt>Responsável</dt><dd>${selected.owner}</dd>`;scopeText.textContent=selected.scope;drawer.classList.add('open');document.querySelector('#closeBtn').focus();}
+    function closeDrawer(){drawer.classList.remove('open');selected=null;}
+    search.addEventListener('input',render);status.addEventListener('change',render);document.querySelector('#closeBtn').addEventListener('click',closeDrawer);drawer.addEventListener('click',e=>{if(e.target===drawer)closeDrawer()});document.querySelector('#markBtn').addEventListener('click',()=>{if(selected){selected.status='review';selected.statusLabel='Em análise';render();closeDrawer()}});document.querySelector('#approveBtn').addEventListener('click',()=>{if(selected){selected.status='approved';selected.statusLabel='Aprovada';render();closeDrawer()}});document.querySelector('#newBtn').addEventListener('click',()=>alert('Demo: nova cotação iniciaria aqui, sem salvar dados reais.'));document.querySelector('#exportBtn').addEventListener('click',()=>alert('Demo: resumo exportado (simulação).'));render();
+    const drawerEl=document.querySelector('#drawer');let lastFocusEl=null;
+    drawerEl.setAttribute('aria-hidden','true');
+    rows.addEventListener('click',e=>{if(e.target.matches('button[data-id]')){lastFocusEl=e.target;drawerEl.setAttribute('aria-hidden','false')}},true);
+    document.querySelector('#closeBtn').addEventListener('click',()=>{drawerEl.setAttribute('aria-hidden','true');if(lastFocusEl)lastFocusEl.focus()});
+    document.querySelector('#markBtn').addEventListener('click',()=>{drawerEl.setAttribute('aria-hidden','true');if(lastFocusEl)lastFocusEl.focus()});
+    document.querySelector('#approveBtn').addEventListener('click',()=>{drawerEl.setAttribute('aria-hidden','true');if(lastFocusEl)lastFocusEl.focus()});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&drawerEl.classList.contains('open')){document.querySelector('#closeBtn').click()}});
+  </script>
+</body>
+</html>
