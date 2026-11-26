@@ -1,0 +1,6 @@
+# Inclua este bloco no Caddyfile que já atende o Frequency.
+# O serviço moneyia precisa estar na mesma rede Docker do Caddy.
+moneyia.frequencygym.tech {
+    encode zstd gzip
+    reverse_proxy moneyia:8899
+}

@@ -1,0 +1,18 @@
+# Adicione este serviço ao compose do Frequency no VPS, ou execute-o como
+# projeto separado na mesma rede Docker do Caddy existente.
+services:
+  moneyia:
+    build:
+      context: /opt/moneyia
+      dockerfile: deploy/frequency/Dockerfile
+    restart: unless-stopped
+    environment:
+      MONEYIA_APP_HOST: 0.0.0.0
+      MONEYIA_APP_PORT: 8899
+      MONEYIA_APP_USER: ${MONEYIA_APP_USER:?defina MONEYIA_APP_USER}
+      MONEYIA_APP_PASSWORD: ${MONEYIA_APP_PASSWORD:?defina MONEYIA_APP_PASSWORD}
+      MONEYIA_CDP_PORT: 9333
+    volumes:
+      - /opt/moneyia/data:/app/data
+    expose:
+      - "8899"
