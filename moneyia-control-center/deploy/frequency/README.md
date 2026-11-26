@@ -1,8 +1,9 @@
 # MoneyIA no mesmo VPS do Frequency
 
-Este pacote publica a Mesa em `https://moneyia.frequencygym.tech`, separada do
+Este pacote publica a Mesa em `https://frequencygym.tech/moneyia/`, separada do
 aplicativo e do banco do Frequency. O serviço usa HTTPS pelo Caddy e Basic Auth
-no próprio MoneyIA. A porta 8899 não fica exposta na internet.
+no próprio MoneyIA. A porta 8899 não fica exposta na internet. Um subdomínio
+dedicado pode ser adicionado depois, sem mudar o serviço.
 
 ## Pré-requisitos
 
@@ -20,12 +21,12 @@ no próprio MoneyIA. A porta 8899 não fica exposta na internet.
    `/opt/moneyia-backups/<data>/data`.
 3. Adicione `compose.moneyia.yml` ao compose de produção do Frequency (ou
    execute-o como projeto separado na rede externa do Caddy).
-4. Inclua `Caddyfile.moneyia.snippet` no Caddyfile existente.
-5. Crie o registro DNS `A moneyia <IP_DO_VPS>` e aguarde a propagação.
-6. Recrie somente o serviço MoneyIA e valide:
+4. Inclua `Caddyfile.moneyia.snippet` no Caddyfile existente. O bloco atual usa
+   `handle_path /moneyia*`, portanto não exige novo DNS.
+5. Recrie somente o serviço MoneyIA e valide:
 
-   - `https://moneyia.frequencygym.tech/` pede Basic Auth;
-   - `/api/health` responde `ok:true` depois da autenticação;
+   - `https://frequencygym.tech/moneyia/` pede Basic Auth;
+   - `/moneyia/api/health` responde `ok:true` depois da autenticação;
    - `/api/state` mostra os dados da fila sem expor a porta 8899;
    - o Frequency principal continua respondendo em `/app`;
    - a fila, aprovações e tarefas persistem após reiniciar o container.

@@ -6,11 +6,11 @@ services:
       context: /opt/moneyia
       dockerfile: deploy/frequency/Dockerfile
     restart: unless-stopped
+    env_file:
+      - /opt/moneyia/.env
     environment:
       MONEYIA_APP_HOST: 0.0.0.0
       MONEYIA_APP_PORT: 8899
-      MONEYIA_APP_USER: ${MONEYIA_APP_USER:?defina MONEYIA_APP_USER}
-      MONEYIA_APP_PASSWORD: ${MONEYIA_APP_PASSWORD:?defina MONEYIA_APP_PASSWORD}
       MONEYIA_CDP_PORT: 9333
     volumes:
       - /opt/moneyia/data:/app/data

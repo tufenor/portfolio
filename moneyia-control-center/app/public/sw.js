@@ -21,7 +21,8 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  if (event.request.method !== 'GET' || url.pathname.startsWith('/api/')) return;
+  const base = location.pathname.startsWith('/moneyia/') ? '/moneyia' : '';
+  if (event.request.method !== 'GET' || url.pathname.startsWith(`${base}/api/`)) return;
 
   if (event.request.mode === 'navigate') {
     event.respondWith(

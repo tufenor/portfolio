@@ -1,5 +1,7 @@
 const $ = (sel) => document.querySelector(sel);
 let state = null;
+const BASE_PATH = location.pathname.startsWith('/moneyia') ? '/moneyia' : '';
+const withBase = (path) => BASE_PATH && path.startsWith('/') ? `${BASE_PATH}${path}` : path;
 let approvalFilter = 'pendente';
 let pendingDecision = null;
 let pendingIa = null;
@@ -66,7 +68,7 @@ function renderBridgeState() {
 async function api(path, options = {}) {
   const isWrite = options.method && options.method !== 'GET';
   try {
-    const res = await fetch(path, {
+    const res = await fetch(withBase(path), {
       headers: { 'content-type': 'application/json' },
       ...options
     });
@@ -90,7 +92,7 @@ async function flushOutbox() {
   let failed = 0;
   for (const op of rows) {
     try {
-      const res = await fetch(op.path, {
+      const res = await fetch(withBase(op.path), {
         method: op.method,
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(op.body || {})
@@ -219,7 +221,7 @@ async function verifyProposal(id, button) {
   toast('Conferindo a página da proposta…');
   try {
     const path = id ? `/api/propostas/${encodeURIComponent(id)}/verificar` : '/api/propostas/verificar';
-    const response = await fetch(path, { method: 'POST' });
+     const response = await fetch(withBase(path), { method: 'POST' });
     if (!response.ok) throw new Error((await response.json()).error || `erro ${response.status}`);
     const result = await response.json();
     toast(result.busy ? 'Conferência já em andamento.' : 'Conferência registrada.');
@@ -704,8 +706,8 @@ window.addEventListener('beforeinstallprompt', (event) => {
 });
 window.addEventListener('appinstalled', () => { const btn = $('#installBtn'); if (btn) btn.hidden = true; });
 
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-  navigator.serviceWorker.register('/sw.js').catch(() => {});
+ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+   navigator.serviceWorker.register(withBase('/sw.js')).catch(() => {});
 }
 updateNetState();
 load();

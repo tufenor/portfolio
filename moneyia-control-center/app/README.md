@@ -110,7 +110,7 @@ O radar não troca IP, não usa proxy rotativo, não abre múltiplos logins e n�
 
 O celular não enxerga `127.0.0.1:8899` do PC. Para uso real no telefone, o servidor precisa escutar na rede local (com token) ou a PWA precisa ser publicada em HTTPS. Isso ainda não está habilitado por segurança.
 
-Para publicar a Mesa no mesmo VPS do Frequency, sem misturar os bancos, use o pacote `deploy/frequency/`. Ele prepara o subdomínio `moneyia.frequencygym.tech` atrás do Caddy e exige Basic Auth; a publicação efetiva depende do SSH/DNS do VPS.
+Para publicar a Mesa no mesmo VPS do Frequency, sem misturar os bancos, use o pacote `deploy/frequency/`. Ele prepara `https://frequencygym.tech/moneyia/` atrás do Caddy e exige Basic Auth; um subdomínio dedicado é opcional.
 
 ## Enviar oportunidade para a IA
 
