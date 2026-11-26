@@ -483,7 +483,7 @@ async function sendProposalDispatchWebhook(approval, dispatch, requestedProvider
 let dispatchSchedulerInFlight = false;
 
 function dispatchPlatform(approval = {}) {
-  const text = String(approval.target || approval.source || '').trim();
+  const text = String(approval.target || approval.platform || approval.plataforma || approval.source || '').trim();
   return (text.split(/\s*[·|—-]\s*/)[0] || 'desconhecida').slice(0, 80);
 }
 
