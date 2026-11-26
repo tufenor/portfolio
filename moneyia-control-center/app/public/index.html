@@ -65,13 +65,15 @@
         <div class="panel-actions">
           <button class="btn primary small" id="prepareApprovals" type="button">Preparar até 30</button>
           <button class="btn ghost small" id="approveQueue" type="button">Aprovar fila (um por vez)</button>
+          <button class="btn ghost small" id="autoForwardQueue" type="button" aria-pressed="false">Encaminhar todos automaticamente</button>
           <div class="seg" role="group" aria-label="Filtro de aprovações">
           <button class="seg-btn active" data-filter="pendente">Pendentes</button>
           <button class="seg-btn" data-filter="todas">Todas</button>
           </div>
         </div>
       </div>
-      <p class="hint">O Radar prepara até 30 pacotes qualificados por vez. <strong>Preparar até 30</strong> coloca os pacotes nesta fila. <strong>Aprovar fila (um por vez)</strong> abre o próximo pacote em ordem para sua confirmação; depois de cada aceite o agente recebe a tarefa. O envio na plataforma só vira “confirmado” quando a ponte devolver evidência verificável.</p>
+      <p class="hint">O Radar prepara até 30 pacotes qualificados por vez. <strong>Preparar até 30</strong> coloca os pacotes nesta fila. <strong>Aprovar fila (um por vez)</strong> abre o próximo pacote em ordem para sua confirmação. <strong>Encaminhar todos automaticamente</strong> aprova e encaminha um pacote a cada 5 minutos, alternando plataformas quando possível; isso apenas envia à fila do agente, nunca marca candidatura externa sem evidência.</p>
+      <p class="hint" id="autoForwardStatus" role="status">Encaminhamento automático desligado.</p>
       <div id="approvals" class="stack"></div>
     </section>
 

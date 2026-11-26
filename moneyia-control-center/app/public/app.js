@@ -16,6 +16,10 @@ const dispatchStatusLabel = {
 const OUTBOX_KEY = 'moneyia-outbox-v1';
 const STATE_KEY = 'moneyia-state-v1';
 const GATE_SEEN_KEY = 'moneyia-radar-gates-seen-v1';
+const AUTO_FORWARD_KEY = 'moneyia-auto-forward-v1';
+const AUTO_FORWARD_INTERVAL_MS = 5 * 60 * 1000;
+let autoForwardTimer = null;
+let autoForwardBusy = false;
 
 class QueuedError extends Error {
   constructor(message) { super(message); this.name = 'QueuedError'; }
@@ -172,6 +176,7 @@ function render() {
   renderProposals();
   renderIa();
   renderEmails();
+  updateAutoForwardUi();
 }
 
 function renderEmails() {
@@ -260,6 +265,86 @@ $('#approveQueue')?.addEventListener('click', () => {
   if (!next) return toast('Não há aprovação pendente na fila.');
   openApproval(next.id, 'aprovar');
 });
+
+function readAutoForward() {
+  try { return JSON.parse(localStorage.getItem(AUTO_FORWARD_KEY) || '{"enabled":false}'); }
+  catch { return { enabled: false }; }
+}
+
+function writeAutoForward(value) {
+  localStorage.setItem(AUTO_FORWARD_KEY, JSON.stringify(value));
+}
+
+function updateAutoForwardUi() {
+  const button = $('#autoForwardQueue');
+  const status = $('#autoForwardStatus');
+  if (!button || !status) return;
+  const config = state?.dispatchScheduler || readAutoForward();
+  button.setAttribute('aria-pressed', String(Boolean(config.enabled)));
+  button.textContent = config.enabled ? 'Parar encaminhamento automático' : 'Encaminhar todos automaticamente';
+  if (!config.enabled) {
+    status.textContent = 'Encaminhamento automático desligado.';
+    return;
+  }
+  const next = config.nextAt ? new Date(config.nextAt) : null;
+  status.textContent = next && Number.isFinite(next.getTime())
+    ? `Encaminhamento automático ativo · próximo pacote após ${fmt(config.nextAt)} · intervalo de 5 minutos.`
+    : 'Encaminhamento automático ativo · processando um pacote a cada 5 minutos.';
+}
+
+function pickAutoApproval() {
+  const pending = (state?.approvals || []).filter((row) => row.status === 'pendente')
+    .sort((a, b) => String(a.createdAt || '').localeCompare(String(b.createdAt || '')));
+  if (!pending.length) return null;
+  const config = readAutoForward();
+  // Interleave platforms when possible, while preserving FIFO within a source.
+  if (config.lastSource) return pending.find((row) => String(row.source || '') !== String(config.lastSource)) || pending[0];
+  return pending[0];
+}
+
+async function autoForwardTick() {
+  if (autoForwardBusy || !readAutoForward().enabled) return;
+  const next = pickAutoApproval();
+  if (!next) {
+    updateAutoForwardUi();
+    return;
+  }
+  autoForwardBusy = true;
+  const config = readAutoForward();
+  try {
+    const result = await api(`/api/aprovacoes/${encodeURIComponent(next.id)}/decision`, {
+      method: 'POST',
+      body: JSON.stringify({ decision: 'aprovar', by: 'fila-automatica', note: 'Encaminhamento automático um-a-um; intervalo de 5 minutos.' })
+    });
+    writeAutoForward({ ...config, lastApprovalId: next.id, lastSource: next.source || '', lastAt: new Date().toISOString(), nextAt: new Date(Date.now() + AUTO_FORWARD_INTERVAL_MS).toISOString() });
+    toast(result.dispatch ? `Pacote encaminhado ao agente: ${next.title}.` : `Pacote aprovado: ${next.title}.`);
+    await load();
+  } catch (error) {
+    // Keep the item pending and retry on the next tick; never claim external send.
+    if (error.name === 'QueuedError') toast('Sem conexão; o encaminhamento automático ficou na fila local.');
+    else toast(`Encaminhamento automático aguardará nova tentativa: ${error.message}`);
+    writeAutoForward({ ...config, nextAt: new Date(Date.now() + AUTO_FORWARD_INTERVAL_MS).toISOString() });
+    updateAutoForwardUi();
+  } finally {
+    autoForwardBusy = false;
+  }
+}
+
+async function setAutoForward(enabled) {
+  try {
+    const result = await api('/api/proposal-dispatch/scheduler', {
+      method: 'POST',
+      body: JSON.stringify({ enabled, intervalMs: AUTO_FORWARD_INTERVAL_MS, runNow: enabled })
+    });
+    if (result.config) writeAutoForward(result.config);
+    toast(enabled ? 'Encaminhamento automático ativado no servidor: um pacote a cada 5 minutos.' : 'Encaminhamento automático pausado; nenhum envio externo foi marcado.');
+    await load();
+  } catch (error) {
+    if (error.name !== 'QueuedError') toast(`Não foi possível configurar a fila: ${error.message}`);
+  }
+}
+
+$('#autoForwardQueue')?.addEventListener('click', () => setAutoForward(!(state?.dispatchScheduler?.enabled || readAutoForward().enabled)));
 
 function renderApprovals() {
   const box = $('#approvals');
@@ -716,4 +801,5 @@ window.addEventListener('appinstalled', () => { const btn = $('#installBtn'); if
    navigator.serviceWorker.register(withBase('/sw.js')).catch(() => {});
 }
 updateNetState();
+updateAutoForwardUi();
 load();
