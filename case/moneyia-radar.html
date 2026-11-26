@@ -27,7 +27,7 @@
   </div>
 
   <section><div class="wrap"><h2>O que foi medido</h2><div class="kpis">
-    <div class="kpi"><div class="n">161</div><div class="l">registros normalizados no modo sombra</div></div>
+    <div class="kpi"><div class="n">167</div><div class="l">registros normalizados no modo sombra</div></div>
     <div class="kpi"><div class="n">6</div><div class="l">agentes públicos em paralelo</div></div>
     <div class="kpi"><div class="n">1</div><div class="l">agregador com deduplicação</div></div>
     <div class="kpi"><div class="n">2</div><div class="l">gates humanos detectados</div></div>
@@ -38,18 +38,18 @@
     <article><b>01 · Descoberta</b><p>Fontes públicas são divididas por país, idioma ou nicho, com URL, data, orçamento e evidência.</p></article>
     <article><b>02 · Qualificação</b><p>O ranking combina aderência comprovada, frescor, concorrência e recebimento declarado.</p></article>
     <article><b>03 · Produção</b><p>Quando existe demo real, o sistema monta preço condicionado, escopo e proposta específica.</p></article>
-    <article><b>04 · Revisão</b><p>“Criar fila de envio” prepara até 30 pacotes para inspeção visual, sem marcar envio como concluído.</p></article>
+    <article><b>04 · Revisão</b><p>“Criar fila automática de envios (até 30)” prepara pacotes para inspeção visual, sem marcar envio como concluído.</p></article>
     <article><b>05 · Retomada</b><p>Login, KYC ou desafio anti-bot viram pendência humana com som e botão de retomar na mesma etapa.</p></article>
     <article><b>06 · Evidência</b><p>Descoberta, proposta, envio, contrato, entrega, saldo e recebimento permanecem estados separados.</p></article>
   </div></div></section>
 
   <section><div class="wrap"><h2>Decisões de engenharia</h2><div class="grid">
     <article class="card"><h3>Uma sessão autenticada</h3><p>As fontes públicas podem rodar em paralelo; cada plataforma autenticada usa uma única sessão serializada. O sistema não troca IP, não cria contas paralelas e não tenta resolver verificação humana.</p></article>
-    <article class="card"><h3>Fila durável</h3><p>Runs e gates ficam em JSON local e retomam após reinício. A API expõe progresso, bloqueios, resultados deduplicados e conclusão de gate.</p></article>
+    <article class="card"><h3>Fila durável</h3><p>Runs, gates e fila automática ficam em JSON local e retomam após reinício. A API expõe progresso, bloqueios, resultados deduplicados e conclusão de gate.</p></article>
     <article class="card"><h3>Portfólio sanitizado</h3><p>Este case mostra arquitetura e métricas agregadas. E-mails, tokens, dados bancários, clientes e URLs privadas ficam fora da publicação.</p></article>
   </div><div class="notice"><p><strong>Estado atual:</strong> o Radar pode preparar a fila de revisão. A confirmação externa só é registrada quando a plataforma devolve evidência verificável.</p></div></div></section>
 
-  <section><div class="wrap"><h2>Como validar</h2><ol class="steps"><li><span><strong>Iniciar varredura global</strong>Abra o painel local e acompanhe agentes, fontes e gates.</span></li><li><span><strong>Criar fila de envio</strong>Gere até 30 pacotes qualificados com demo, preço e proposta.</span></li><li><span><strong>Revisar visualmente</strong>Abra cada pacote e aprove apenas o que corresponde ao escopo real.</span></li><li><span><strong>Conferir evidência</strong>Depois da ação na plataforma, mantenha o registro como preparado até haver confirmação.</span></li></ol><p class="note">Esta página é uma demonstração pública do processo; não é um painel operacional nem promete renda.</p></div></section>
+  <section><div class="wrap"><h2>Como validar</h2><ol class="steps"><li><span><strong>Iniciar varredura global</strong>Abra o painel local e acompanhe agentes, fontes e gates.</span></li><li><span><strong>Criar fila automática</strong>Gere até 30 pacotes qualificados com demo, preço e proposta.</span></li><li><span><strong>Revisar visualmente</strong>Abra cada pacote e aprove apenas o que corresponde ao escopo real.</span></li><li><span><strong>Conferir evidência</strong>Depois da ação na plataforma, mantenha o registro como preparado até haver confirmação.</span></li></ol><p class="note">Esta página é uma demonstração pública do processo; não é um painel operacional nem promete renda.</p></div></section>
 </main>
 <footer><div class="wrap"><p>MoneyIA · case público sanitizado · Gabriel de Moura Pereira</p><p><a href="../">Voltar ao portfólio</a></p></div></footer>
 </body>

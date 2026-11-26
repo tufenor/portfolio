@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MoneyIA + JARVIS — ponte de continuidade</title>
+<meta name="description" content="Case público sanitizado sobre fila local, fallback de IA e evidência externa no MoneyIA.">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+:root{--accent:#2e4935;--soft:#e6efdf;--ink:#1d241e}
+.hero-case{padding:clamp(2.5rem,7vw,6rem) 0 2rem;max-width:850px}
+.hero-case h1{max-width:780px}
+.kicker{color:var(--accent);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.72rem}
+.case-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin:1.5rem 0 2.5rem}
+.case-card{background:#fff;border:1px solid #d7dfd1;border-radius:18px;padding:1.25rem;box-shadow:0 10px 30px #263f2410}
+.case-card strong{display:block;font-size:1.7rem;color:var(--accent)}
+.flow{display:grid;gap:.75rem;counter-reset:step}
+.flow li{list-style:none;display:grid;grid-template-columns:2.5rem 1fr;gap:.75rem;align-items:start}
+.flow li:before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:2.25rem;height:2.25rem;border-radius:50%;background:var(--soft);color:var(--accent);font-weight:800}
+.note{background:#f7f7f1;border-left:4px solid var(--accent);padding:1rem 1.1rem}
+code{background:#eef2eb;padding:.12rem .3rem;border-radius:.25rem}
+</style>
+</head>
+<body>
+<main class="wrap">
+<section class="hero-case">
+<p class="kicker">MoneyIA · case público sanitizado · 26/11/2026</p>
+<h1>Uma ponte que continua funcionando quando uma IA para.</h1>
+<p class="lead">O MoneyIA coordena descoberta, propostas e tarefas. O JARVIS funciona como um conector opcional: pode responder localmente e devolver um checklist, enquanto a Mesa preserva a fila e exige evidência antes de considerar um envio externo concluído.</p>
+<p><a href="../">Voltar ao portfólio</a> · <a href="moneyia-operacao-2026-11-26.html">Ver o case de operação</a> · <a href="https://github.com/tufenor/portfolio">Código público</a></p>
+</section>
+
+<section aria-labelledby="medido">
+<h2 id="medido">O que foi medido</h2>
+<div class="case-grid">
+<article class="case-card"><strong>1</strong><span>ponte local persistente entre a Mesa e os agentes</span></article>
+<article class="case-card"><strong>4</strong><span>despachos aguardando evidência externa</span></article>
+<article class="case-card"><strong>0</strong><span>envios externos confirmados sem prova</span></article>
+<article class="case-card"><strong>200</strong><span>HTTP no Radar Completo após a correção do gerador</span></article>
+</div>
+</section>
+
+<section aria-labelledby="fluxo">
+<h2 id="fluxo">Como o fluxo funciona</h2>
+<ol class="flow">
+<li><div><strong>Fila local</strong><br>A Mesa guarda aprovação, proposta, demo e tarefa mesmo quando nenhum modelo está disponível.</div></li>
+<li><div><strong>Fallback</strong><br>O JARVIS pode receber um pedido em <code>/api/moneyia/fallback</code> e produzir uma resposta local. Isso é preparação, não candidatura enviada.</div></li>
+<li><div><strong>Gate humano</strong><br>Login, verificação e desafio de plataforma aparecem como pendências visuais e sonoras. A retomada continua da etapa registrada.</div></li>
+<li><div><strong>Evidência</strong><br>Somente uma prova da plataforma — por exemplo, confirmação visível após o clique — muda o estado para <em>enviado confirmado</em>.</div></li>
+<li><div><strong>Portfólio</strong><br>Casos sanitizados são publicados separadamente no GitHub Pages. Nenhum token, dado de cliente, documento ou saldo é incluído.</div></li>
+</ol>
+</section>
+
+<section aria-labelledby="estado">
+<h2 id="estado">Estado real da verificação</h2>
+<p>O código do router está integrado ao JARVIS, mas o runtime não estava escutando em <code>127.0.0.1:8080</code> na consulta. Por isso, não há afirmação de que o JARVIS tenha enviado propostas ou publicado projetos. A ponte local do MoneyIA permaneceu operacional e os despachos continuaram sem confirmação externa.</p>
+<p class="note"><strong>Transparência:</strong> uma resposta de IA, uma tarefa criada e uma página pública não são contrato, venda, aceite ou recebimento. Este case demonstra arquitetura e evidência de operação local, não receita.</p>
+</section>
+
+<section aria-labelledby="skills">
+<h2 id="skills">Decisões de produto</h2>
+<div class="case-grid">
+<article class="case-card"><h3>Continuidade primeiro</h3><p>Fila e cache locais evitam que a operação desapareça quando ChatGPT, DeepSeek, Ollama ou JARVIS ficam indisponíveis.</p></article>
+<article class="case-card"><h3>Estado separado</h3><p>Descoberta, proposta pronta, despacho, envio, contrato, entrega, aceite e recebimento têm registros próprios.</p></article>
+<article class="case-card"><h3>Publicação segura</h3><p>O portfólio mostra o processo e os artefatos que podem ser públicos; os projetos privados continuam descritos, não expostos.</p></article>
+</div>
+</section>
+
+<footer><p>Gabriel de Moura Pereira · interfaces web, automação e IA com revisão humana.</p></footer>
+</main>
+</body>
+</html>

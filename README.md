@@ -5,6 +5,7 @@ Página estática de apresentação profissional e uma demonstração de correç
 - `index.html` — ofertas, processo, limites e contato.
 - `demo/cafe-aurora.html` — versão corrigida de uma página de demonstração. Empresa fictícia, declarada como tal.
 - `demo/cafe-aurora-antes.html` — a mesma página com os defeitos de celular que a correção resolve.
+- `case/moneyia-radar.html` — case público e sanitizado do Radar global MoneyIA.
 
 Sem dependências externas, fontes remotas, scripts de terceiros ou rastreadores. Para abrir localmente, basta servir a pasta ou abrir `index.html` no navegador.
 
