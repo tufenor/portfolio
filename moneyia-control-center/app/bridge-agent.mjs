@@ -32,7 +32,14 @@ export function bridgeSnapshot(providers = [], iaItems = [], proposalDispatch = 
     providers: {
       configured: configured.length,
       usable: usable.length,
-      preferred: providers.find((p) => p.id === 'chatgpt')?.label || 'ChatGPT pago'
+      preferred: providers.find((p) => p.id === 'chatgpt')?.label || 'ChatGPT pago',
+      redundancy: providers.filter((p) => p.habilitado).map((p) => ({
+        id: p.id,
+        label: p.label,
+        configured: p.endpointConfigured === true,
+        usable: p.cotaDisponivel === true && p.endpointConfigured === true,
+        health: p.health || (p.endpointConfigured ? 'configured_unverified' : 'not_configured')
+      }))
     },
     continuity: `A Mesa continua com cache e fila local mesmo sem IA. ${waitingProposals.length} proposta(s) aguardam o agente responsável.`
   };

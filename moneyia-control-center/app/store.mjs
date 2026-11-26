@@ -17,6 +17,7 @@ export const radarRunsFile = join(dataDir, 'radar-runs.json');
 export const radarGatesFile = join(dataDir, 'radar-gates.json');
 export const radarOpportunitiesFile = join(dataDir, 'radar-opportunities.json');
 export const radarSessionsFile = join(dataDir, 'radar-sessions.json');
+export const dispatchSchedulerFile = join(dataDir, 'dispatch-scheduler.json');
 
 const readJson = async (file, fallback = []) => {
   try { return JSON.parse(await readFile(file, 'utf8')); } catch { return fallback; }
@@ -48,6 +49,22 @@ export const readRadarRuns = () => readJson(radarRunsFile, []);
 export const readRadarGates = () => readJson(radarGatesFile, []);
 export const readRadarOpportunities = () => readJson(radarOpportunitiesFile, []);
 export const readRadarSessions = () => readJson(radarSessionsFile, []);
+export const readDispatchScheduler = () => readJson(dispatchSchedulerFile, {
+  enabled: false,
+  intervalMs: 300000,
+  nextAt: null,
+  lastRunAt: null,
+  lastDispatchId: null,
+  lastPlatform: null,
+  processedCount: 0,
+  inFlight: false,
+  updatedAt: null
+});
+
+export async function writeDispatchScheduler(value = {}) {
+  await writeJson(dispatchSchedulerFile, { ...value, updatedAt: new Date().toISOString() });
+  return value;
+}
 
 export async function writeEmailInbox(value) {
   await writeJson(emailInboxFile, value);

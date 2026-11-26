@@ -12,7 +12,8 @@ import {
   readAgentQuestions, createAgentQuestion, answerAgentQuestion,
   readProposalDispatch, createProposalDispatch, updateProposalDispatch, readEmailInbox, writeEmailInbox,
   readRadarRuns, readRadarGates, readRadarOpportunities, readRadarSessions,
-  writeRadarRuns, writeRadarGates, writeRadarOpportunities, writeRadarSessions
+  writeRadarRuns, writeRadarGates, writeRadarOpportunities, writeRadarSessions,
+  readDispatchScheduler, writeDispatchScheduler
 } from './store.mjs';
 import { bridgeSnapshot, localFallback } from './bridge-agent.mjs';
 import { buildProposalPacket, isOpportunityEligible, rankOpportunities } from './opportunity-packets.mjs';
@@ -133,6 +134,11 @@ async function readAiProviders() {
         : p.id === 'jarvis'
           ? jarvis.endpointConfigured
         : Boolean(process.env[providerEnv[p.id] || ''] || (p.id === 'chatgpt' && process.env.MONEYIA_AI_WEBHOOK_URL))
+      ,health: p.id === 'ollama'
+        ? (ollama.endpointConfigured ? (ollama.cotaDisponivel ? 'healthy' : 'reachable_no_model') : 'offline')
+        : p.id === 'jarvis'
+          ? (jarvis.endpointConfigured ? 'healthy' : 'offline')
+          : (Boolean(process.env[providerEnv[p.id] || ''] || (p.id === 'chatgpt' && process.env.MONEYIA_AI_WEBHOOK_URL)) ? 'configured_unverified' : 'not_configured')
     }))
     .sort((a, b) => Number(a.preferencia || 99) - Number(b.preferencia || 99));
 }
@@ -291,8 +297,22 @@ function iaPrompt(o) {
 
 async function sendToAiWebhook(item, requestedProvider) {
   const selected = await chooseAiProvider(requestedProvider || 'chatgpt');
-  const provider = selected.provider;
-  if (provider?.id === 'ollama') {
+  const preferred = selected.provider;
+  // A preferência é apenas a primeira tentativa. Uma ponte configurada pode
+  // estar fora do ar, por isso a fila precisa continuar com o próximo agente.
+  // Não fazemos fallback silencioso quando o operador pediu um provedor
+  // específico: o chamador pode repetir sem providerId para usar a cascata.
+  const candidates = requestedProvider
+    ? [preferred].filter(Boolean)
+    : selected.providers.filter((p) => p.habilitado && p.endpointConfigured && p.cotaDisponivel === true);
+  const attempts = [];
+  if (!candidates.length) return {
+    status: 'aguardando_ponte', webhookStatus: null, providerId: preferred?.id || null,
+    providerLabel: preferred?.label || 'Nenhum agente configurado', providers: selected.providers, attempts
+  };
+
+  for (const provider of candidates) {
+   if (provider?.id === 'ollama') {
     const url = process.env.MONEYIA_OLLAMA_URL || 'http://127.0.0.1:11434/api/chat';
     const model = provider.modelo || process.env.MONEYIA_OLLAMA_MODEL || 'qwen3.5:4b';
     try {
@@ -309,7 +329,7 @@ async function sendToAiWebhook(item, requestedProvider) {
         })
       });
       const body = await res.json().catch(() => ({}));
-      if (!res.ok) return { status: 'falha_dispatch', webhookStatus: res.status, providerId: provider.id, providerLabel: provider.label, providers: selected.providers };
+      if (!res.ok) { attempts.push(`${provider.id}: HTTP ${res.status}`); continue; }
       return {
         status: 'despachada',
         webhookStatus: res.status,
@@ -319,7 +339,8 @@ async function sendToAiWebhook(item, requestedProvider) {
         response: typeof body.message?.content === 'string' ? body.message.content : null
       };
     } catch (error) {
-      return { status: 'falha_dispatch', webhookStatus: error.message, providerId: provider.id, providerLabel: provider.label, providers: selected.providers };
+      attempts.push(`${provider.id}: ${error.message}`);
+      continue;
     }
   }
   const url = provider ? (
@@ -327,13 +348,7 @@ async function sendToAiWebhook(item, requestedProvider) {
     || (provider.id === 'jarvis' ? 'http://127.0.0.1:8080/api/moneyia/fallback' : '')
     || (provider.id === 'chatgpt' ? process.env.MONEYIA_AI_WEBHOOK_URL : '')
   ) : '';
-  if (!provider || !url) return {
-    status: 'aguardando_ponte',
-    webhookStatus: null,
-    providerId: provider?.id || null,
-    providerLabel: provider?.label || 'Nenhum agente configurado',
-    providers: selected.providers
-  };
+  if (!provider || !url) { attempts.push(`${provider?.id || 'unknown'}: sem endpoint`); continue; }
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -341,14 +356,18 @@ async function sendToAiWebhook(item, requestedProvider) {
         'content-type': 'application/json',
         ...(process.env.MONEYIA_AI_WEBHOOK_TOKEN ? { authorization: `Bearer ${process.env.MONEYIA_AI_WEBHOOK_TOKEN}` } : {})
       },
+      signal: AbortSignal.timeout(Number(process.env.MONEYIA_AI_DISPATCH_TIMEOUT_MS || 10000)),
       body: JSON.stringify({ type: 'oportunidade_moneyia', provider: provider.id, item })
     });
-    if (!res.ok) return { status: 'falha_dispatch', webhookStatus: res.status, providerId: provider.id, providerLabel: provider.label, providers: selected.providers };
+    if (!res.ok) { attempts.push(`${provider.id}: HTTP ${res.status}`); continue; }
     const body = await res.json().catch(() => ({}));
-    return { status: 'despachada', webhookStatus: res.status, providerId: provider.id, providerLabel: provider.label, providers: selected.providers, response: typeof body.response === 'string' ? body.response : null };
+    return { status: 'despachada', webhookStatus: res.status, providerId: provider.id, providerLabel: provider.label, providers: selected.providers, response: typeof body.response === 'string' ? body.response : null, attempts };
   } catch (error) {
-    return { status: 'falha_dispatch', webhookStatus: error.message, providerId: provider.id, providerLabel: provider.label, providers: selected.providers };
+    attempts.push(`${provider.id}: ${error.message}`);
+    continue;
   }
+  }
+  return { status: 'falha_dispatch', webhookStatus: attempts.join(' | '), providerId: candidates.at(-1)?.id || null, providerLabel: 'Nenhum agente respondeu', providers: selected.providers, attempts };
 }
 
 async function sendAgentAnswerWebhook(question, answer) {
@@ -424,7 +443,9 @@ async function sendProposalDispatchWebhook(approval, dispatch, requestedProvider
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'content-type': 'application/json', ...(process.env.MONEYIA_AI_WEBHOOK_TOKEN ? { authorization: `Bearer ${process.env.MONEYIA_AI_WEBHOOK_TOKEN}` } : {}) },
-        signal: AbortSignal.timeout(isOllama ? 180000 : 8000),
+        signal: AbortSignal.timeout(isOllama
+          ? Number(process.env.MONEYIA_OLLAMA_DISPATCH_TIMEOUT_MS || 10000)
+          : Number(process.env.MONEYIA_AI_DISPATCH_TIMEOUT_MS || 8000)),
         body: JSON.stringify(payload)
       });
       const body = await res.json().catch(() => ({}));
@@ -459,12 +480,81 @@ async function sendProposalDispatchWebhook(approval, dispatch, requestedProvider
   return { status: 'falha_agente', webhookStatus: attempts.join(' | '), providerId: candidates.at(-1)?.id || null, providerLabel: 'Nenhum agente respondeu', attempts };
 }
 
+let dispatchSchedulerInFlight = false;
+
+function dispatchPlatform(approval = {}) {
+  const text = String(approval.target || approval.source || '').trim();
+  return (text.split(/\s*[·|—-]\s*/)[0] || 'desconhecida').slice(0, 80);
+}
+
+async function runDispatchScheduler(force = false) {
+  if (dispatchSchedulerInFlight) return { status: 'busy' };
+  const config = await readDispatchScheduler();
+  if (!config.enabled && !force) return { status: 'disabled', config };
+  if (!force && config.nextAt && Date.parse(config.nextAt) > Date.now()) return { status: 'waiting', config };
+  const [dispatches, approvals] = await Promise.all([readProposalDispatch(), readApprovals()]);
+  const approvalById = new Map(approvals.map((row) => [row.id, row]));
+  let pending = [];
+  // New approvals take precedence over failed agent retries so one broken
+  // bridge cannot block the entire one-at-a-time queue.
+  const nextApproval = approvals
+    .filter((row) => row.status === 'pendente' && row.actionType === 'candidatura')
+    .sort((a, b) => String(a.createdAt || '').localeCompare(String(b.createdAt || '')))
+    .find((row) => row.opportunityId);
+  if (nextApproval) {
+    const approved = await decideApproval(nextApproval.id, 'aprovar', 'fila-automatica', 'Encaminhamento automático um-a-um; intervalo de 5 minutos.');
+    const created = await createProposalDispatch({ opportunityId: approved.opportunityId, approvalId: approved.id, provider: 'deepseek' });
+    pending = [{ row: created, approval: approved }];
+  } else {
+    pending = dispatches
+      .filter((row) => !row.sent && row.status === 'aguardando_agente')
+      .map((row) => ({ row, approval: approvalById.get(row.approvalId) }))
+      .filter((item) => item.approval)
+      .sort((a, b) => String(a.row.createdAt || '').localeCompare(String(b.row.createdAt || '')));
+  }
+  if (!pending.length) {
+    const done = { ...config, nextAt: null, inFlight: false, lastRunAt: new Date().toISOString() };
+    await writeDispatchScheduler(done);
+    return { status: 'empty', config: done };
+  }
+  const candidate = pending.find((item) => dispatchPlatform(item.approval) !== config.lastPlatform) || pending[0];
+  dispatchSchedulerInFlight = true;
+  const running = { ...config, inFlight: true, lastRunAt: new Date().toISOString() };
+  await writeDispatchScheduler(running);
+  try {
+    const delivery = await sendProposalDispatchWebhook(candidate.approval, candidate.row);
+    const updated = await updateProposalDispatch(candidate.row.id, {
+      status: delivery.status,
+      provider: delivery.providerId || candidate.row.provider,
+      agent: delivery.providerId || candidate.row.agent,
+      note: `Encaminhamento automático interno (${delivery.providerLabel || delivery.status}); sem confirmação externa.`
+    });
+    const next = {
+      ...running,
+      enabled: true,
+      inFlight: false,
+      nextAt: new Date(Date.now() + Math.max(60000, Number(config.intervalMs || 300000))).toISOString(),
+      lastDispatchId: candidate.row.id,
+      lastPlatform: dispatchPlatform(candidate.approval),
+      processedCount: Number(config.processedCount || 0) + 1
+    };
+    await writeDispatchScheduler(next);
+    return { status: 'processed', dispatch: updated, delivery, config: next };
+  } catch (error) {
+    const next = { ...running, inFlight: false, nextAt: new Date(Date.now() + Math.max(60000, Number(config.intervalMs || 300000))).toISOString() };
+    await writeDispatchScheduler(next);
+    return { status: 'error', error: String(error.message || error), config: next };
+  } finally { dispatchSchedulerInFlight = false; }
+}
+
+setInterval(() => { runDispatchScheduler().catch(() => {}); }, 15000).unref();
+
 async function state() {
-  const [approvals, tasks, ia, questions, brl, usd, finance, pendencias, proposals, proposalChecks, proposalDispatch, emailInbox, radarRuns, radarGates, radarOpportunities, radarSessions] = await Promise.all([
+  const [approvals, tasks, ia, questions, brl, usd, finance, pendencias, proposals, proposalChecks, proposalDispatch, emailInbox, radarRuns, radarGates, radarOpportunities, radarSessions, dispatchScheduler] = await Promise.all([
     readApprovals(), readTasks(), readIa(), readAgentQuestions(),
     readJson('opportunities-brl.json', []), readJson('opportunities-usd.json', []),
     readJson('finance.json', {}), readJson('pendencias.json', []), sentProposals(), readChecks(), readProposalDispatch(), readEmailInbox(),
-    readRadarRuns(), readRadarGates(), readRadarOpportunities(), readRadarSessions()
+    readRadarRuns(), readRadarGates(), readRadarOpportunities(), readRadarSessions(), readDispatchScheduler()
   ]);
   const bridge = bridgeSnapshot(await readAiProviders(), ia, proposalDispatch);
   const pendingGates = radarGates.filter((gate) => gate.status === 'pending');
@@ -494,6 +584,7 @@ async function state() {
     pendencias: pendencias.filter((p) => p.status === 'pendente'),
     proposals: proposals.map(p => ({ ...p, check: proposalChecks[p.id] || { status: 'nao_verificada', evidence: 'Aguardando primeira conferência automática.' } })),
     proposalDispatch,
+    dispatchScheduler,
     emailInbox,
     radar: {
       runs: radarRuns.slice(-20).reverse(),
@@ -905,7 +996,7 @@ const server = createServer(async (req, res) => {
         status: 'aguardando_ponte',
         providerId: String(body.providerId || 'chatgpt').slice(0, 40)
       });
-      const delivery = await sendToAiWebhook(item, body.providerId || 'chatgpt');
+      const delivery = await sendToAiWebhook(item, body.providerId || '');
       item = await setIaDelivery(item.id, delivery.status, delivery.webhookStatus, delivery.providerId, delivery.providerLabel);
       if (delivery.response) item = await setIaResponse(item.id, delivery.response, `dispatch:${delivery.providerId}`);
       return sendJson(res, 201, { item, delivery: delivery.status, provider: delivery.providerLabel, providers: delivery.providers });
@@ -936,7 +1027,7 @@ const server = createServer(async (req, res) => {
       if (!item) return sendJson(res, 404, { error: 'item da IA não encontrado' });
       if (item.status === 'respondida') return sendJson(res, 200, { item, delivery: 'already_answered' });
       const body = await readBody(req);
-      const delivery = await sendToAiWebhook(item, body.providerId || item.providerId || 'chatgpt');
+      const delivery = await sendToAiWebhook(item, body.providerId || item.providerId || '');
       let row = await setIaDelivery(id, delivery.status, delivery.webhookStatus, delivery.providerId, delivery.providerLabel);
       if (delivery.response) row = await setIaResponse(id, delivery.response, `dispatch:${delivery.providerId}`);
       return sendJson(res, 200, { item: row, delivery: delivery.status, provider: delivery.providerLabel, providers: delivery.providers });
@@ -987,6 +1078,24 @@ const server = createServer(async (req, res) => {
       return sendJson(res, 200, { approval: row, dispatch, delivery });
     }
 
+    if (req.method === 'GET' && path === '/api/proposal-dispatch/scheduler') {
+      return sendJson(res, 200, await readDispatchScheduler());
+    }
+    if (req.method === 'POST' && path === '/api/proposal-dispatch/scheduler') {
+      const body = await readBody(req);
+      const current = await readDispatchScheduler();
+      const enabled = body.enabled === undefined ? Boolean(current.enabled) : Boolean(body.enabled);
+      const intervalMs = Math.max(60000, Math.min(86_400_000, Number(body.intervalMs || current.intervalMs || 300000)));
+      const config = await writeDispatchScheduler({
+        ...current,
+        enabled,
+        intervalMs,
+        nextAt: enabled ? (body.runNow ? new Date().toISOString() : (current.nextAt || new Date().toISOString())) : null,
+        inFlight: false
+      });
+      const result = enabled && body.runNow ? await runDispatchScheduler(true) : { status: enabled ? 'scheduled' : 'paused', config };
+      return sendJson(res, 200, { ...result, config: result.config || config });
+    }
     const dispatchEvidence = path.match(/^\/api\/proposal-dispatch\/([^/]+)\/evidence$/);
     const dispatchForward = path.match(/^\/api\/proposal-dispatch\/([^/]+)\/forward$/);
     const dispatchClaim = path.match(/^\/api\/proposal-dispatch\/([^/]+)\/claim$/);

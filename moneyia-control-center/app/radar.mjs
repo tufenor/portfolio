@@ -100,6 +100,22 @@ export function scoreOpportunity(row = {}) {
   };
 }
 
+// Ordena a fila de aprovação sem transformar moeda nem presumir elegibilidade.
+// Compatibilidade é apenas preferência operacional; a verificação humana continua obrigatória.
+export function rankOpportunities(rows = [], preferences = {}) {
+  const wantedLanguages = new Set((preferences.languages || ['pt', 'en', 'es']).map((value) => fold(value)));
+  const wantedCurrencies = new Set((preferences.currencies || ['BRL', 'USD']).map((value) => fold(value)));
+  return rows.map((row) => {
+    const language = fold(row.language || row.idioma || 'unknown');
+    const currency = fold(row.currency || row.proposalCurrency || 'unknown');
+    const languageMatch = wantedLanguages.has(language) || language === 'global' ? 4 : 0;
+    const currencyMatch = wantedCurrencies.has(currency) ? 3 : 0;
+    const budgetKnown = row.budget && !/(unknown|desconhecido|consulta|nao informado|não informado)/i.test(String(row.budget)) ? 2 : 0;
+    const verification = /official_page_read|page_confirmed|observed_public/i.test(String(row.verification || '')) ? 1 : 0;
+    return { ...row, fitRank: Number(row.radarScore?.total || scoreOpportunity(row).total) + languageMatch + currencyMatch + budgetKnown + verification };
+  }).sort((a, b) => b.fitRank - a.fitRank || String(b.observedAt || b.checked || '').localeCompare(String(a.observedAt || a.checked || '')));
+}
+
 export function normalizeOpportunity(row = {}, context = {}) {
   const url = String(row.url || row.opportunityUrl || row.link || '').trim();
   const score = scoreOpportunity(row);
