@@ -642,7 +642,10 @@ const server = createServer(async (req, res) => {
         if (!hadGate) continue;
         run.resolvedGateKeys = [...new Set([...(run.resolvedGateKeys || []), gateKey])];
         run.gateIds = gates.filter((item) => item.runId === run.id && item.status === 'pending').map((item) => item.id);
-        run.status = run.gateIds.length ? 'paused' : 'running';
+        // No pending gates means the last browser step is already complete.
+        // Mark the run terminal here instead of relying on a second UI request
+        // to /resume (which could be lost on refresh and leave it looking stuck).
+        run.status = run.gateIds.length ? 'paused' : 'completed';
         run.updatedAt = new Date().toISOString();
         touchedRuns.push(run);
       }

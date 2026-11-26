@@ -437,7 +437,7 @@ function renderGates() {
     button.disabled = true;
     try {
       const completion = await api(`/api/browser/gates/${encodeURIComponent(button.dataset.gateComplete)}/complete`, { method: 'POST', body: JSON.stringify({ by: 'titular' }) });
-      if (completion.run?.id && !(completion.run.gateIds || []).length) {
+      if (completion.run?.id && completion.run.status === 'running' && !(completion.run.gateIds || []).length) {
         await api(`/api/radar/runs/${encodeURIComponent(completion.run.id)}/resume`, { method: 'POST', body: '{}' });
         toast(`Pendência concluída em ${completion.clearedGateIds?.length || 1} execução(ões); a varredura foi retomada.`);
       } else {
