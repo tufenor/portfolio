@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>moneyIA · Mesa de aprovações</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#2f4a37">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="stylesheet" href="./app.css?v=12">
+</head>
+<body class="app-shell">
+<a class="skip" href="#main">Pular para o conteúdo</a>
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="./">
+      <span class="mark" aria-hidden="true">m</span>
+      <span><strong>moneyIA</strong><small>mesa de aprovações</small></span>
+    </a>
+    <nav class="top-nav" aria-label="Navegação da central">
+      <a href="#overview">Visão geral</a>
+      <a href="#radar">Radar</a>
+      <a href="#approvals-title">Aprovações</a>
+      <a href="#operations">Execução</a>
+      <a href="#ia-title">IA</a>
+      <a class="top-nav-accent" href="dashboard#radar">Radar completo ↗</a>
+    </nav>
+    <div class="top-right">
+      <span class="live" id="netState"><i></i><span id="netLabel">local</span></span>
+      <span class="bridge-live" id="bridgeState" title="A fila local continua disponível quando a IA para"><i></i><span>Ponte local</span></span>
+      <span class="clock" id="clock">—</span>
+      <button class="btn ghost small install" id="installBtn" hidden>Instalar</button>
+      <button class="icon-btn" id="syncBtn" title="Sincronizar fila" aria-label="Sincronizar fila" hidden>⇅</button>
+      <button class="icon-btn" id="refresh" title="Atualizar" aria-label="Atualizar">↻</button>
+    </div>
+  </div>
+</header>
+<div class="offline-banner" id="offlineBanner" hidden><strong>Modo offline.</strong> A mesa usa o último estado salvo. Aprovações e tarefas ficam numa fila local e sobem quando a conexão voltar.</div>
+<div class="offline-banner gate-banner" id="gateBanner" hidden><strong>Ação necessária no navegador.</strong> <span id="gateBannerText">Há uma verificação pendente.</span> <a href="#gates-title">Abrir pendências</a></div>
+
+<main id="main" class="wrap">
+  <section class="hero" id="overview">
+    <div>
+      <p class="eyebrow">MONEYIA / CENTRAL DE OPERAÇÃO</p>
+      <h1>Da oportunidade à primeira receita<span class="green">.</span></h1>
+      <p class="lead">Radar, demos, propostas, aprovações e execução no mesmo fluxo. O radar visual continua completo em <a href="dashboard#radar">/dashboard</a>; esta Mesa concentra as decisões e os agentes.</p>
+    </div>
+    <div class="hero-card">
+      <span class="pulse"></span>
+      <div><strong id="lastUpdate">carregando…</strong><small>última leitura do estado local</small></div>
+    </div>
+  </section>
+
+  <section class="kpis" aria-label="Resumo">
+    <article class="kpi"><span>Aprovações pendentes</span><strong id="kpiApprovals">—</strong><small>precisam de você</small></article>
+    <article class="kpi"><span>Tarefas abertas</span><strong id="kpiTasks">—</strong><small>pendentes ou em andamento</small></article>
+    <article class="kpi"><span>Oportunidades</span><strong id="kpiOpps">—</strong><small>BRL + USD mapeadas</small></article>
+    <article class="kpi"><span>Recebido</span><strong id="kpiMoney">—</strong><small>confirmado no caixa</small></article>
+  </section>
+
+  <div class="grid">
+    <section class="panel" aria-labelledby="approvals-title">
+      <div class="panel-head">
+        <div><p class="kicker">Fila de decisão</p><h2 id="approvals-title">Aprovações</h2></div>
+        <div class="panel-actions">
+          <button class="btn primary small" id="prepareApprovals" type="button">Preparar até 30</button>
+          <button class="btn ghost small" id="approveQueue" type="button">Aprovar fila (um por vez)</button>
+          <button class="btn ghost small" id="autoForwardQueue" type="button" aria-pressed="false">Encaminhar todos automaticamente</button>
+          <div class="seg" role="group" aria-label="Filtro de aprovações">
+          <button class="seg-btn active" data-filter="pendente">Pendentes</button>
+          <button class="seg-btn" data-filter="todas">Todas</button>
+          </div>
+        </div>
+      </div>
+      <p class="hint">O Radar prepara até 30 pacotes qualificados por vez. <strong>Preparar até 30</strong> coloca os pacotes nesta fila. <strong>Aprovar fila (um por vez)</strong> abre o próximo pacote em ordem para sua confirmação. <strong>Encaminhar todos automaticamente</strong> aprova e encaminha um pacote a cada 5 minutos, alternando plataformas quando possível; isso apenas envia à fila do agente, nunca marca candidatura externa sem evidência.</p>
+      <p class="hint" id="autoForwardStatus" role="status">Encaminhamento automático desligado.</p>
+      <div id="approvals" class="stack"></div>
+    </section>
+
+    <aside class="side" id="operations">
+      <section class="panel" aria-labelledby="tasks-title">
+        <div class="panel-head">
+          <div><p class="kicker">Execução</p><h2 id="tasks-title">Tarefas</h2></div>
+          <button class="btn small" id="openTask">+ Nova</button>
+        </div>
+        <div id="tasks" class="stack compact"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="human-title">
+        <div class="panel-head"><div><p class="kicker">Depende de você</p><h2 id="human-title">Pendências humanas</h2></div></div>
+        <div id="human" class="stack compact"></div>
+      </section>
+    </aside>
+  </div>
+
+  <section class="panel opps" id="radar" aria-labelledby="opps-title">
+    <div class="panel-head">
+      <div><p class="kicker">Radar</p><h2 id="opps-title">Oportunidades recentes</h2></div>
+      <div class="panel-actions"><button class="btn primary small" id="startRadar" type="button">Iniciar varredura global</button><button class="btn small" id="createSendQueue" type="button">Criar fila automática de envios (até 30)</button><a class="btn ghost small" href="dashboard" target="_blank" rel="noopener">Abrir painel completo</a></div>
+    </div>
+    <p class="hint" id="radarStatus">Varredura pública em modo sombra; fontes autenticadas usam uma única sessão serial por plataforma. A fila de envio prepara pacotes para revisão visual e não envia sem aprovação.</p>
+    <div id="opps" class="opp-list"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="gates-title">
+    <div class="panel-head">
+      <div><p class="kicker">Navegador</p><h2 id="gates-title">Login e verificações pendentes</h2></div>
+      <button class="btn ghost small" id="gatesRefresh" type="button">Atualizar</button>
+    </div>
+    <p class="hint">Quando um portal pedir login, e-mail ou verificação humana, a varredura pausa neste ponto. O MoneyIA não troca IP nem tenta resolver o desafio automaticamente.</p>
+    <div id="radarGates" class="stack compact"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="proposals-title">
+    <div class="panel-head">
+      <div><p class="kicker">Envios registrados</p><h2 id="proposals-title">Propostas, uma por uma</h2></div>
+      <button class="btn ghost small" id="verifyAll" type="button">Conferir todas agora</button>
+    </div>
+    <p class="hint">O agente confere as páginas individuais no Chrome de trabalho a cada 30 minutos. Sem sessão ou sinal inequívoco, registra a limitação. Esta conferência não envia propostas nem confirma contratos ou pagamentos.</p>
+    <div id="proposals" class="stack compact"></div>
+  </section>
+
+  <section class="panel ia-panel" aria-labelledby="ia-title">
+    <div class="panel-head">
+      <div><p class="kicker">Ponte com a IA</p><h2 id="ia-title">Fila da IA</h2></div>
+      <div class="ia-routing"><label for="iaProvider">Agente</label><select id="iaProvider" aria-label="Agente que receberá o prompt"><option value="chatgpt">ChatGPT pago · preferido</option></select><span class="pill" id="iaWebhook">ponte não configurada</span></div>
+    </div>
+      <p class="hint">O ChatGPT pago é o agente preferido. O JARVIS local assume como executor de fallback quando a ponte externa não responder. Se toda IA parar, a ponte local mantém a fila e permite <strong>Continuar localmente</strong>. Para propostas, a aprovação aparece na fila acima e o agente recebe a tarefa; nenhum estado é marcado como enviado sem evidência da plataforma.</p>
+    <div id="iaQueue" class="stack compact"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="email-title">
+    <div class="panel-head">
+      <div><p class="kicker">Gmail</p><h2 id="email-title">Sinais de propostas e clientes</h2></div>
+      <button class="btn ghost small" id="emailRefresh" type="button">Atualizar análise</button>
+    </div>
+    <p class="hint">A análise identifica novas oportunidades, possíveis aceites/respostas, cancelamentos e alertas de segurança. A leitura é somente consulta; nenhum e-mail é enviado, arquivado ou marcado como lido.</p>
+    <div id="emailInbox" class="stack compact"></div>
+  </section>
+
+  <p class="footnote">Este painel lê e grava apenas arquivos locais. Não envia WhatsApp, não compra Connects e não move dinheiro. O acesso é restrito a 127.0.0.1.</p>
+</main>
+
+<div class="modal-backdrop" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" aria-label="Fechar">×</button>
+    <p class="kicker" id="modalKicker">Decisão</p>
+    <h2 id="modalTitle">Confirmar</h2>
+    <p id="modalText" class="modal-text"></p>
+    <label class="field"><span>Observação (opcional)</span><textarea id="modalNote" rows="3" placeholder="Ex.: aprovado somente para este escopo"></textarea></label>
+    <div class="modal-actions">
+      <button class="btn ghost" id="modalCancel">Cancelar</button>
+      <button class="btn danger" id="modalReject">Rejeitar</button>
+      <button class="btn primary" id="modalApprove">Aprovar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="taskModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="taskTitle">
+    <button class="modal-close" id="taskClose" aria-label="Fechar">×</button>
+    <p class="kicker">Nova tarefa</p>
+    <h2 id="taskTitle">Enviar para a fila</h2>
+    <form id="taskForm">
+      <label class="field"><span>Título</span><input id="taskName" required maxlength="160" placeholder="Ex.: revisar proposta 799111"></label>
+      <label class="field"><span>Descrição</span><textarea id="taskDesc" rows="3" maxlength="2000" placeholder="O que precisa ser feito, com critério de conclusão"></textarea></label>
+      <div class="two">
+        <label class="field"><span>Responsável</span><select id="taskAssignee"><option>codex</option><option>deepseek</option><option>chatgpt</option><option>titular</option></select></label>
+        <label class="field"><span>Prioridade</span><select id="taskPriority"><option value="alta">Alta</option><option value="media" selected>Média</option><option value="baixa">Baixa</option></select></label>
+      </div>
+      <div class="modal-actions"><button type="button" class="btn ghost" id="taskCancel">Cancelar</button><button class="btn primary" type="submit">Criar tarefa</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="iaModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="iaModalTitle">
+    <button class="modal-close" id="iaClose" aria-label="Fechar">×</button>
+    <p class="kicker">Retorno da IA</p>
+    <h2 id="iaModalTitle">Colar resposta</h2>
+    <p class="modal-text" id="iaModalText"></p>
+    <label class="field"><span>Resposta da IA</span><textarea id="iaReturn" rows="8" placeholder="Cole aqui o retorno do projeto ChatGPT moneyIA"></textarea></label>
+    <div class="modal-actions"><button class="btn ghost" id="iaCancel">Cancelar</button><button class="btn primary" id="iaSave">Salvar e criar tarefa</button></div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="/app.js?v=14"></script>
+</body>
+</html>
