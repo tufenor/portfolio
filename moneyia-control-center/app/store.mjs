@@ -13,6 +13,7 @@ export const agentQuestionsFile = join(dataDir, 'agent-questions.json');
 export const proposalDispatchFile = join(dataDir, 'proposal-dispatch.json');
 export const notificationsFile = join(dataDir, 'notificacoes.jsonl');
 export const emailInboxFile = join(dataDir, 'email-inbox.json');
+export const inboxFeedFile = join(dataDir, 'inbox-feed.json');
 export const emailWatchStatusFile = join(dataDir, 'email-watch-status.json');
 export const radarRunsFile = join(dataDir, 'radar-runs.json');
 export const radarGatesFile = join(dataDir, 'radar-gates.json');
@@ -46,6 +47,7 @@ export const readIa = () => readJson(iaFile, []);
 export const readAgentQuestions = () => readJson(agentQuestionsFile, []);
 export const readProposalDispatch = () => readJson(proposalDispatchFile, []);
 export const readEmailInbox = () => readJson(emailInboxFile, { scannedAt: null, total: 0, counts: {}, emails: [] });
+export const readInboxFeed = () => readJson(inboxFeedFile, []);
 export const readEmailWatchStatus = () => readJson(emailWatchStatusFile, {
   status: 'unknown', lastAttemptAt: null, lastSuccessAt: null, lastError: null,
   intervalMs: 1800000, source: 'gmail-cdp-readonly', updatedAt: null
@@ -73,6 +75,11 @@ export async function writeDispatchScheduler(value = {}) {
 
 export async function writeEmailInbox(value) {
   await writeJson(emailInboxFile, value);
+  return value;
+}
+
+export async function writeInboxFeed(value) {
+  await writeJson(inboxFeedFile, Array.isArray(value) ? value.slice(0, 500) : []);
   return value;
 }
 

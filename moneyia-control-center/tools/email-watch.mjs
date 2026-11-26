@@ -1,52 +1,56 @@
-// Verificador local de alertas de trabalho no Gmail.
-// Usa a sessão já aberta no Chrome de trabalho via tools/gmail-sync.mjs.
-// Leitura somente: não envia, arquiva, marca ou responde mensagens.
-import { spawn } from 'node:child_process';
-import { writeFile, mkdir } from 'node:fs/promises';
+// Vigia local do Gmail via CDP somente leitura. Não envia, marca ou arquiva e-mails.
+import { readFile, writeFile, rename, mkdir } from 'node:fs/promises';
+import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const once = process.argv.includes('--once');
-const intervalArg = process.argv.find((arg) => arg.startsWith('--interval='));
-const intervalMs = Math.max(60_000, Number(intervalArg?.split('=')[1] || 1800) * 1000);
-const statusFile = join(root, 'data', 'email-watch-status.json');
+const dataDir = join(root, 'data');
+const statusFile = join(dataDir, 'email-watch-status.json');
+const exec = promisify(execFile);
+const arg = (name, fallback) => {
+  const value = process.argv.find((item) => item.startsWith(`${name}=`));
+  return value ? value.slice(name.length + 1) : fallback;
+};
+const intervalMs = Math.max(30_000, Number(arg('--interval', '1800')) * 1000);
 
-async function saveStatus(value) {
-  await mkdir(dirname(statusFile), { recursive: true });
-  await writeFile(statusFile, JSON.stringify({ ...value, updatedAt: new Date().toISOString() }, null, 2) + '\n', 'utf8');
+async function status(value) {
+  let previous = {};
+  try { previous = JSON.parse(await readFile(statusFile, 'utf8')); } catch {}
+  const next = { ...previous, ...value, intervalMs, source: 'gmail-cdp-readonly', updatedAt: new Date().toISOString() };
+  await mkdir(dataDir, { recursive: true });
+  const temp = `${statusFile}.${process.pid}.tmp`;
+  await writeFile(temp, JSON.stringify(next, null, 2) + '\n', 'utf8');
+  await rename(temp, statusFile).catch(async () => writeFile(statusFile, JSON.stringify(next, null, 2) + '\n', 'utf8'));
 }
 
-function runSync() {
-  return new Promise((resolve) => {
-    const child = spawn(process.execPath, [join(root, 'tools', 'gmail-sync.mjs')], {
-      cwd: root, env: process.env, stdio: ['ignore', 'pipe', 'pipe']
-    });
-    let stdout = '', stderr = '';
-    child.stdout.on('data', (chunk) => { stdout += chunk; });
-    child.stderr.on('data', (chunk) => { stderr += chunk; });
-    child.on('close', (code) => resolve({ code, stdout: stdout.trim(), stderr: stderr.trim() }));
+async function refreshAlerts() {
+  let messages = [];
+  try { messages = JSON.parse(await readFile(join(dataDir, 'inbox-feed.json'), 'utf8')); } catch {}
+  const rows = Array.isArray(messages) ? messages : [];
+  const keywords = ['accepted', 'approved', 'hired', 'invoice', 'payment', 'payout', 'paid', 'aceita', 'aprovada', 'pagamento', 'recebido', 'fatura'];
+  const alerts = rows.map((m) => {
+    const text = `${m.subject || ''} ${m.from || ''} ${m.snippet || ''}`.toLowerCase();
+    const hits = keywords.filter((keyword) => text.includes(keyword));
+    return { id: m.id || String(Date.now()), from: m.from || 'desconhecido', subject: m.subject || '(sem assunto)', receivedAt: m.receivedAt || null, matched: hits.length > 0, keywords: hits };
   });
+  await writeFile(join(dataDir, 'email-alerts.json'), JSON.stringify({ checkedAt: new Date().toISOString(), total: rows.length, alerts }, null, 2), 'utf8');
 }
 
-async function tick() {
-  const at = new Date().toISOString();
-  await saveStatus({ status: 'checking', lastAttemptAt: at, intervalMs, source: 'gmail-cdp-readonly' });
-  const result = await runSync();
-  if (result.code === 0) {
-    await saveStatus({ status: 'ok', lastAttemptAt: at, lastSuccessAt: new Date().toISOString(), lastError: null, intervalMs, source: 'gmail-cdp-readonly', detail: result.stdout || 'sem alteração' });
-    console.log(`[${at}] Gmail sincronizado: ${result.stdout || 'sem alteração'}`);
-  } else if (result.code === 2) {
-    await saveStatus({ status: 'waiting_for_chrome', lastAttemptAt: at, lastError: result.stderr || result.stdout, intervalMs, source: 'gmail-cdp-readonly' });
-    console.log(`[${at}] Gmail não está aberto no Chrome de trabalho; próxima tentativa agendada.`);
-  } else {
-    await saveStatus({ status: 'error', lastAttemptAt: at, lastError: result.stderr || result.stdout, intervalMs, source: 'gmail-cdp-readonly' });
-    console.error(`[${at}] falha no sincronizador (${result.code}): ${result.stderr || result.stdout}`);
+async function once() {
+  await status({ status: 'checking', lastAttemptAt: new Date().toISOString(), lastError: null });
+  try {
+    const result = await exec(process.execPath, [join(root, 'tools', 'gmail-sync.mjs')], { cwd: root, timeout: 45_000 });
+    await refreshAlerts();
+    await status({ status: 'ok', lastSuccessAt: new Date().toISOString(), lastResult: String(result.stdout || '').slice(0, 500), lastError: null });
+  } catch (error) {
+    const message = String(error.stderr || error.message || `falha na leitura (código ${error.code || 'desconhecido'})`).trim().slice(0, 500);
+    const waiting = error.code === 2 || error.killed || /nenhuma linha|Gmail não está aberto|CDP|Chrome de trabalho|timed out/i.test(message);
+    await status({ status: waiting ? 'waiting_for_gmail_rows' : 'error', lastError: message, lastSuccessAt: null });
   }
 }
 
-await tick();
-if (!once) {
-  console.log(`Verificador ativo: nova leitura a cada ${Math.round(intervalMs / 60000)} min. Ctrl+C encerra.`);
-  setInterval(tick, intervalMs);
-}
+await once();
+if (process.argv.includes('--once')) process.exit(0);
+setInterval(once, intervalMs);

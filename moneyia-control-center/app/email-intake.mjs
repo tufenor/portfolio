@@ -1,4 +1,6 @@
 const fold = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+const stableId = (email, subject, from, emailTs) => String(email.id || email.message_id || '').trim().slice(0, 120)
+  || `derived:${fold(from).slice(0, 80)}|${fold(subject).slice(0, 140)}|${String(emailTs || '').slice(0, 40)}`;
 
 const sourceFor = (from = '') => {
   const value = fold(from);
@@ -51,7 +53,7 @@ export function classifyEmail(email = {}) {
   }
 
   return {
-    id: String(email.id || email.message_id || '').slice(0, 120),
+    id: stableId(email, subject, email.from_ || email.from || '', email.email_ts || email.emailTs || null),
     threadId: String(email.thread_id || email.threadId || '').slice(0, 120),
     from: String(email.from_ || email.from || '').slice(0, 240),
     to: Array.isArray(email.to) ? email.to.slice(0, 10).map(String) : [],
