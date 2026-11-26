@@ -25,6 +25,10 @@ export function classifyEmail(email = {}) {
     kind = 'acceptance_or_client_reply';
     priority = 'alta';
     reason = 'Possível aceite, contratação ou resposta direta do cliente; conferir a página autenticada.';
+  } else if (/(voce recebeu um pagamento|você recebeu um pagamento|pagamento recebido|payment received|payment credited|funds received|you have received payment|pagamento foi creditado)/.test(text)) {
+    kind = 'payment_received';
+    priority = 'alta';
+    reason = 'Possível recebimento; confirmar origem, projeto, moeda e disponibilidade antes de contabilizar receita.';
   } else if (/(cancelad|conexao reembolsad|projeto foi cancelado|proposal declined|not selected)/.test(text)) {
     kind = 'proposal_status';
     priority = 'media';

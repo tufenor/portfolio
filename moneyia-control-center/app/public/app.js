@@ -185,9 +185,9 @@ function renderEmails() {
   const inbox = state.emailInbox || { emails: [], counts: {} };
   const watch = state.emailWatchStatus || {};
   const counts = inbox.counts || {};
-  const rows = (inbox.emails || []).filter((row) => ['acceptance_or_client_reply', 'new_opportunity', 'proposal_status', 'application_status', 'account_security'].includes(row.kind)).slice(0, 20);
+  const rows = (inbox.emails || []).filter((row) => ['acceptance_or_client_reply', 'new_opportunity', 'proposal_status', 'application_status', 'account_security', 'payment_received'].includes(row.kind)).slice(0, 20);
   const watchLabel = watch.status === 'ok' ? 'verificador ativo' : watch.status === 'waiting_for_chrome' ? 'aguardando Chrome/Gmail' : watch.status === 'checking' ? 'verificando agora' : 'verificador não confirmado';
-  const summary = `Analisados: ${inbox.total || 0} · novas oportunidades: ${counts.new_opportunity || 0} · possíveis aceites/respostas: ${counts.acceptance_or_client_reply || 0} · estados: ${counts.proposal_status || 0} · ${watchLabel}`;
+  const summary = `Analisados: ${inbox.total || 0} · novas oportunidades: ${counts.new_opportunity || 0} · possíveis aceites/respostas: ${counts.acceptance_or_client_reply || 0} · possíveis recebimentos: ${counts.payment_received || 0} · estados: ${counts.proposal_status || 0} · ${watchLabel}`;
   if (!rows.length) { box.innerHTML = `<div class="empty">${esc(summary)}. Nenhum sinal relevante importado ainda.</div>`; return; }
   box.innerHTML = `<div class="files">${esc(summary)}${inbox.scannedAt ? ` · leitura ${esc(fmt(inbox.scannedAt))}` : ''}</div>` + rows.map((row) => `
     <article class="task ${row.priority === 'alta' ? 'urgent' : ''}">

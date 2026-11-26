@@ -814,17 +814,19 @@ const server = createServer(async (req, res) => {
       const createdTasks = [];
       for (const email of analysis.emails) {
         const keys = emailIdKeys(email.id);
-        if (!['acceptance_or_client_reply', 'new_opportunity', 'account_security'].includes(email.kind) || !keys.length || keys.some((key) => taskEmails.has(key))) continue;
+        if (!['acceptance_or_client_reply', 'new_opportunity', 'account_security', 'payment_received'].includes(email.kind) || !keys.length || keys.some((key) => taskEmails.has(key))) continue;
         const title = email.kind === 'new_opportunity'
           ? `Revisar nova oportunidade recebida por e-mail — ${email.subject}`
           : email.kind === 'account_security'
             ? `Verificar segurança da conta — ${email.subject}`
+            : email.kind === 'payment_received'
+              ? `Confirmar possível recebimento — ${email.subject}`
             : `Verificar possível aceite/resposta de cliente — ${email.subject}`;
         createdTasks.push(await createTask({
           title: title.slice(0, 160),
           description: `[email-id:${email.id}] ${email.reason}\nDe: ${email.from}\n${email.snippet}`.slice(0, 2000),
           source: 'gmail-moneyia',
-          assignee: email.kind === 'account_security' ? 'titular' : 'codex',
+          assignee: ['account_security', 'payment_received'].includes(email.kind) ? 'titular' : 'codex',
           priority: email.priority
         }));
         keys.forEach((key) => taskEmails.add(key));
