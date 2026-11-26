@@ -10,7 +10,7 @@ import {
   readApprovals, readTasks, readIa, createApproval, updateApproval, decideApproval,
   createTask, updateTask, createIaItem, setIaResponse, setIaDelivery, summarize,
   readAgentQuestions, createAgentQuestion, answerAgentQuestion,
-  readProposalDispatch, createProposalDispatch, updateProposalDispatch, readEmailInbox, writeEmailInbox,
+  readProposalDispatch, createProposalDispatch, updateProposalDispatch, readEmailInbox, writeEmailInbox, readEmailWatchStatus,
   readRadarRuns, readRadarGates, readRadarOpportunities, readRadarSessions,
   writeRadarRuns, writeRadarGates, writeRadarOpportunities, writeRadarSessions,
   readDispatchScheduler, writeDispatchScheduler
@@ -550,11 +550,11 @@ async function runDispatchScheduler(force = false) {
 setInterval(() => { runDispatchScheduler().catch(() => {}); }, 15000).unref();
 
 async function state() {
-  const [approvals, tasks, ia, questions, brl, usd, finance, pendencias, proposals, proposalChecks, proposalDispatch, emailInbox, radarRuns, radarGates, radarOpportunities, radarSessions, dispatchScheduler] = await Promise.all([
+  const [approvals, tasks, ia, questions, brl, usd, finance, pendencias, proposals, proposalChecks, proposalDispatch, emailInbox, emailWatchStatus, radarRuns, radarGates, radarOpportunities, radarSessions, dispatchScheduler] = await Promise.all([
     readApprovals(), readTasks(), readIa(), readAgentQuestions(),
     readJson('opportunities-brl.json', []), readJson('opportunities-usd.json', []),
     readJson('finance.json', {}), readJson('pendencias.json', []), sentProposals(), readChecks(), readProposalDispatch(), readEmailInbox(),
-    readRadarRuns(), readRadarGates(), readRadarOpportunities(), readRadarSessions(), readDispatchScheduler()
+    readEmailWatchStatus(), readRadarRuns(), readRadarGates(), readRadarOpportunities(), readRadarSessions(), readDispatchScheduler()
   ]);
   const bridge = bridgeSnapshot(await readAiProviders(), ia, proposalDispatch);
   const pendingGates = radarGates.filter((gate) => gate.status === 'pending');
@@ -586,6 +586,7 @@ async function state() {
     proposalDispatch,
     dispatchScheduler,
     emailInbox,
+    emailWatchStatus,
     radar: {
       runs: radarRuns.slice(-20).reverse(),
       gates: visibleGates,
@@ -786,6 +787,7 @@ const server = createServer(async (req, res) => {
       return sendJson(res, 200, { total: filtered.length, opportunities: filtered.slice(0, limit) });
     }
     if (req.method === 'GET' && path === '/api/emails') return sendJson(res, 200, await readEmailInbox());
+    if (req.method === 'GET' && path === '/api/emails/watch') return sendJson(res, 200, await readEmailWatchStatus());
     if (req.method === 'POST' && path === '/api/emails/ingest') {
       const body = await readBody(req);
       const incoming = Array.isArray(body.emails) ? body.emails.slice(0, 500) : [];
