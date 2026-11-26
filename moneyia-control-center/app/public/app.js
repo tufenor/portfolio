@@ -431,7 +431,7 @@ function renderGates() {
     <article class="task urgent">
       <div class="task-top"><h3>${esc(gate.platform)} · ${esc(gate.type)}</h3><span class="pill">ação humana</span></div>
       <p>${esc(gate.action)}. A varredura está pausada nesta etapa.</p>
-      <div class="row"><a class="linkbtn" href="${esc(gate.url)}" target="_blank" rel="noopener">Abrir página ↗</a><button class="btn primary small" data-gate-complete="${esc(gate.id)}">Concluí a etapa</button></div>
+      <div class="row"><button class="btn small" data-gate-open="${esc(gate.url)}">Abrir no navegador usado ↗</button><button class="btn primary small" data-gate-complete="${esc(gate.id)}">Concluí a etapa</button></div>
     </article>`).join('');
   box.querySelectorAll('[data-gate-complete]').forEach((button) => button.addEventListener('click', async () => {
     button.disabled = true;
@@ -439,12 +439,18 @@ function renderGates() {
       const completion = await api(`/api/browser/gates/${encodeURIComponent(button.dataset.gateComplete)}/complete`, { method: 'POST', body: JSON.stringify({ by: 'titular' }) });
       if (completion.run?.id && !(completion.run.gateIds || []).length) {
         await api(`/api/radar/runs/${encodeURIComponent(completion.run.id)}/resume`, { method: 'POST', body: '{}' });
-        toast('Pendência concluída; a varredura foi retomada automaticamente.');
+        toast(`Pendência concluída em ${completion.clearedGateIds?.length || 1} execução(ões); a varredura foi retomada.`);
       } else {
-        toast('Pendência concluída. A fila pode ser retomada.');
+        toast(completion.message || 'Pendência concluída.');
       }
       await load();
     } catch (error) { toast(`Não foi possível concluir: ${error.message}`); button.disabled = false; }
+  }));
+  box.querySelectorAll('[data-gate-open]').forEach((button) => button.addEventListener('click', () => {
+    const popup = window.open(button.dataset.gateOpen, 'moneyia-human-gate', 'noopener,noreferrer');
+    if (popup) { popup.focus(); return; }
+    // Popup blockers still allow a direct navigation while keeping the Mesa.
+    window.location.assign(button.dataset.gateOpen);
   }));
 }
 

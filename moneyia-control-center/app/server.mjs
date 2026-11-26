@@ -624,18 +624,32 @@ const server = createServer(async (req, res) => {
       const gate = gates.find((item) => item.id === gateId);
       if (!gate) return sendJson(res, 404, { error: 'pendência de navegador não encontrada' });
       if (gate.status !== 'pending') return sendJson(res, 409, { error: `pendência já está ${gate.status}` });
-      Object.assign(gate, completeGate(gate, body.by || 'titular', body.evidence));
+      const completed = completeGate(gate, body.by || 'titular', body.evidence);
+      Object.assign(gate, completed);
+      // A mesma sessão/portal can generate one gate per radar run. Completing
+      // the browser step must clear equivalent pending gates globally, or the
+      // user sees the same login/challenge again on the next refresh.
+      const gateKey = `${gate.type}|${canonicalUrl(gate.url)}`;
+      const equivalent = gates.filter((candidate) => candidate.status === 'pending'
+        && `${candidate.type}|${canonicalUrl(candidate.url)}` === gateKey);
+      for (const candidate of equivalent) Object.assign(candidate, completeGate(candidate, body.by || 'titular', body.evidence));
       await writeRadarGates(gates);
       const runs = await readRadarRuns();
-      const run = runs.find((item) => item.id === gate.runId);
-      if (run) {
-        run.resolvedGateKeys = [...new Set([...(run.resolvedGateKeys || []), `${gate.type}|${canonicalUrl(gate.url)}`])];
+      const touchedRuns = [];
+      for (const run of runs) {
+        const hadGate = gates.some((item) => item.runId === run.id && `${item.type}|${canonicalUrl(item.url)}` === gateKey)
+          || run.gateIds?.includes(gate.id);
+        if (!hadGate) continue;
+        run.resolvedGateKeys = [...new Set([...(run.resolvedGateKeys || []), gateKey])];
         run.gateIds = gates.filter((item) => item.runId === run.id && item.status === 'pending').map((item) => item.id);
         run.status = run.gateIds.length ? 'paused' : 'running';
         run.updatedAt = new Date().toISOString();
-        await writeRadarRuns(runs);
+        touchedRuns.push(run);
       }
-      return sendJson(res, 200, { gate, run: run || null, message: run?.gateIds?.length ? 'Pendência concluída; outras ainda aguardam.' : 'Pendência concluída; a execução pode ser retomada.' });
+      await writeRadarRuns(runs);
+      const run = runs.find((item) => item.id === gate.runId) || null;
+      const remaining = gates.filter((item) => item.status === 'pending' && `${item.type}|${canonicalUrl(item.url)}` === gateKey).length;
+      return sendJson(res, 200, { gate, run, clearedGateIds: [gate.id, ...equivalent.map((item) => item.id)], touchedRuns: touchedRuns.map((item) => item.id), remainingEquivalent: remaining, message: remaining ? 'Pendência concluída; há outra etapa equivalente pendente.' : 'Pendência concluída em todas as execuções; a fila não repetirá esta etapa.' });
     }
     if (req.method === 'POST' && path === '/api/radar/sessions/acquire') {
       const body = await readBody(req);
