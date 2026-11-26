@@ -1,5 +1,0 @@
-# Inclua este bloco dentro do host frequencygym.tech, antes do reverse_proxy
-# geral. O serviço moneyia precisa estar na mesma rede Docker do Caddy.
-handle_path /moneyia* {
-    reverse_proxy moneyia:8899
-}
