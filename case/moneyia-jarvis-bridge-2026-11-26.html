@@ -53,7 +53,8 @@ code{background:#eef2eb;padding:.12rem .3rem;border-radius:.25rem}
 
 <section aria-labelledby="estado">
 <h2 id="estado">Estado real da verificação</h2>
-<p>O código do router está integrado ao JARVIS, mas o runtime não estava escutando em <code>127.0.0.1:8080</code> na consulta. Por isso, não há afirmação de que o JARVIS tenha enviado propostas ou publicado projetos. A ponte local do MoneyIA permaneceu operacional e os despachos continuaram sem confirmação externa.</p>
+<p>O código do router está integrado ao JARVIS. Na primeira consulta o runtime estava parado; depois ele foi iniciado em modo servidor e <code>GET /api/saude</code> respondeu HTTP 200. O fallback retornou <code>JARVIS_OK</code> usando o cérebro local configurado. Isso habilita a continuidade local, mas não significa que o JARVIS tenha enviado propostas ou publicado projetos.</p>
+<p>A ponte local do MoneyIA permaneceu operacional e os despachos continuaram sem confirmação externa: cada um ainda exige prova visível da plataforma.</p>
 <p class="note"><strong>Transparência:</strong> uma resposta de IA, uma tarefa criada e uma página pública não são contrato, venda, aceite ou recebimento. Este case demonstra arquitetura e evidência de operação local, não receita.</p>
 </section>
 
