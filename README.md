@@ -56,7 +56,7 @@ financeiros permanecem fora do portfólio.
 | **Meu trabalho** | Orquestração de fila, UX da Mesa, evidência e publicação segura |
 | **Tecnologias** | Node.js, HTML/CSS/JavaScript, FastAPI/JARVIS, Caddy |
 | **Case** | [Ponte MoneyIA + JARVIS](https://tufenor.github.io/portfolio/case/moneyia-jarvis-bridge-2026-11-26.html) |
-| **Estágio** | Operação local verificada; envio externo depende de evidência da plataforma |
+| **Estágio** | Mesa local e deploy remoto protegido verificados; envio externo depende de evidência da plataforma |
 
 ### Frequency — gestão de academia
 

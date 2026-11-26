@@ -38,6 +38,7 @@ code{background:#eef2eb;padding:.12rem .3rem;border-radius:.25rem}
 <article class="case-card"><strong>1</strong><span>despacho com falha de agente registrada</span></article>
 <article class="case-card"><strong>0</strong><span>envios externos confirmados sem prova</span></article>
 <article class="case-card"><strong>200</strong><span>HTTP no Radar Completo após a correção do gerador</span></article>
+<article class="case-card"><strong>1</strong><span>instância remota protegida no VPS do Frequency</span></article>
 </div>
 </section>
 
@@ -57,6 +58,7 @@ code{background:#eef2eb;padding:.12rem .3rem;border-radius:.25rem}
 <h2 id="estado">Estado real da verificação</h2>
 <p>O código do router está integrado ao JARVIS. Na primeira consulta o runtime estava parado; depois ele foi iniciado em modo servidor e <code>GET /api/saude</code> respondeu HTTP 200. O fallback retornou <code>JARVIS_OK</code> usando o cérebro local configurado. Isso habilita a continuidade local, mas não significa que o JARVIS tenha enviado propostas ou publicado projetos.</p>
 <p>A ponte local do MoneyIA permaneceu operacional e os despachos continuaram sem confirmação externa: três aguardam prova visível da plataforma e um registrou timeout do agente JARVIS sem alterar <code>sent:false</code>.</p>
+<p>A Mesa também foi publicada remotamente em <a href="https://frequencygym.tech/moneyia/">frequencygym.tech/moneyia</a>, atrás de HTTPS e Basic Auth. A rota sem credencial retorna HTTP 401; a rota autenticada respondeu HTTP 200 em <code>/api/health</code> e <code>/api/state</code>. O app principal do Frequency continuou respondendo normalmente.</p>
 <p class="note"><strong>Transparência:</strong> uma resposta de IA, uma tarefa criada e uma página pública não são contrato, venda, aceite ou recebimento. Este case demonstra arquitetura e evidência de operação local, não receita.</p>
 </section>
 
