@@ -34,7 +34,8 @@ code{background:#eef2eb;padding:.12rem .3rem;border-radius:.25rem}
 <h2 id="medido">O que foi medido</h2>
 <div class="case-grid">
 <article class="case-card"><strong>1</strong><span>ponte local persistente entre a Mesa e os agentes</span></article>
-<article class="case-card"><strong>4</strong><span>despachos aguardando evidência externa</span></article>
+<article class="case-card"><strong>3</strong><span>despachos aguardando evidência externa</span></article>
+<article class="case-card"><strong>1</strong><span>despacho com falha de agente registrada</span></article>
 <article class="case-card"><strong>0</strong><span>envios externos confirmados sem prova</span></article>
 <article class="case-card"><strong>200</strong><span>HTTP no Radar Completo após a correção do gerador</span></article>
 </div>
@@ -45,6 +46,7 @@ code{background:#eef2eb;padding:.12rem .3rem;border-radius:.25rem}
 <ol class="flow">
 <li><div><strong>Fila local</strong><br>A Mesa guarda aprovação, proposta, demo e tarefa mesmo quando nenhum modelo está disponível.</div></li>
 <li><div><strong>Fallback</strong><br>O JARVIS pode receber um pedido em <code>/api/moneyia/fallback</code> e produzir uma resposta local. Isso é preparação, não candidatura enviada.</div></li>
+<li><div><strong>Roteamento explícito</strong><br>A Mesa permite escolher JARVIS, Ollama ou outro provedor configurado para uma nova tentativa; sem escolha, a redundância segue a ordem registrada.</div></li>
 <li><div><strong>Gate humano</strong><br>Login, verificação e desafio de plataforma aparecem como pendências visuais e sonoras. A retomada continua da etapa registrada.</div></li>
 <li><div><strong>Evidência</strong><br>Somente uma prova da plataforma — por exemplo, confirmação visível após o clique — muda o estado para <em>enviado confirmado</em>.</div></li>
 <li><div><strong>Portfólio</strong><br>Casos sanitizados são publicados separadamente no GitHub Pages. Nenhum token, dado de cliente, documento ou saldo é incluído.</div></li>
@@ -54,7 +56,7 @@ code{background:#eef2eb;padding:.12rem .3rem;border-radius:.25rem}
 <section aria-labelledby="estado">
 <h2 id="estado">Estado real da verificação</h2>
 <p>O código do router está integrado ao JARVIS. Na primeira consulta o runtime estava parado; depois ele foi iniciado em modo servidor e <code>GET /api/saude</code> respondeu HTTP 200. O fallback retornou <code>JARVIS_OK</code> usando o cérebro local configurado. Isso habilita a continuidade local, mas não significa que o JARVIS tenha enviado propostas ou publicado projetos.</p>
-<p>A ponte local do MoneyIA permaneceu operacional e os despachos continuaram sem confirmação externa: cada um ainda exige prova visível da plataforma.</p>
+<p>A ponte local do MoneyIA permaneceu operacional e os despachos continuaram sem confirmação externa: três aguardam prova visível da plataforma e um registrou timeout do agente JARVIS sem alterar <code>sent:false</code>.</p>
 <p class="note"><strong>Transparência:</strong> uma resposta de IA, uma tarefa criada e uma página pública não são contrato, venda, aceite ou recebimento. Este case demonstra arquitetura e evidência de operação local, não receita.</p>
 </section>
 
