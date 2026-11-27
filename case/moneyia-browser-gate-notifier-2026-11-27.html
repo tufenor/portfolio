@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demonstração de uma fila persistente que destaca uma etapa humana de navegador por vez e evita avisos repetidos.">
+  <meta name="theme-color" content="#f4f0e6">
+  <title>Etapas humanas sem repetição — MoneyIA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <style>
+    :root{--ink:#17251c;--moss:#294b38;--lime:#cde98a;--paper:#f4f0e6;--line:#d9d3c4;--muted:#59645b;--orange:#e16d49}
+    body{background:var(--paper);color:var(--ink)}.wrap{width:min(68rem,calc(100% - 2rem));margin:auto}.hero{padding:clamp(4rem,9vw,8rem) 0 3rem;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:24rem;height:24rem;right:-8rem;top:-9rem;border-radius:50%;background:radial-gradient(circle,var(--lime),transparent 70%);opacity:.45;z-index:-1;animation:float 9s ease-in-out infinite alternate}.eyebrow{color:var(--orange);font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}h1{max-width:56rem;font-size:clamp(2.7rem,7vw,5.8rem);line-height:.98;letter-spacing:-.055em;margin:.8rem 0 1.3rem}.lead{max-width:48rem;color:var(--muted);font-size:clamp(1.05rem,2vw,1.28rem);line-height:1.7}.actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}.btn{display:inline-flex;padding:.85rem 1rem;border-radius:.7rem;font-weight:750;text-decoration:none}.primary{background:var(--moss);color:#fff}.secondary{border:1px solid var(--moss);color:var(--moss)}section{padding:3rem 0}h2{font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-.04em}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:1rem}.card{background:#fffaf1;border:1px solid var(--line);border-radius:1rem;padding:1.25rem}.card p{color:var(--muted);line-height:1.65}.metric strong{font-size:2.4rem;color:var(--moss)}.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:.8rem;counter-reset:n}.step{counter-increment:n;transition:transform .2s ease,box-shadow .2s ease}.step:hover{transform:translateY(-4px);box-shadow:0 14px 30px #17251c14}.step:before{content:"0" counter(n);display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--moss);color:white;font-size:.75rem;font-weight:800;margin-bottom:1rem}.note{padding:1rem 1.2rem;border-left:4px solid var(--orange);background:#fceee5;border-radius:0 .75rem .75rem 0;line-height:1.65}footer{padding:2rem 0;border-top:1px solid var(--line)}@keyframes float{to{transform:translate(-1rem,1.3rem) scale(1.06)}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Pular para o conteúdo</a>
+  <header class="top"><div class="wrap"><a class="brand" href="../">Tufenor · portfólio</a><nav aria-label="Navegação"><a href="../">Início</a><a href="moneyia-python-health-2026-11-27.html">Diagnóstico</a></nav></div></header>
+  <main id="main">
+    <section class="hero wrap">
+      <p class="eyebrow">MoneyIA · Python · navegador</p>
+      <h1>Uma etapa humana de cada vez.</h1>
+      <p class="lead">Quando uma fila depende de login ou confirmação no navegador, o sistema destaca a próxima etapa, abre a página necessária e evita que o mesmo aviso reapareça a cada ciclo.</p>
+      <div class="actions"><a class="btn primary" href="../demo/moneyia-browser-gate-notifier.py">Ver código Python</a><a class="btn secondary" href="../">Voltar ao portfólio</a></div>
+    </section>
+    <section><div class="wrap"><h2>O que muda na operação</h2><div class="grid">
+      <article class="card metric"><strong>1</strong><p>Etapa humana ativa por vez, escolhida pela ordem de chegada.</p></article>
+      <article class="card metric"><strong>0</strong><p>URLs completas guardadas no marcador local de notificação.</p></article>
+      <article class="card metric"><strong>1×</strong><p>Aviso sonoro e abertura por etapa; o estado evita repetir a mesma notificação.</p></article>
+    </div></div></section>
+    <section><div class="wrap"><h2>Fluxo</h2><div class="flow">
+      <article class="card step"><h3>Ler a fila</h3><p>Python consulta as etapas humanas pendentes na Mesa local.</p></article>
+      <article class="card step"><h3>Escolher a próxima</h3><p>Ordena por data e identifica a pendência que bloqueia o fluxo.</p></article>
+      <article class="card step"><h3>Trazer a página</h3><p>Abre o destino no navegador padrão e emite um aviso no Windows.</p></article>
+      <article class="card step"><h3>Retomar com estado</h3><p>Guarda ID, plataforma e tipo. A Mesa confirma a conclusão; Python não inventa que a etapa terminou.</p></article>
+    </div></div></section>
+    <section><div class="wrap"><div class="note"><strong>Limite demonstrado:</strong> automação da fila e notificação não equivalem a login, envio, contratação ou pagamento. A execução observada abriu a etapa do Upwork; o titular ainda precisa concluir o login e registrar a conclusão na Mesa.</div></div></section>
+  </main>
+  <footer><div class="wrap"><p>Demonstração sanitizada. Dados e destinos do exemplo público são genéricos; nenhuma proposta foi enviada por este recurso.</p></div></footer>
+</body>
+</html>
