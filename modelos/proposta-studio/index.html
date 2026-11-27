@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Conceitos editáveis de proposta para páginas, automações e UX/UI." />
+    <meta name="theme-color" content="#101512" />
+    <title>Studio de proposta — conceito editável</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <header class="topbar">
+      <a class="brand" href="../landing-servicos/" aria-label="Abrir modelos de serviço">
+        <span class="brand-mark" aria-hidden="true">m</span>
+        <span>moneyIA <small>STUDIO DE PROPOSTA</small></span>
+      </a>
+      <div class="topbar-actions">
+        <span class="concept-label">CONCEITO EDITÁVEL · DADOS ILUSTRATIVOS</span>
+        <a class="text-link" href="https://tufenor.github.io/portfolio/" target="_blank" rel="noreferrer">Ver vitrine</a>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <section class="intro-shell" aria-labelledby="titulo-principal">
+        <div class="intro-copy reveal">
+          <p class="eyebrow">UMA PRÉVIA FEITA PARA A CONVERSA, NÃO UMA PROMESSA GENÉRICA</p>
+          <h1 id="titulo-principal">Uma direção clara<br /><em id="hero-focus">para o primeiro marco.</em></h1>
+          <p class="lede" id="hero-summary"></p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#rota">Ver rota de entrega <span aria-hidden="true">↓</span></a>
+            <button class="button button-quiet" id="copy-link" type="button">Copiar link desta prévia</button>
+          </div>
+          <p class="feedback" id="copy-feedback" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="concept-canvas reveal" aria-label="Visão visual do conceito">
+          <img id="hero-image" class="canvas-image" alt="" />
+          <div class="canvas-shade"></div>
+          <div class="canvas-panel">
+            <span class="panel-kicker" id="canvas-kicker">PRÉVIA ESTRATÉGICA</span>
+            <strong id="canvas-title">Primeiro marco com critério de aceite</strong>
+            <span class="panel-line" aria-hidden="true"></span>
+            <p id="canvas-detail"></p>
+          </div>
+          <div class="canvas-orbit orbit-one" aria-hidden="true"></div>
+          <div class="canvas-orbit orbit-two" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <section class="model-switcher" aria-labelledby="familias-title">
+        <div>
+          <p class="eyebrow">FAMÍLIAS REUTILIZÁVEIS</p>
+          <h2 id="familias-title">Escolha a linguagem que combina com o escopo</h2>
+        </div>
+        <div class="model-tabs" role="tablist" aria-label="Famílias de demonstração">
+          <button class="model-tab" data-model="landing" role="tab" type="button">Landing & web</button>
+          <button class="model-tab" data-model="automacao" role="tab" type="button">Automação & IA</button>
+          <button class="model-tab" data-model="uxui" role="tab" type="button">UX & interface</button>
+        </div>
+      </section>
+
+      <section class="brief-band reveal" aria-label="Resumo do pacote">
+        <article>
+          <span>ESCOPO INICIAL</span>
+          <strong id="scope-short">Uma etapa pequena e verificável</strong>
+        </article>
+        <article>
+          <span>FORMA DE TRABALHO</span>
+          <strong id="work-style">Construir, revisar, testar e entregar</strong>
+        </article>
+        <article>
+          <span>ENTREGA EDITÁVEL</span>
+          <strong id="editable-note">Código e campos documentados</strong>
+        </article>
+      </section>
+
+      <section class="route-section" id="rota" aria-labelledby="route-title">
+        <div class="route-heading reveal">
+          <p class="eyebrow">ROTA DE ENTREGA</p>
+          <h2 id="route-title">Da hipótese ao material que outra pessoa consegue continuar.</h2>
+          <p>O pacote organiza a conversa antes de orçamento fechado: o que será construído, como será conferido e o que fica editável depois da entrega.</p>
+        </div>
+        <ol class="route-list" id="route-list"></ol>
+      </section>
+
+      <section class="showcase reveal" aria-labelledby="showcase-title">
+        <div class="showcase-copy">
+          <p class="eyebrow">ARTEFATO EM FOCO</p>
+          <h2 id="showcase-title">Uma tela que explica o fluxo sem depender de reunião.</h2>
+          <p id="showcase-copy"></p>
+          <ul class="check-list" id="checks-list"></ul>
+        </div>
+        <div class="showcase-preview" aria-label="Mockup ilustrativo do projeto">
+          <div class="preview-top"><span></span><span></span><span></span><small id="preview-url">projeto.exemplo</small></div>
+          <div class="preview-stage">
+            <div class="preview-badge" id="preview-badge">ETAPA 01</div>
+            <h3 id="preview-title">Nome do primeiro fluxo</h3>
+            <p id="preview-subtitle"></p>
+            <div class="preview-rows" id="preview-rows"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="edit-section reveal" aria-labelledby="edit-title">
+        <div>
+          <p class="eyebrow">CONTEÚDO QUE FICA NA MÃO DE QUEM OPERA</p>
+          <h2 id="edit-title">Editar informação não precisa significar chamar quem desenvolveu.</h2>
+        </div>
+        <div class="edit-grid" id="edit-grid"></div>
+      </section>
+
+      <section class="close-section reveal" aria-labelledby="close-title">
+        <div>
+          <p class="eyebrow">PRÓXIMA CONVERSA</p>
+          <h2 id="close-title">Fechamos o primeiro marco com dados reais e critério de aceite.</h2>
+          <p>Esta prévia é deliberadamente pública e ilustrativa. Antes de qualquer produção, o escopo, acesso e material são revisados para que o que entra no projeto seja verificável.</p>
+        </div>
+        <details class="brief-details">
+          <summary>O que enviar para transformar o conceito em projeto</summary>
+          <ul id="brief-list"></ul>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      <span>moneyIA · demonstração conceitual e editável</span>
+      <a href="./README.md" target="_blank" rel="noreferrer">Como editar</a>
+    </footer>
+    <script src="./config.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

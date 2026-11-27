@@ -15,7 +15,8 @@ import {
   readProposalDispatch, createProposalDispatch, prepareProposalDispatchReview, updateProposalDispatch, readEmailInbox, writeEmailInbox,
   readEmailWatchStatus, readInboxFeed, writeInboxFeed,
   readRadarRuns, readRadarGates, readRadarOpportunities, readRadarSessions,
-  writeRadarRuns, writeRadarGates, writeRadarOpportunities, writeRadarSessions
+  writeRadarRuns, writeRadarGates, writeRadarOpportunities, writeRadarSessions,
+  readDispatchScheduler, writeDispatchScheduler
 } from './store.mjs';
 import { bridgeSnapshot, localFallback } from './bridge-agent.mjs';
 import { buildProposalPacket, isOpportunityEligible, rankOpportunities } from './opportunity-packets.mjs';
@@ -272,10 +273,11 @@ async function startRadarRun(input = {}) {
 async function prepareRadarSendQueue(requestedLimit = 30) {
   const limit = Number.isFinite(Number(requestedLimit)) ? Math.max(1, Math.min(30, Math.floor(Number(requestedLimit)))) : 30;
   const [opportunities, approvals] = await Promise.all([readAllOpportunities(), readApprovals()]);
-  const existingIds = new Set(approvals.map((row) => row.opportunityId).filter(Boolean));
-  const candidates = opportunities
-    .filter((opportunity) => !existingIds.has(opportunity.id) && isOpportunityEligible(opportunity).ok)
+  const approvalByOpportunity = new Map(approvals.filter((row) => row.opportunityId).map((row) => [row.opportunityId, row]));
+  const eligible = opportunities
+    .filter((opportunity) => isOpportunityEligible(opportunity).ok)
     .sort((a, b) => (b.radarScore?.total || 0) - (a.radarScore?.total || 0));
+  const candidates = eligible.filter((opportunity) => !approvalByOpportunity.has(opportunity.id));
   const created = [];
   for (const opportunity of candidates.slice(0, limit)) {
     const packet = buildProposalPacket(opportunity);
@@ -294,9 +296,21 @@ async function prepareRadarSendQueue(requestedLimit = 30) {
       amount: packet.amount
     });
     created.push({ id: row.id, opportunityId: opportunity.id, title: opportunity.title, amount: packet.amount, demoUrl: packet.demoUrl });
-    existingIds.add(opportunity.id);
+    approvalByOpportunity.set(opportunity.id, row);
   }
-  return { created, createdCount: created.length, limit, remainingEligible: Math.max(0, candidates.length - created.length), mode: 'visual_review' };
+  const packeted = eligible.filter((opportunity) => {
+    const approval = approvalByOpportunity.get(opportunity.id);
+    return Boolean(approval?.proposalText?.trim() && approval?.demoUrl?.trim());
+  });
+  return {
+    created,
+    createdCount: created.length,
+    limit,
+    eligibleCount: eligible.length,
+    packetedCount: packeted.length,
+    remainingEligible: Math.max(0, candidates.length - created.length),
+    mode: 'visual_review'
+  };
 }
 
 function iaPrompt(o) {
@@ -438,6 +452,24 @@ async function sendAgentAnswerWebhook(question, answer) {
   }
 }
 
+function browserPrepareCommand(approval, dispatch) {
+  const proposal = String(approval.proposalText || '').trim().slice(0, 6000);
+  return [
+    'moneyIA: preparar uma proposta no navegador, em modo serial.',
+    `Despacho: ${dispatch.id}. Projeto: ${approval.title || approval.target || approval.opportunityId || 'sem título'}.`,
+    `URL da plataforma: ${approval.opportunityUrl || 'não informada'}.`,
+    `Valor preparado: ${approval.amount || 'a confirmar'}.`,
+    `Demo pública: ${approval.demoUrl || 'não informada'}.`,
+    '',
+    'Abra somente a URL informada na sessão já autenticada. Confirme que o projeto ainda está aberto e que a tela corresponde ao anúncio antes de usar os dados abaixo.',
+    'Deixe a proposta e o valor preparados no navegador quando os campos existirem. Pare antes de qualquer ação que envie proposta, contrate, pague ou aceite termos; chame o titular para a confirmação mostrada pelo JARVIS.',
+    'Não navegue para outro projeto e não altere dados de perfil, conta, pagamento ou identidade.',
+    '',
+    'Texto da proposta:',
+    proposal
+  ].join('\n');
+}
+
 async function sendProposalDispatchWebhook(approval, dispatch, requestedProviderId = '') {
   const prompt = [
     'Atue como agente de apoio ao despacho do moneyIA.',
@@ -457,10 +489,12 @@ async function sendProposalDispatchWebhook(approval, dispatch, requestedProvider
     if (!provider.habilitado || provider.endpointConfigured !== true || provider.cotaDisponivel !== true) continue;
     if (['chatgpt', 'deepseek', 'gemini', 'ollama', 'jarvis'].includes(provider.id)) candidates.push(provider);
   }
+  const deliveryRank = { webhook: 0, chatgpt: 1, deepseek: 2, gemini: 3, jarvis: 4, ollama: 5 };
   candidates.sort((a, b) => {
     const aRequested = requestedProviderId && a.id === requestedProviderId ? 0 : 1;
     const bRequested = requestedProviderId && b.id === requestedProviderId ? 0 : 1;
-    return aRequested - bRequested || Number(a.preferencia || 99) - Number(b.preferencia || 99);
+    return aRequested - bRequested
+      || Number(deliveryRank[a.id] ?? a.preferencia ?? 99) - Number(deliveryRank[b.id] ?? b.preferencia ?? 99);
   });
   // An explicit provider selection is a deliberate operator choice. Do not
   // silently fall through to a different model in that case; the caller can
@@ -475,7 +509,7 @@ async function sendProposalDispatchWebhook(approval, dispatch, requestedProvider
       const url = provider.url || (provider.id === 'ollama'
         ? (process.env.MONEYIA_OLLAMA_URL || 'http://127.0.0.1:11434/api/chat')
         : provider.id === 'jarvis'
-          ? (process.env.MONEYIA_JARVIS_DISPATCH_URL || 'http://127.0.0.1:8080/api/moneyia/fallback')
+          ? (process.env.MONEYIA_JARVIS_BROWSER_COMMAND_URL || 'http://127.0.0.1:8080/api/comando')
           : process.env[providerEnv[provider.id]]);
       if (!url) { attempts.push(`${provider.id}: sem endpoint`); continue; }
       const isOllama = provider.id === 'ollama';
@@ -484,7 +518,7 @@ async function sendProposalDispatchWebhook(approval, dispatch, requestedProvider
       const payload = isOllama
         ? { model, stream: false, think: false, messages: [{ role: 'user', content: prompt }], options: { temperature: 0.2, num_predict: 700 } }
         : isJarvis
-          ? { prompt, item: { type: 'moneyia_proposal_approved', approval, dispatch } }
+          ? { texto: browserPrepareCommand(approval, dispatch) }
           : { type: 'moneyia_proposal_approved', approval, dispatch, instruction: 'Preparar o envio na plataforma indicada e retornar evidência verificável; não afirmar envio sem confirmação da página.' };
       const res = await fetch(url, {
         method: 'POST',
@@ -509,6 +543,17 @@ async function sendProposalDispatchWebhook(approval, dispatch, requestedProvider
           requiresExternalEvidence: true
         };
       }
+      if (isJarvis) {
+        return {
+          status: 'navegador_acionado',
+          webhookStatus: res.status,
+          providerId: provider.id,
+          providerLabel: provider.label,
+          response: typeof body.response === 'string' ? body.response : (typeof body.texto === 'string' ? body.texto : null),
+          attempts,
+          requiresExternalEvidence: true
+        };
+      }
       return {
         status: 'despachada_ao_agente',
         webhookStatus: res.status,
@@ -524,16 +569,212 @@ async function sendProposalDispatchWebhook(approval, dispatch, requestedProvider
   return { status: 'falha_agente', webhookStatus: attempts.join(' | '), providerId: candidates.at(-1)?.id || null, providerLabel: 'Nenhum agente respondeu', attempts };
 }
 
+function eligibleDispatchApproval(approval) {
+  return approval?.status === 'aprovada'
+    && approval?.actionType === 'candidatura'
+    && Boolean(approval?.opportunityId)
+    && Boolean(approval?.proposalText?.trim())
+    && /^https:\/\/[^\s/]+/i.test(String(approval?.opportunityUrl || ''))
+    && /^https:\/\/[^\s/]+/i.test(String(approval?.demoUrl || ''));
+}
+
+async function ensureDispatchBrowserGate(approval, dispatch) {
+  const gates = await readRadarGates();
+  const key = `proposal_submit|${canonicalUrl(approval.opportunityUrl)}`;
+  const exists = gates.some((gate) => gate.status === 'pending'
+    && `${gate.type}|${canonicalUrl(gate.url)}` === key);
+  if (exists) return null;
+  const platform = String(approval.target || approval.title || 'plataforma').split('·')[0].trim();
+  const gate = gateRecord({
+    runId: dispatch.id,
+    platform,
+    url: approval.opportunityUrl,
+    gate: {
+      type: 'proposal_submit',
+      action: 'revisar a proposta preparada pelo JARVIS e confirmar o envio na plataforma'
+    }
+  });
+  gates.push(gate);
+  await writeRadarGates(gates);
+  return gate;
+}
+
+function rotateDispatchCandidates(candidates, lastDispatchId = '', lastPlatform = '') {
+  if (!candidates.length) return candidates;
+  const index = candidates.findIndex((candidate) => candidate.dispatch?.id === lastDispatchId);
+  const rotated = index >= 0 ? [...candidates.slice(index + 1), ...candidates.slice(0, index + 1)] : candidates;
+  const differentPlatform = rotated.find((candidate) => candidate.platform !== lastPlatform);
+  return differentPlatform ? [differentPlatform, ...rotated.filter((candidate) => candidate !== differentPlatform)] : rotated;
+}
+
+let dispatchTickRunning = false;
+
+async function dispatchNextApprovedProposal({ force = false } = {}) {
+  if (dispatchTickRunning) return { status: 'em_execucao' };
+  dispatchTickRunning = true;
+  try {
+    const scheduler = await readDispatchScheduler();
+    const now = Date.now();
+    const intervalMs = Math.max(300000, Math.min(3600000, Number(scheduler.intervalMs) || 300000));
+    if (!scheduler.enabled && !force) return { status: 'pausada', scheduler };
+    if (!force && scheduler.nextAt && Number.isFinite(Date.parse(scheduler.nextAt)) && Date.parse(scheduler.nextAt) > now) {
+      return { status: 'aguardando_intervalo', scheduler };
+    }
+
+    const [approvals, dispatchRows] = await Promise.all([readApprovals(), readProposalDispatch()]);
+    const approvalById = new Map(approvals.map((approval) => [approval.id, approval]));
+    const active = dispatchRows.find((dispatch) => !dispatch.sent
+      && ['navegador_acionado', 'em_execucao'].includes(dispatch.status));
+    if (active) {
+      const next = await writeDispatchScheduler({
+        ...scheduler,
+        intervalMs,
+        inFlight: false,
+        lastRunAt: new Date().toISOString(),
+        nextAt: null,
+        lastDispatchId: active.id,
+        lastPlatform: scheduler.lastPlatform || '',
+        waitingFor: active.id
+      });
+      return { status: 'aguardando_confirmacao', dispatch: active, scheduler: next };
+    }
+
+    const candidates = approvals
+      .filter(eligibleDispatchApproval)
+      .map((approval) => ({
+        approval,
+        dispatch: dispatchRows.find((item) => item.approvalId === approval.id) || null,
+        platform: String(approval.target || approval.title || 'plataforma').split('·')[0].trim()
+      }))
+      .filter(({ dispatch }) => !dispatch?.sent && dispatch?.status !== 'enviado_confirmado')
+      .filter(({ dispatch }) => !dispatch || ['falha_agente', 'aguardando_agente', 'aguardando_evidencia'].includes(dispatch.status))
+      .sort((a, b) => String(a.approval.createdAt || '').localeCompare(String(b.approval.createdAt || '')));
+    const [candidate] = rotateDispatchCandidates(candidates, scheduler.lastDispatchId, scheduler.lastPlatform);
+    if (!candidate) {
+      const next = await writeDispatchScheduler({
+        ...scheduler,
+        intervalMs,
+        inFlight: false,
+        lastRunAt: new Date().toISOString(),
+        nextAt: null,
+        waitingFor: null
+      });
+      return { status: 'fila_concluida', scheduler: next };
+    }
+
+    let dispatch = candidate.dispatch || await createProposalDispatch({
+      opportunityId: candidate.approval.opportunityId,
+      approvalId: candidate.approval.id,
+      provider: 'jarvis',
+      status: 'aguardando_agente',
+      note: 'Fila serial automática: aguardando preparação do navegador.'
+    });
+    await writeDispatchScheduler({ ...scheduler, intervalMs, inFlight: true, lastRunAt: new Date().toISOString(), waitingFor: dispatch.id });
+    const delivery = await sendProposalDispatchWebhook(candidate.approval, dispatch, 'jarvis');
+    dispatch = await updateProposalDispatch(dispatch.id, {
+      expectedStatus: dispatch.status,
+      status: delivery.status,
+      provider: delivery.providerId || 'jarvis',
+      agent: delivery.providerId || 'jarvis',
+      note: delivery.status === 'navegador_acionado'
+        ? 'JARVIS recebeu a instrução para abrir e preparar a proposta na sessão da plataforma. Aguardando a confirmação exibida no navegador; ainda não é envio confirmado.'
+        : `Ponte do JARVIS não concluiu a preparação: ${delivery.webhookStatus || 'sem retorno'}`
+    });
+    const gate = delivery.status === 'navegador_acionado'
+      ? await ensureDispatchBrowserGate(candidate.approval, dispatch)
+      : null;
+    const next = await writeDispatchScheduler({
+      ...scheduler,
+      enabled: scheduler.enabled !== false,
+      intervalMs,
+      inFlight: false,
+      lastRunAt: new Date().toISOString(),
+      nextAt: new Date(now + intervalMs).toISOString(),
+      lastDispatchId: dispatch.id,
+      lastPlatform: candidate.platform,
+      processedCount: Number(scheduler.processedCount || 0) + 1,
+      waitingFor: delivery.status === 'navegador_acionado' ? dispatch.id : null,
+      lastError: delivery.status === 'navegador_acionado' ? null : (delivery.webhookStatus || 'ponte indisponível')
+    });
+    return { status: delivery.status, dispatch, delivery, gate, scheduler: next };
+  } catch (error) {
+    const scheduler = await readDispatchScheduler();
+    const next = await writeDispatchScheduler({
+      ...scheduler,
+      inFlight: false,
+      lastRunAt: new Date().toISOString(),
+      nextAt: new Date(Date.now() + Math.max(300000, Number(scheduler.intervalMs) || 300000)).toISOString(),
+      lastError: String(error.message || error).slice(0, 800)
+    });
+    return { status: 'falha_ponte', error: String(error.message || error), scheduler: next };
+  } finally {
+    dispatchTickRunning = false;
+  }
+}
+
+function captureSummary({ brl = [], usd = [], globalOps = [], radarOpportunities = [], radarRows = [], ia = [], approvals = [], proposalDispatch = [] }) {
+  const analyzed = ia.filter((item) => item.retorno || item.response).length;
+  const raw = brl.length + usd.length + globalOps.length + radarOpportunities.length;
+  const eligibility = radarRows.map((opportunity) => ({ opportunity, result: isOpportunityEligible(opportunity) }));
+  const eligibleRows = eligibility.filter(({ result }) => result.ok).map(({ opportunity }) => opportunity);
+  const blockedByReason = eligibility
+    .filter(({ result }) => !result.ok)
+    .reduce((counts, { result }) => ({ ...counts, [result.reason || 'pendente de revisão']: (counts[result.reason || 'pendente de revisão'] || 0) + 1 }), {});
+  const approvalByOpportunity = new Map(approvals.filter((row) => row.opportunityId).map((row) => [row.opportunityId, row]));
+  const packeted = eligibleRows.filter((opportunity) => {
+    const approval = approvalByOpportunity.get(opportunity.id);
+    return Boolean(approval?.proposalText?.trim() && approval?.demoUrl?.trim());
+  });
+  const readyForReview = packeted.filter((opportunity) => approvalByOpportunity.get(opportunity.id)?.status === 'pendente');
+  const approvedForDispatch = packeted.filter((opportunity) => approvalByOpportunity.get(opportunity.id)?.status === 'aprovada');
+  const confirmedDispatches = proposalDispatch.filter((item) => item.sent === true && item.status === 'enviado_confirmado').length;
+  return {
+    raw,
+    mapped: radarRows.length,
+    analyzed,
+    processed: analyzed + radarRows.length,
+    eligible: eligibleRows.length,
+    notEligible: Math.max(0, radarRows.length - eligibleRows.length),
+    blockedByReason,
+    packeted: packeted.length,
+    unpacketed: Math.max(0, eligibleRows.length - packeted.length),
+    readyForReview: readyForReview.length,
+    approvedForDispatch: approvedForDispatch.length,
+    confirmedDispatches,
+    sources: {
+      brl: brl.length,
+      usd: usd.length,
+      global: globalOps.length,
+      radar: radarOpportunities.length
+    }
+  };
+}
+
+function compactStateText(value, limit = 720) {
+  const text = String(value || '');
+  return text.length <= limit ? text : `${text.slice(0, limit - 1)}…`;
+}
+
+function compactIaForState(item) {
+  const { prompt, ...rest } = item;
+  return {
+    ...rest,
+    retorno: compactStateText(rest.retorno),
+    response: compactStateText(rest.response)
+  };
+}
+
 async function state() {
-  const [approvals, tasks, ia, questions, brl, usd, globalOps, finance, pendencias, proposals, proposalChecks, proposalDispatch, emailInbox, emailWatch, inboxFeed, radarRuns, radarGates, radarOpportunities, radarSessions] = await Promise.all([
+  const [approvals, tasks, ia, questions, brl, usd, globalOps, finance, pendencias, proposals, proposalChecks, proposalDispatch, emailInbox, emailWatch, inboxFeed, radarRuns, radarGates, radarOpportunities, radarSessions, dispatchAutomation] = await Promise.all([
     readApprovals(), readTasks(), readIa(), readAgentQuestions(),
     readJson('opportunities-brl.json', []), readJson('opportunities-usd.json', []), readJson('opportunities-global.json', []),
     readJson('finance.json', {}), readJson('pendencias.json', []), sentProposals(), readChecks(), readProposalDispatch(), readEmailInbox(), readEmailWatchStatus(), readInboxFeed(),
-    readRadarRuns(), readRadarGates(), readRadarOpportunities(), readRadarSessions()
+    readRadarRuns(), readRadarGates(), readRadarOpportunities(), readRadarSessions(), readDispatchScheduler()
   ]);
   const providers = await readAiProviders();
   const bridge = bridgeSnapshot(providers, ia, proposalDispatch);
   const radarRows = mergeOpportunities([...(await readRadarInputs()), ...radarOpportunities]);
+  const capture = captureSummary({ brl, usd, globalOps, radarOpportunities, radarRows, ia, approvals, proposalDispatch });
   const pendingGates = radarGates.filter((gate) => gate.status === 'pending');
   const gateKey = (gate) => `${gate.type}|${canonicalUrl(gate.url)}`;
   const visibleGates = [...new Map(pendingGates.map((gate) => [gateKey(gate), gate])).values()];
@@ -545,8 +786,9 @@ async function state() {
       const rank = { alta: 0, media: 1, baixa: 2 };
       return (rank[a.priority] ?? 9) - (rank[b.priority] ?? 9);
     }),
-    ia,
+    ia: ia.map(compactIaForState),
     commercial: commercialPipeline(finance, approvals, proposalDispatch, tasks),
+    capture,
     templates,
     agentQuestions: questions.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))),
     agentWebhook: Boolean(process.env.MONEYIA_AGENT_WEBHOOK_URL),
@@ -565,7 +807,12 @@ async function state() {
     pendencias: pendencias.filter((p) => p.status === 'pendente'),
     proposals: proposals.map(p => ({ ...p, check: proposalChecks[p.id] || { status: 'nao_verificada', evidence: 'Aguardando primeira conferência automática.' } })),
     proposalDispatch,
-    emailInbox,
+    dispatchAutomation,
+    emailInbox: {
+      scannedAt: emailInbox.scannedAt || null,
+      total: Number(emailInbox.total || 0),
+      counts: emailInbox.counts || {}
+    },
     email: {
       scannedAt: emailInbox.scannedAt || null,
       total: Number(emailInbox.total || 0),
@@ -574,9 +821,25 @@ async function state() {
       watch: emailWatch
     },
     radar: {
-      runs: radarRuns.slice(-20).reverse(),
+      runs: radarRuns.slice(-20).reverse().map((run) => ({
+        id: run.id,
+        status: run.status,
+        normalizedCount: run.normalizedCount,
+        updatedAt: run.updatedAt,
+        createdAt: run.createdAt,
+        gateIds: Array.isArray(run.gateIds) ? run.gateIds.slice(0, 20) : []
+      })),
       gates: visibleGates,
-      opportunities: radarRows.slice(0, 100),
+      opportunities: radarRows.slice(0, 30).map((row) => ({
+        id: row.id,
+        title: row.title,
+        platform: row.platform,
+        url: row.url,
+        status: row.status,
+        verification: row.verification,
+        budget: row.budget,
+        observedAt: row.observedAt
+      })),
       sessions: radarSessions.map((session) => ({ platform: session.platform, status: session.status, runId: session.runId, lastSeen: session.lastSeen }))
     },
     finance
@@ -694,7 +957,12 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && path === '/api/radar/send-queue') {
       const body = await readBody(req);
       const result = await prepareRadarSendQueue(body.limit || 30);
-      return sendJson(res, 201, { ...result, message: result.createdCount ? `${result.createdCount} pacote(s) aguardando revisão visual.` : 'Nenhum pacote novo elegível nesta leitura.' });
+      const message = result.createdCount
+        ? `${result.createdCount} pacote(s) novo(s) com demo e orçamento aguardando revisão.`
+        : result.packetedCount
+          ? `${result.packetedCount} pacote(s) elegível(is) já possuem demo e orçamento; confira a Mesa antes do despacho.`
+          : 'Nenhum pacote novo elegível nesta leitura.';
+      return sendJson(res, 201, { ...result, message });
     }
     const radarRunPath = path.match(/^\/api\/radar\/runs\/([^/]+)$/);
     if (req.method === 'GET' && radarRunPath) {
@@ -1183,6 +1451,35 @@ const server = createServer(async (req, res) => {
       return sendJson(res, 200, { approval: row, dispatch, delivery, task });
     }
 
+    if (req.method === 'GET' && path === '/api/proposal-dispatch/automation') {
+      return sendJson(res, 200, await readDispatchScheduler());
+    }
+    if (req.method === 'POST' && path === '/api/proposal-dispatch/automation') {
+      const body = await readBody(req);
+      const current = await readDispatchScheduler();
+      const requestedInterval = body.intervalMinutes !== undefined
+        ? Number(body.intervalMinutes) * 60000
+        : body.intervalMs !== undefined
+          ? Number(body.intervalMs)
+          : Number(current.intervalMs);
+      const intervalMs = Math.max(300000, Math.min(3600000, Number.isFinite(requestedInterval) ? requestedInterval : 300000));
+      const enabled = typeof body.enabled === 'boolean' ? body.enabled : current.enabled !== false;
+      const scheduler = await writeDispatchScheduler({
+        ...current,
+        enabled,
+        intervalMs,
+        inFlight: false,
+        nextAt: enabled ? new Date().toISOString() : null,
+        waitingFor: enabled ? current.waitingFor || null : null
+      });
+      const tick = enabled && body.prepareNow !== false ? await dispatchNextApprovedProposal({ force: true }) : null;
+      return sendJson(res, 200, { scheduler: tick?.scheduler || scheduler, tick });
+    }
+    if (req.method === 'POST' && path === '/api/proposal-dispatch/automation/tick') {
+      const result = await dispatchNextApprovedProposal({ force: true });
+      return sendJson(res, result.status === 'falha_ponte' ? 502 : 200, result);
+    }
+
     const dispatchEvidence = path.match(/^\/api\/proposal-dispatch\/([^/]+)\/evidence$/);
     const dispatchForward = path.match(/^\/api\/proposal-dispatch\/([^/]+)\/forward$/);
     const dispatchClaim = path.match(/^\/api\/proposal-dispatch\/([^/]+)\/claim$/);
@@ -1204,6 +1501,8 @@ const server = createServer(async (req, res) => {
         agent: delivery.providerId || dispatch.agent,
         note: delivery.status === 'despachada_ao_agente'
           ? `Redundância acionada: ${delivery.providerLabel || delivery.providerId}; sem confirmação externa.`
+          : delivery.status === 'navegador_acionado'
+            ? 'JARVIS recebeu a tarefa de abrir a página no navegador. Aguarde a confirmação exibida antes de enviar.'
           : delivery.status === 'aguardando_evidencia'
             ? 'Checklist preparado. Conferir o envio na plataforma.'
             : `Ponte ainda indisponível: ${delivery.webhookStatus || 'sem retorno'}`
@@ -1226,7 +1525,9 @@ const server = createServer(async (req, res) => {
         status: delivery.status,
         provider: delivery.providerId || dispatch.provider,
         agent: delivery.providerId || dispatch.agent,
-        note: `Retorno da ponte (${delivery.webhookStatus ?? 'fila local'}). Conferir o estado do envio na plataforma.`
+        note: delivery.status === 'navegador_acionado'
+          ? 'JARVIS recebeu a tarefa de abrir a página no navegador. Aguarde a confirmação exibida antes de enviar.'
+          : `Retorno da ponte (${delivery.webhookStatus ?? 'fila local'}). Conferir o estado do envio na plataforma.`
       });
       return sendJson(res, 200, { dispatch: row, delivery });
     }
@@ -1292,5 +1593,7 @@ server.listen(port, host, () => {
   console.log('Aprovações: leitura/escrita em data/aprovacoes.json');
   console.log('Tarefas: leitura/escrita em data/tarefas.json');
   verifyProposals().catch(e => console.warn('Conferência de propostas:', e.message));
+  setTimeout(() => dispatchNextApprovedProposal().catch(e => console.warn('Fila serial de propostas:', e.message)), 5000).unref();
 });
 setInterval(() => verifyProposals().catch(e => console.warn('Conferência de propostas:', e.message)), 30 * 60 * 1000).unref();
+setInterval(() => dispatchNextApprovedProposal().catch(e => console.warn('Fila serial de propostas:', e.message)), 30 * 1000).unref();

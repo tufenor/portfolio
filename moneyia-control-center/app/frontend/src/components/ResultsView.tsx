@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
-import type { IaQueueItem, OpportunityItem } from '../types/moneyia';
+import type { CaptureSummary, IaQueueItem, OpportunityItem } from '../types/moneyia';
 import { IconExternal, IconSpark } from './Icons';
 
 interface ResultsViewProps {
   iaItems: IaQueueItem[];
   opportunities: OpportunityItem[];
+  capture?: CaptureSummary;
   onSendToAi: (id: string) => void;
   onHuntNow: () => void;
+  onOpenApprovals: () => void;
   busy: boolean;
 }
 
 export const ResultsView: React.FC<ResultsViewProps> = ({
   iaItems,
   opportunities,
+  capture,
   onSendToAi,
   onHuntNow,
+  onOpenApprovals,
   busy
 }) => {
   const [query, setQuery] = useState('');
@@ -45,7 +49,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
         <div>
           <span className="kicker">ENTREGA CONSOLIDADA AO TITULAR</span>
           <h2>Resultados & oportunidades qualificadas</h2>
-          <p>Os agentes prospectam e processam; aqui ficam apenas os resultados consolidados para decisão.</p>
+          <p>Captação, análise, proposta e envio ficam separados: o volume mostra trabalho processado; somente evidência externa confirma um envio.</p>
         </div>
         <div className="action-row">
           <input
@@ -61,6 +65,31 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
           </button>
         </div>
       </div>
+
+      {capture && (
+        <div className="cards-grid compact-grid">
+          <article className="surface-card">
+            <span className="kicker">CAPTAÇÃO</span>
+            <h3 className="card-title">{capture.processed} processadas</h3>
+            <div className="card-meta">{capture.analyzed} análises com retorno + {capture.mapped} oportunidades únicas mapeadas</div>
+            <div className="card-excerpt">Base bruta: {capture.raw} registros ({capture.sources.brl} BRL · {capture.sources.usd} USD · {capture.sources.global} globais · {capture.sources.radar} radar).</div>
+          </article>
+          <article className="surface-card">
+            <span className="kicker">PROPOSTAS</span>
+            <h3 className="card-title">{capture.packeted} pacotes prontos</h3>
+            <div className="card-meta">{capture.eligible} escopos elegíveis · {capture.unpacketed} sem pacote · {capture.notEligible} precisam de revalidação ou não entram no catálogo</div>
+            <div className="card-excerpt">Cada pacote reúne uma proposta, valor-âncora e uma demo pública relacionada; a triagem evita mandar orçamento para anúncio fechado ou sem página confirmada.</div>
+          </article>
+          <article className="surface-card">
+            <span className="kicker">DESPACHO</span>
+            <h3 className="card-title">{capture.readyForReview} para revisar</h3>
+            <div className="card-meta">{capture.approvedForDispatch} aprovados para despacho · {capture.confirmedDispatches} com envio confirmado pela plataforma</div>
+            <div className="card-actions">
+              <button type="button" className="btn btn-secondary btn-sm" disabled={busy} onClick={onOpenApprovals}>Abrir Mesa de propostas</button>
+            </div>
+          </article>
+        </div>
+      )}
 
       <div className="cards-grid">
         {visible.slice(0, 18).map((row) => (

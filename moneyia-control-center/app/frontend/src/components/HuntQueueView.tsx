@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import type { IaQueueItem, OpportunityItem } from '../types/moneyia';
+import type { CaptureSummary, IaQueueItem, OpportunityItem } from '../types/moneyia';
 import { IconExternal, IconRadar } from './Icons';
 
 interface HuntQueueViewProps {
   opportunities: OpportunityItem[];
   totalOpportunities: number;
+  capture?: CaptureSummary;
   iaItems: IaQueueItem[];
   onSendOpportunity: (id: string) => void;
   onProcessBatch: (limit: number) => void;
   onStartRadar: () => void;
-  onPrepareQueue: () => void;
+  onPrepareQueue: (limit: number) => void;
+  onOpenApprovals: () => void;
   radarStatus?: string;
   onSaveReturn: (id: string, text: string) => void;
   busy: boolean;
@@ -18,11 +20,13 @@ interface HuntQueueViewProps {
 export const HuntQueueView: React.FC<HuntQueueViewProps> = ({
   opportunities,
   totalOpportunities,
+  capture,
   iaItems,
   onSendOpportunity,
   onProcessBatch,
   onStartRadar,
   onPrepareQueue,
+  onOpenApprovals,
   radarStatus,
   onSaveReturn,
   busy
@@ -30,6 +34,12 @@ export const HuntQueueView: React.FC<HuntQueueViewProps> = ({
   const [search, setSearch] = useState('');
   const [limit, setLimit] = useState(5);
   const [returnsMap, setReturnsMap] = useState<Record<string, string>>({});
+  const packetBatchSize = Math.min(30, Math.max(1, capture?.unpacketed || capture?.eligible || 30));
+  const queueLabel = capture?.unpacketed
+    ? `Criar ${packetBatchSize} pacote${packetBatchSize === 1 ? '' : 's'} de envio`
+    : capture?.packeted
+      ? `Conferir ${capture.packeted} pacotes prontos`
+      : 'Criar fila de envio';
 
   const filteredOpps = opportunities.filter((o) => {
     if (!search.trim()) return true;
@@ -43,7 +53,7 @@ export const HuntQueueView: React.FC<HuntQueueViewProps> = ({
         <div>
           <span className="kicker">PROSPECÇÃO DE RECEITA NA INTERNET</span>
           <h2>Caça de oportunidades & Fila IA</h2>
-          <p>Varra as fontes disponíveis, prepare pacotes com demonstração e revise a fila antes do despacho.</p>
+          <p>Varra as fontes disponíveis, gere pacote com demo e orçamento para cada escopo elegível e acompanhe o despacho sem misturar captação com envio comprovado.</p>
         </div>
         <div className="action-row">
           <input
@@ -67,12 +77,33 @@ export const HuntQueueView: React.FC<HuntQueueViewProps> = ({
             <span>Processar Lote</span>
           </button>
           <button type="button" className="btn btn-secondary" disabled={busy} onClick={onStartRadar}>Iniciar varredura</button>
-          <button type="button" className="btn btn-secondary" disabled={busy} onClick={onPrepareQueue}>Preparar fila visual</button>
+          <button type="button" className="btn btn-secondary" disabled={busy} onClick={() => onPrepareQueue(packetBatchSize)}>{queueLabel}</button>
+          <button type="button" className="btn btn-secondary" disabled={busy} onClick={onOpenApprovals}>Abrir propostas</button>
           <a className="btn btn-secondary" href="/dashboard#radar">Radar completo</a>
         </div>
       </div>
 
       {radarStatus && <p className="muted-xs">Última varredura: {radarStatus}. A fila só inclui pacotes elegíveis para revisão.</p>}
+
+      {capture && (
+        <div className="cards-grid compact-grid">
+          <article className="surface-card">
+            <span className="kicker">BASE RECUPERADA</span>
+            <h3 className="card-title">{capture.raw} registros</h3>
+            <div className="card-meta">{capture.mapped} oportunidades únicas depois de deduplicar fontes e URLs.</div>
+          </article>
+          <article className="surface-card">
+            <span className="kicker">PACOTES</span>
+            <h3 className="card-title">{capture.packeted}/{capture.eligible}</h3>
+            <div className="card-meta">Com proposta, valor e demo. {capture.unpacketed} ainda precisam de preparo; {capture.notEligible} exigem revalidação antes de qualquer contato.</div>
+          </article>
+          <article className="surface-card">
+            <span className="kicker">EVIDÊNCIA</span>
+            <h3 className="card-title">{capture.confirmedDispatches} enviados confirmados</h3>
+            <div className="card-meta">A Mesa só muda esse número após prova na plataforma ou no canal de origem.</div>
+          </article>
+        </div>
+      )}
 
       <div className="two-col-grid">
         <div className="surface-card">

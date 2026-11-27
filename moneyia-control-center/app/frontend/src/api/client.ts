@@ -42,13 +42,17 @@ export const decideSingleApproval = (id: string, decision: 'aprovar' | 'rejeitar
   });
 export const prepareProposalCheck = (id: string) =>
   requestJson(`/api/aprovacoes/${encodeURIComponent(id)}/conferencia`, 'POST', {});
+export const configureDispatchAutomation = (enabled: boolean, intervalMinutes = 5, prepareNow = true) =>
+  requestJson('/api/proposal-dispatch/automation', 'POST', { enabled, intervalMinutes, prepareNow });
+export const runDispatchAutomationTick = () =>
+  requestJson('/api/proposal-dispatch/automation/tick', 'POST', {});
 export async function decideBatchApprovals(ids: string[], decision: 'aprovar' | 'rejeitar', note = '') {
   const results = [];
   for (const id of ids) results.push(await decideSingleApproval(id, decision, note));
   return { processed: results.length, results };
 }
 export const startRadar = () => requestJson('/api/radar/runs', 'POST', { mode: 'shadow', shards: 6 });
-export const prepareRadarQueue = () => requestJson('/api/radar/send-queue', 'POST', { limit: 30 });
+export const prepareRadarQueue = (limit = 30) => requestJson('/api/radar/send-queue', 'POST', { limit });
 export const createNewTask = (title: string, priority: string) =>
   requestJson('/api/tarefas', 'POST', { title, priority, source: 'mesa-react-ts' });
 export const toggleTaskStatus = (id: string, status: string) =>

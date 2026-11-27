@@ -106,6 +106,40 @@ export interface EmailSummary {
   watch?: { status?: string; lastSuccessAt?: string | null; lastError?: string | null };
 }
 
+export interface CaptureSummary {
+  raw: number;
+  mapped: number;
+  analyzed: number;
+  processed: number;
+  eligible: number;
+  notEligible: number;
+  blockedByReason: Record<string, number>;
+  packeted: number;
+  unpacketed: number;
+  readyForReview: number;
+  approvedForDispatch: number;
+  confirmedDispatches: number;
+  sources: {
+    brl: number;
+    usd: number;
+    global: number;
+    radar: number;
+  };
+}
+
+export interface DispatchAutomation {
+  enabled: boolean;
+  intervalMs: number;
+  nextAt?: string | null;
+  lastRunAt?: string | null;
+  lastDispatchId?: string | null;
+  lastPlatform?: string | null;
+  processedCount?: number;
+  inFlight?: boolean;
+  waitingFor?: string | null;
+  lastError?: string | null;
+}
+
 export interface EngineCapabilities {
   radar?: boolean;
   bridgeAgent?: boolean;
@@ -131,6 +165,7 @@ export interface MesaState {
   };
   approvals: ApprovalItem[];
   proposalDispatch?: ProposalDispatchItem[];
+  dispatchAutomation?: DispatchAutomation;
   tasks: TaskItem[];
   ia: IaQueueItem[];
   agentQuestions: AgentQuestionItem[];
@@ -145,6 +180,7 @@ export interface MesaState {
     total?: number;
     recent: OpportunityItem[];
   };
+  capture?: CaptureSummary;
   pendencias?: Array<{ id?: string; title?: string; status?: string; detail?: string }>;
   finance?: FinanceSummary;
   email?: EmailSummary;

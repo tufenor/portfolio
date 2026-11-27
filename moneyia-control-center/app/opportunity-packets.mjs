@@ -5,11 +5,13 @@ const fold = (value) => String(value ?? '').normalize('NFD').replace(/[\u0300-\u
 
 const demoFor = (opportunity) => {
   const title = fold(opportunity.title);
+  if (/automat|python|playwright|chatbot|inteligencia artificial|\bia\b|n8n|api/.test(title)) return 'https://tufenor.github.io/portfolio/modelos/proposta-studio/?modelo=automacao';
+  if (/\bux\b|\bui\b|figma|interface|design/.test(title)) return 'https://tufenor.github.io/portfolio/modelos/proposta-studio/?modelo=uxui';
   if (title.includes('shopify')) return 'https://tufenor.github.io/portfolio/demo/shopify-bebe.html';
   if (title.includes('tarot')) return 'https://tufenor.github.io/portfolio/demo/tarot-landing.html';
   if (title.includes('advog') || title.includes('jur')) return 'https://tufenor.github.io/portfolio/demo/landing-advogado.html';
   if (title.includes('wordpress') || title.includes('elementor')) return 'https://tufenor.github.io/portfolio/demo/cafe-aurora.html';
-  if (title.includes('landing') || title.includes('site') || title.includes('web')) return 'https://tufenor.github.io/portfolio/demo/site-servicos.html';
+  if (title.includes('landing') || title.includes('site') || title.includes('web')) return 'https://tufenor.github.io/portfolio/modelos/proposta-studio/?modelo=landing';
   return 'https://tufenor.github.io/portfolio/projeto/';
 };
 

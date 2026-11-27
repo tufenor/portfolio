@@ -9,6 +9,8 @@ import {
   runEngineAction,
   runMcpAction,
   runQueueBatch,
+  configureDispatchAutomation,
+  runDispatchAutomationTick,
   startRadar,
   prepareRadarQueue,
   prepareProposalCheck,
@@ -152,15 +154,16 @@ export const App: React.FC = () => {
   const openTasks = (mesa?.tasks || []).filter((t) => t.status !== 'concluida');
   const iaList = mesa?.ia || [];
   const opps = mesa?.opportunities || { recent: [] };
-  const totalOpps = opps.total ?? ((opps.brl || 0) + (opps.usd || 0) + (opps.global || 0));
-  const resultsCount = iaList.filter((i) => i.retorno || i.response).length;
+  const capture = mesa?.capture;
+  const totalOpps = capture?.mapped ?? opps.total ?? ((opps.brl || 0) + (opps.usd || 0) + (opps.global || 0));
+  const resultsCount = capture?.processed ?? (iaList.filter((i) => i.retorno || i.response).length + totalOpps);
   const commercial = mesa?.commercial;
   const rec = commercial?.received || mesa?.finance?.confirmedReceived || {};
   const email = mesa?.email;
   const emailStatus = email?.watch?.status || 'unknown';
 
   const navItems: Array<{ id: NavSection; label: string; count?: number; icon: React.ReactNode }> = [
-    { id: 'results', label: 'Resultados Consolidados', count: resultsCount, icon: <IconSpark size={16} /> },
+    { id: 'results', label: 'Captações processadas', count: resultsCount, icon: <IconSpark size={16} /> },
     { id: 'agents', label: 'Relatório por IA', count: 4 + subAis.length, icon: <IconCpu size={16} /> },
     { id: 'subais', label: 'Sub-IAs & Alcance', count: subAis.length, icon: <IconNetwork size={16} /> },
     { id: 'hunt', label: 'Caça & Fila IA', count: totalOpps, icon: <IconRadar size={16} /> },
@@ -303,9 +306,9 @@ export const App: React.FC = () => {
 
         <section className="kpi-grid">
           <button type="button" className="kpi-tile" onClick={() => selectNav('results')}>
-            <span className="kpi-label">RESULTADOS CONSOLIDADOS</span>
+            <span className="kpi-label">CAPTAÇÕES PROCESSADAS</span>
             <strong className="kpi-num">{resultsCount}</strong>
-            <span className="kpi-sub">Análises IA com retorno</span>
+            <span className="kpi-sub">{capture ? `${capture.analyzed} análises · ${capture.mapped} mapeadas` : 'Análises IA com retorno'}</span>
           </button>
           <button type="button" className="kpi-tile" onClick={() => selectNav('agents')}>
             <span className="kpi-label">IAS & SUB-IAS ATIVAS</span>
@@ -382,8 +385,10 @@ export const App: React.FC = () => {
             <ResultsView
               iaItems={iaList}
               opportunities={opps.recent || []}
+              capture={capture}
               onSendToAi={(id) => void executeBusy(`Enviar ${id} p/ IA`, () => sendOpportunityToAi(id))}
               onHuntNow={() => void executeBusy(`Caça (${tier})`, () => runQueueBatch(3, tier))}
+              onOpenApprovals={() => selectNav('approvals')}
               busy={busy}
             />
           )}
@@ -411,11 +416,13 @@ export const App: React.FC = () => {
             <HuntQueueView
               opportunities={opps.recent || []}
               totalOpportunities={totalOpps}
+              capture={capture}
               iaItems={iaList}
               onSendOpportunity={(id) => void executeBusy(`Enviar ${id} p/ IA`, () => sendOpportunityToAi(id))}
               onProcessBatch={(lim) => void executeBusy(`Lote (${lim})`, () => runQueueBatch(lim, tier))}
               onStartRadar={() => void executeBusy('Varredura do Radar', startRadar)}
-              onPrepareQueue={() => void executeBusy('Preparar fila visual', prepareRadarQueue)}
+              onPrepareQueue={(limit) => void executeBusy(`Fila de propostas (${limit})`, () => prepareRadarQueue(limit))}
+              onOpenApprovals={() => selectNav('approvals')}
               radarStatus={mesa?.radar?.runs?.[0]?.status}
               onSaveReturn={(id, txt) => void executeBusy(`Retorno ${id}`, () => saveIaReturn(id, txt))}
               busy={busy}
@@ -433,6 +440,9 @@ export const App: React.FC = () => {
                 void executeBusy(`Lote ${dec}`, () => decideBatchApprovals(ids, dec, note))
               }
               onPrepareCheck={(id) => void executeBusy(`Conferência ${id}`, () => prepareProposalCheck(id))}
+              dispatchAutomation={mesa?.dispatchAutomation}
+              onConfigureDispatchAutomation={(enabled) => void executeBusy(enabled ? 'Ativar fila serial' : 'Pausar fila serial', () => configureDispatchAutomation(enabled, 5, enabled))}
+              onRunDispatchNow={() => void executeBusy('Preparar próxima proposta', runDispatchAutomationTick)}
               busy={busy}
             />
           )}

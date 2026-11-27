@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { ApprovalItem, ProposalDispatchItem } from '../types/moneyia';
+import type { ApprovalItem, DispatchAutomation, ProposalDispatchItem } from '../types/moneyia';
 import { IconCheckShield } from './Icons';
 
 interface ApprovalsViewProps {
@@ -9,6 +9,9 @@ interface ApprovalsViewProps {
   busy: boolean;
   proposalDispatch: ProposalDispatchItem[];
   onPrepareCheck: (id: string) => void;
+  dispatchAutomation?: DispatchAutomation;
+  onConfigureDispatchAutomation: (enabled: boolean) => void;
+  onRunDispatchNow: () => void;
 }
 
 export const ApprovalsView: React.FC<ApprovalsViewProps> = ({
@@ -17,7 +20,10 @@ export const ApprovalsView: React.FC<ApprovalsViewProps> = ({
   onDecideBatch,
   busy,
   proposalDispatch,
-  onPrepareCheck
+  onPrepareCheck,
+  dispatchAutomation,
+  onConfigureDispatchAutomation,
+  onRunDispatchNow
 }) => {
   const [batchNote, setBatchNote] = useState('');
   const pending = approvals.filter((a) => a.status === 'pendente');
@@ -68,6 +74,39 @@ export const ApprovalsView: React.FC<ApprovalsViewProps> = ({
       <div className="surface-card">
         <div className="row-top-flex">
           <div>
+            <span className="kicker">FILA SERIAL COM JARVIS</span>
+            <h3>Preparar uma proposta por vez</h3>
+            <p className="card-excerpt">A fila abre o próximo projeto na sessão já logada a cada 5 minutos, prepara o pacote e deixa a confirmação visível no navegador. O contador de envio só muda quando a plataforma devolver evidência.</p>
+          </div>
+          <span className={`status-pill ${dispatchAutomation?.enabled ? 'status-ok' : ''}`}>
+            {dispatchAutomation?.enabled ? 'Ativa' : 'Pausada'}
+          </span>
+        </div>
+        <div className="action-row">
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={busy || !dispatchAutomation?.enabled}
+            onClick={onRunDispatchNow}
+          >
+            Preparar próxima agora
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            disabled={busy}
+            onClick={() => onConfigureDispatchAutomation(!dispatchAutomation?.enabled)}
+          >
+            {dispatchAutomation?.enabled ? 'Pausar fila' : 'Ativar fila a cada 5 min'}
+          </button>
+          {dispatchAutomation?.waitingFor && <span className="muted-xs">Aguardando confirmação: {dispatchAutomation.waitingFor}</span>}
+          {!dispatchAutomation?.waitingFor && dispatchAutomation?.nextAt && <span className="muted-xs">Próxima checagem: {new Date(dispatchAutomation.nextAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>}
+        </div>
+      </div>
+
+      <div className="surface-card">
+        <div className="row-top-flex">
+          <div>
             <span className="kicker">CONFERÊNCIA DE PROPOSTAS</span>
             <h3>Despachos aguardando prova</h3>
             <p className="card-excerpt">A fila mostra o que o agente tentou e o que ainda precisa ser conferido na plataforma. Preparar conferência cria apenas a tarefa local.</p>
@@ -80,7 +119,11 @@ export const ApprovalsView: React.FC<ApprovalsViewProps> = ({
               <div>
                 <strong>{dispatch.id} · {dispatch.approvalId || dispatch.opportunityId || 'proposta'}</strong>
                 <div className="card-meta">
-                  {dispatch.status === 'falha_agente' ? 'Agente sem resposta' : 'Aguardando evidência externa'} · {dispatch.note || 'Sem observação'}
+                  {dispatch.status === 'falha_agente'
+                    ? 'Agente sem resposta'
+                    : dispatch.status === 'navegador_acionado'
+                      ? 'Navegador acionado · confirmação pendente'
+                      : 'Aguardando evidência externa'} · {dispatch.note || 'Sem observação'}
                 </div>
               </div>
               {dispatch.approvalId && <button type="button" className="btn btn-secondary btn-sm" disabled={busy} onClick={() => onPrepareCheck(dispatch.approvalId!)}>Preparar conferência</button>}
