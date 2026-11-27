@@ -345,16 +345,24 @@ export async function createIaItem(input) {
   return row;
 }
 
-export async function setIaResponse(id, response, source = 'retorno_registrado') {
-  const rows = await readIa();
-  const row = rows.find((r) => r.id === id);
-  if (!row) throw new Error('item da IA não encontrado');
-  row.retorno = String(response || '').slice(0, 10000);
-  row.status = 'respondida';
-  row.respondedAt = new Date().toISOString();
-  row.responseSource = String(source).slice(0, 80);
-  await writeJson(iaFile, rows);
-  return row;
+let iaResponseWrites = Promise.resolve();
+export function setIaResponse(id, response, source = 'retorno_registrado') {
+  const next = iaResponseWrites.then(async () => {
+    const rows = await readIa();
+    const row = rows.find((r) => r.id === id);
+    if (!row) throw new Error('item da IA não encontrado');
+    // A response importer may retry after a timeout. Keep the first committed
+    // result and avoid duplicate follow-up tasks or silent overwrites.
+    if (row.status === 'respondida') return { ...row, idempotent: true };
+    row.retorno = String(response || '').slice(0, 10000);
+    row.status = 'respondida';
+    row.respondedAt = new Date().toISOString();
+    row.responseSource = String(source).slice(0, 80);
+    await writeJson(iaFile, rows);
+    return row;
+  });
+  iaResponseWrites = next.catch(() => {});
+  return next;
 }
 
 export async function setIaDelivery(id, status, webhookStatus = null, providerId = null, providerLabel = null) {

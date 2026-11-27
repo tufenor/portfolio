@@ -16,6 +16,7 @@ from pathlib import Path
 
 from automation.supervisor import run_snapshot
 from automation.cycle import run_cycle
+from automation.codex_bridge import export_pending, import_responses
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,13 +71,30 @@ def bridge_check(base: str) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("inbox-check", "bridge-check", "supervisor", "cycle"))
+    parser.add_argument("command", choices=("inbox-check", "bridge-check", "supervisor", "cycle", "codex-bridge-export", "codex-bridge-import"))
     parser.add_argument("--base", default="http://127.0.0.1:8899")
     parser.add_argument("--with-email", action="store_true", help="run the local read-only Gmail watcher during cycle")
     parser.add_argument("--prepare-queue", action="store_true", help="prepare up to 30 review packets in the local Mesa; never submits proposals")
     parser.add_argument("--queue-limit", type=int, default=30)
+    parser.add_argument("--responses-file", help="JSON temporário local para importar respostas do worker Codex")
     args = parser.parse_args()
-    if args.command == "inbox-check":
+    if args.command == "codex-bridge-export":
+        payload = export_pending(ROOT, args.base, limit=min(30, max(1, args.queue_limit)))
+    elif args.command == "codex-bridge-import":
+        try:
+            if args.responses_file:
+                response_path = Path(args.responses_file)
+                if not response_path.is_absolute():
+                    response_path = ROOT / response_path
+                responses = json.loads(response_path.read_text(encoding="utf-8-sig"))
+            else:
+                responses = json.load(sys.stdin)
+            payload = import_responses(ROOT, args.base, responses)
+            if args.responses_file and payload.get("ok"):
+                response_path.unlink(missing_ok=True)
+        except (json.JSONDecodeError, ValueError) as exc:
+            payload = {"ok": False, "error": str(exc)}
+    elif args.command == "inbox-check":
         payload = inbox_check()
     elif args.command == "bridge-check":
         payload = bridge_check(args.base)

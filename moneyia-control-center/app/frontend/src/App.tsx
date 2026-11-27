@@ -161,6 +161,8 @@ export const App: React.FC = () => {
   const rec = commercial?.received || mesa?.finance?.confirmedReceived || {};
   const email = mesa?.email;
   const emailStatus = email?.watch?.status || 'unknown';
+  const bridge = mesa?.bridge;
+  const codexWorker = bridge?.codexWorker;
 
   const navItems: Array<{ id: NavSection; label: string; count?: number; icon: React.ReactNode }> = [
     { id: 'results', label: 'Captações processadas', count: resultsCount, icon: <IconSpark size={16} /> },
@@ -303,6 +305,24 @@ export const App: React.FC = () => {
             </button>
           </div>
         </header>
+
+        <section className="surface-card" style={{ margin: '14px 0 18px' }} aria-label="Estado da ponte de IA">
+          <div className="card-header">
+            <div>
+              <div className="kicker">PONTE COM OS AGENTES</div>
+              <strong>Fila assíncrona · {codexWorker?.provider || 'GPT-5.6 Luna (rotina Codex)'}</strong>
+            </div>
+            <span className={`status-chip ${codexWorker?.status === 'processed' || codexWorker?.status === 'idle' ? 'status-ok' : ''}`}>
+              {codexWorker?.status || 'aguardando primeiro ciclo'}
+            </span>
+          </div>
+          <div className="muted-xs">
+            {bridge?.continuity || 'A fila local fica salva enquanto aguarda o próximo ciclo do agente.'}
+            {' · '}{codexWorker?.pending ?? bridge?.queue?.pending ?? 0} pendentes ·
+            {' '}{codexWorker?.processed ?? 0} processados ·
+            {' '}provedores síncronos ativos: {bridge?.providers?.usable ?? 0}
+          </div>
+        </section>
 
         <section className="kpi-grid">
           <button type="button" className="kpi-tile" onClick={() => selectNav('results')}>

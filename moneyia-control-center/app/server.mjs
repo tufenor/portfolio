@@ -5,6 +5,7 @@ import { createServer } from 'node:http';
 import { readFile, writeFile } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import { freemem } from 'node:os';
 import { join, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sentProposals, readChecks, verifyProposals } from './proposal-verifier.mjs';
@@ -127,27 +128,47 @@ async function ollamaProbe() {
     const body = await response.json().catch(() => ({}));
     const models = Array.isArray(body.models) ? body.models.map((m) => String(m.name || '')).filter(Boolean) : [];
     const preferred = process.env.MONEYIA_OLLAMA_MODEL || 'qwen3.5:4b';
+    const model = models.includes(preferred) ? preferred : (models[0] || null);
+    if (!model) return { endpointConfigured: true, cotaDisponivel: false, modelo: null, health: 'model_missing' };
+    if (freemem() < 5 * 1024 ** 3) {
+      return { endpointConfigured: true, cotaDisponivel: false, modelo: model, health: 'low_memory' };
+    }
+    // Listing a model only proves installation. A bounded inference probe avoids
+    // advertising a provider as ready when it is installed but starved of RAM.
+    const probe = await fetch(base, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ model, stream: false, think: false, keep_alive: '1m', options: { num_predict: 8 }, messages: [{ role: 'user', content: 'Responda apenas OK.' }] }),
+      signal: AbortSignal.timeout(3500)
+    });
+    const inference = probe.ok ? await probe.json().catch(() => ({})) : {};
+    const ready = probe.ok && Boolean(inference.message?.content?.trim());
     return {
       endpointConfigured: true,
-      cotaDisponivel: models.length > 0,
-      modelo: models.includes(preferred) ? preferred : (models[0] || null)
+      cotaDisponivel: ready,
+      modelo: model,
+      health: ready ? 'ready' : (probe.ok ? 'inference_empty' : `inference_http_${probe.status}`)
     };
   } catch {
-    return { endpointConfigured: false, cotaDisponivel: false, modelo: null };
+    return { endpointConfigured: true, cotaDisponivel: false, modelo: null, health: 'inference_timeout_or_unreachable' };
   }
 }
 
 async function jarvisProbe() {
   const endpoint = process.env.MONEYIA_JARVIS_DISPATCH_URL || 'http://127.0.0.1:8080/api/moneyia/fallback';
-  const health = process.env.MONEYIA_JARVIS_HEALTH_URL || endpoint;
+  const health = process.env.MONEYIA_JARVIS_HEALTH_URL || 'http://127.0.0.1:8080/api/saude';
   try {
-    const response = await fetch(health, { signal: AbortSignal.timeout(2000) });
+    const [healthResponse, routeResponse] = await Promise.all([
+      fetch(health, { signal: AbortSignal.timeout(4500) }),
+      fetch(endpoint, { signal: AbortSignal.timeout(4500) })
+    ]);
     // The fallback is a POST route. A GET may indicate its presence with 405.
-    const available = response.ok || (health === endpoint && response.status === 405
-      && /\bPOST\b/i.test(response.headers.get('allow') || ''));
-    return { endpointConfigured: available, cotaDisponivel: available };
+    const routeAvailable = routeResponse.ok || (routeResponse.status === 405
+      && /\bPOST\b/i.test(routeResponse.headers.get('allow') || ''));
+    const available = healthResponse.ok && routeAvailable;
+    return { endpointConfigured: routeAvailable, cotaDisponivel: available, health: available ? 'ready' : 'health_or_route_failed' };
   } catch {
-    return { endpointConfigured: false, cotaDisponivel: false };
+    return { endpointConfigured: false, cotaDisponivel: false, health: 'unreachable' };
   }
 }
 
@@ -156,7 +177,7 @@ let probesExpireAt = 0;
 
 function providerProbes() {
   if (!cachedProbes || Date.now() >= probesExpireAt) {
-    probesExpireAt = Date.now() + 15_000;
+    probesExpireAt = Date.now() + 60_000;
     cachedProbes = Promise.all([ollamaProbe(), jarvisProbe()]);
   }
   return cachedProbes;
@@ -782,7 +803,11 @@ async function state() {
     readRadarRuns(), readRadarGates(), readRadarOpportunities(), readRadarSessions(), readDispatchScheduler()
   ]);
   const providers = await readAiProviders();
-  const bridge = bridgeSnapshot(providers, ia, proposalDispatch);
+  const [bridgeStatus, codexBridgeStatus] = await Promise.all([
+    readJson('bridge-status.json', {}),
+    readJson('codex-bridge-status.json', { status: 'not_started', lastExportAt: null, lastImportAt: null, processed: 0 })
+  ]);
+  const bridge = bridgeSnapshot(providers, ia, proposalDispatch, { bridgeStatus, codexBridgeStatus });
   const radarRows = mergeOpportunities([...(await readRadarInputs()), ...radarOpportunities]);
   const capture = captureSummary({ brl, usd, globalOps, radarOpportunities, radarRows, ia, approvals, proposalDispatch });
   const pendingGates = radarGates.filter((gate) => gate.status === 'pending');
@@ -889,7 +914,24 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && path === '/api/ia/providers') return sendJson(res, 200, { providers: await readAiProviders(), preferred: 'chatgpt' });
     if (req.method === 'GET' && path === '/api/bridge/status') {
       const [providers, ia, proposalDispatch] = await Promise.all([readAiProviders(), readIa(), readProposalDispatch()]);
-      return sendJson(res, 200, bridgeSnapshot(providers, ia, proposalDispatch));
+      const [bridgeStatus, codexBridgeStatus] = await Promise.all([
+        readJson('bridge-status.json', {}),
+        readJson('codex-bridge-status.json', { status: 'not_started', lastExportAt: null, lastImportAt: null, processed: 0 })
+      ]);
+      return sendJson(res, 200, bridgeSnapshot(providers, ia, proposalDispatch, { bridgeStatus, codexBridgeStatus }));
+    }
+
+    if (req.method === 'GET' && path === '/api/codex-bridge/pending') {
+      const limit = Math.max(1, Math.min(30, Number(url.searchParams.get('limit') || 30)));
+      const pending = (await readIa()).filter((item) => item.status !== 'respondida')
+        .sort((a, b) => String(a.createdAt || '').localeCompare(String(b.createdAt || '')))
+        .slice(0, limit)
+        .map(({ id, opportunityId, title, platform, url, priority, budget, prompt, createdAt }) => ({ id, opportunityId, title, platform, url, priority, budget, prompt, createdAt }));
+      return sendJson(res, 200, { ok: true, provider: 'codex:gpt-5.6-luna', count: pending.length, items: pending });
+    }
+
+    if (req.method === 'GET' && path === '/api/codex-bridge/status') {
+      return sendJson(res, 200, await readJson('codex-bridge-status.json', { status: 'not_started', lastExportAt: null, lastImportAt: null, processed: 0 }));
     }
     if (req.method === 'GET' && path === '/api/state') return sendJson(res, 200, await state());
     // Compatibilidade com a ponte JARVIS e consumidores anteriores. Os aliases
@@ -1399,8 +1441,14 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && iaReturn) {
       const body = await readBody(req);
       if (!String(body.retorno || '').trim()) return sendJson(res, 400, { error: 'retorno é obrigatório' });
-      const row = await setIaResponse(decodeURIComponent(iaReturn[1]), body.retorno, body.source || 'retorno_registrado');
-      const task = await createTask({
+      const id = decodeURIComponent(iaReturn[1]);
+      const existing = (await readIa()).find((item) => item.id === id);
+      if (!existing) return sendJson(res, 404, { error: 'item da IA não encontrado' });
+      if (existing.status === 'respondida') return sendJson(res, 200, { item: existing, task: null, idempotent: true });
+      const responseSource = String(body.source || 'retorno_registrado').slice(0, 80);
+      const row = await setIaResponse(id, body.retorno, responseSource);
+      if (row.idempotent) return sendJson(res, 200, { item: row, task: null, idempotent: true });
+      const task = responseSource === 'codex:gpt-5.6-luna' ? null : await createTask({
         title: `Analisar retorno da IA — ${row.title}`.slice(0, 160),
         description: `Oportunidade: ${row.url}\n\nRetorno da IA:\n${row.retorno}`.slice(0, 2000),
         source: 'chatgpt',

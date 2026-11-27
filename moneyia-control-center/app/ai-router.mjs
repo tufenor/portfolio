@@ -51,6 +51,10 @@ export async function runAiCascade(prompt, { tier = 'fast', system = 'Responda d
   for (const provider of chain) {
     try {
       if (provider.kind === 'ollama') {
+        if (freemem() < 5 * 1024 ** 3) {
+          errors.push(`${provider.name}: ignorado por memória livre abaixo de 5 GiB`);
+          continue;
+        }
         const res = await fetch(provider.url, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
@@ -110,3 +114,5 @@ export async function runAiCascade(prompt, { tier = 'fast', system = 'Responda d
 
   return { ok: false, provider: 'none', text: '', errors };
 }
+import { freemem } from 'node:os';
+

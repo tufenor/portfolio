@@ -6,16 +6,21 @@ export function pendingIaItems(items = []) {
   return items.filter((item) => item.status !== 'respondida');
 }
 
-export function bridgeSnapshot(providers = [], iaItems = [], proposalDispatch = []) {
+export function bridgeSnapshot(providers = [], iaItems = [], proposalDispatch = [], runtime = {}) {
   const configured = providers.filter((p) => p.habilitado && p.endpointConfigured);
   const usable = configured.filter((p) => p.cotaDisponivel === true);
   const waitingProposals = proposalDispatch.filter((item) => !item.sent && item.status !== 'enviado_confirmado');
   const confirmedProposals = proposalDispatch.filter((item) => item.status === 'enviado_confirmado' || item.sent);
+  const codex = runtime.codexBridgeStatus || {};
+  const codexLastRun = Date.parse(codex.lastImportAt || codex.lastExportAt || '');
+  const codexFresh = Number.isFinite(codexLastRun) && Date.now() - codexLastRun < 60 * 60_000;
+  const codexActive = codexFresh && ['running', 'processed', 'idle'].includes(codex.status);
+  const aiAvailable = usable.length > 0 || codexActive;
   return {
     id: 'ponte-local-moneyia',
     label: 'Ponte local',
     mode: 'local-first',
-    status: 'operacional',
+    status: aiAvailable ? 'operacional' : 'degradado',
     localQueue: true,
     manualContinuation: true,
     aiOptional: true,
@@ -41,7 +46,18 @@ export function bridgeSnapshot(providers = [], iaItems = [], proposalDispatch = 
         health: p.health || (p.endpointConfigured ? 'configured_unverified' : 'not_configured')
       }))
     },
-    continuity: `A Mesa continua com cache e fila local mesmo sem IA. ${waitingProposals.length} proposta(s) aguardam o agente responsável.`
+    codexWorker: {
+      provider: 'GPT-5.6 Luna (rotina Codex)',
+      status: codexActive ? codex.status : (codex.status && codex.status !== 'not_started' ? 'stale' : 'not_started'),
+      lastExportAt: codex.lastExportAt || null,
+      lastImportAt: codex.lastImportAt || null,
+      processed: Number(codex.processed || 0),
+      pending: pendingIaItems(iaItems).length,
+      asynchronous: true
+    },
+    continuity: aiAvailable
+      ? `Fila local preservada; agente disponível ou rotina Codex configurada. ${waitingProposals.length} proposta(s) aguardam o agente responsável.`
+      : `Fila local preservada, mas nenhum agente de IA confirmou disponibilidade. ${waitingProposals.length} proposta(s) aguardam o agente responsável.`
   };
 }
 

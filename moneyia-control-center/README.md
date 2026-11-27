@@ -47,6 +47,12 @@ somente leitura. Ele não envia propostas. Use
 para executar a rotina; `python tools/collect_public_opportunities.py` atualiza
 o cache público do Remotive, que é distribuído com atraso.
 
+A ponte assíncrona `codex-bridge-export` / `codex-bridge-import` conecta a fila
+local ao worker GPT-5.6 Luna agendado no Codex. A assinatura do ChatGPT é usada
+pela automação do Codex; nenhuma chave de API é exigida. O importador só aceita
+IDs do lote exportado, limita o lote a 30, trata repetição sem duplicar tarefas
+e remove o arquivo temporário após sucesso. Veja `docs/BRIDGE-CODEX-ASSINCRONA.md`.
+
 Abra `http://127.0.0.1:8899`. Sem `MONEYIA_APP_USER` e
 `MONEYIA_APP_PASSWORD`, o servidor aceita somente loopback. Para acesso remoto,
 use `deploy/frequency/` e configure as credenciais no ambiente do servidor, não
@@ -65,3 +71,4 @@ plataforma. Este snapshot não contém candidaturas nem receita.
 
 Case público: https://tufenor.github.io/portfolio/case/moneyia-jarvis-bridge-2026-11-26.html
 Case de automação Python: https://tufenor.github.io/portfolio/case/moneyia-python-cycle-2026-11-27.html
+Case da ponte assíncrona: https://tufenor.github.io/portfolio/case/moneyia-codex-bridge-2026-11-27.html

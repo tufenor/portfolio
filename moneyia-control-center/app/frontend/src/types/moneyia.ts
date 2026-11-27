@@ -171,6 +171,21 @@ export interface MesaState {
   agentQuestions: AgentQuestionItem[];
   agentWebhook?: boolean;
   aiWebhook?: boolean;
+  bridge?: {
+    status?: string;
+    continuity?: string;
+    queue?: { pending?: number; answered?: number };
+    codexWorker?: {
+      provider?: string;
+      status?: string;
+      lastExportAt?: string | null;
+      lastImportAt?: string | null;
+      processed?: number;
+      pending?: number;
+      asynchronous?: boolean;
+    };
+    providers?: { configured?: number; usable?: number; preferred?: string };
+  };
   currencies?: string[];
   engines?: EngineCapabilities;
   opportunities: {
