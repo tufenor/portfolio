@@ -7,6 +7,8 @@ Página estática de apresentação profissional e uma demonstração de correç
 - `demo/cafe-aurora-antes.html` — a mesma página com os defeitos de celular que a correção resolve.
 - `case/moneyia-radar.html` — case público e sanitizado do Radar global MoneyIA.
 
-Sem dependências externas, fontes remotas, scripts de terceiros ou rastreadores. Para abrir localmente, basta servir a pasta ou abrir `index.html` no navegador.
+A vitrine não usa scripts de terceiros ou rastreadores. A nova demo imobiliária carrega fotografias públicas do Unsplash; o restante abre localmente sem instalação. Para abrir a vitrine, basta servir a pasta ou abrir `index.html` no navegador.
 
 Publicado com GitHub Pages a partir da raiz do branch `main`.
+
+- `demos/prototipo-imobiliario/` — protótipo conceitual e interativo para busca de imóveis; dados fictícios, sem backend.

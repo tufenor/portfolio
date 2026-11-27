@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f5f2"><meta name="description" content="Demonstração conceitual de um protótipo navegável para busca de imóveis.">
+  <title>morada — encontre seu próximo lugar</title><link rel="preconnect" href="https://images.unsplash.com"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="morada, início"><span class="brand-mark">m</span><span>morada<span class="brand-dot">.</span></span></a>
+    <nav aria-label="Navegação principal"><a class="active" href="#buscar">Explorar</a><a href="#favoritos" id="savedNav">Favoritos <span id="savedCount" class="nav-count">0</span></a><a href="#sobre">Como funciona</a></nav>
+    <button class="avatar" id="profileBtn" aria-label="Abrir perfil de demonstração">G</button>
+  </header>
+  <main id="inicio">
+    <section class="hero" id="buscar">
+      <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-line"></span> SEU PRÓXIMO CAPÍTULO COMEÇA AQUI</div><h1>Um lugar com<br><em>a sua cara.</em></h1><p>Explore imóveis com calma. Encontre o espaço certo para o seu próximo passo.</p></div>
+      <div class="hero-photo" role="img" aria-label="Casa contemporânea rodeada por vegetação"></div>
+      <div class="search-panel">
+        <div class="search-main"><label for="locationInput">Onde você quer morar?</label><div class="location-field"><span aria-hidden="true">⌕</span><input id="locationInput" placeholder="Cidade, bairro ou código" value="São Paulo, SP"><button id="clearSearch" class="clear" aria-label="Limpar localização">×</button></div></div>
+        <div class="search-segment"><label for="purposeSelect">Eu quero</label><select id="purposeSelect"><option value="comprar">Comprar</option><option value="alugar">Alugar</option></select></div>
+        <div class="search-segment"><label for="typeSelect">Tipo de imóvel</label><select id="typeSelect"><option value="todos">Todos</option><option value="casa">Casa</option><option value="apartamento">Apartamento</option></select></div>
+        <button class="search-button" id="searchBtn"><span aria-hidden="true">⌕</span> Buscar imóveis</button>
+      </div>
+      <div class="hero-note"><span class="sparkle">✳</span> A busca certa muda tudo.</div>
+    </section>
+
+    <section class="results-section" aria-labelledby="resultsTitle">
+      <div class="section-top"><div><div class="eyebrow muted">CURADORIA MORADA</div><h2 id="resultsTitle">Espaços para <em>viver bem.</em></h2><p class="result-count"><span id="resultCount">06</span> imóveis que combinam com sua busca</p></div><button class="map-toggle" id="mapToggle" aria-pressed="false"><span>⌖</span> Ver mapa</button></div>
+      <div class="filters" role="group" aria-label="Filtros de imóveis"><button class="filter-chip selected" data-filter="all">Todos <span>06</span></button><button class="filter-chip" data-filter="apartment">Apartamentos</button><button class="filter-chip" data-filter="house">Casas</button><span class="filter-divider"></span><button class="filter-chip simple" id="priceFilter">Até R$ 1,5 mi <span>⌄</span></button><button class="filter-chip simple" id="roomsFilter">2+ quartos <span>⌄</span></button><span class="filter-spacer"></span><button class="sort-button" id="sortBtn">Recomendados <span>⌄</span></button></div>
+      <div class="content-grid"><div class="property-grid" id="propertyGrid"></div><aside class="map-panel" id="mapPanel" aria-label="Mapa ilustrativo dos imóveis"><div class="map-label"><span class="pulse"></span> PINHEIROS · SÃO PAULO</div><div class="map-roads"></div><button class="map-pin pin-one" data-open="1">R$ 1,28 mi</button><button class="map-pin pin-two" data-open="2">R$ 890 mil</button><button class="map-pin pin-three" data-open="3">R$ 1,46 mi</button><div class="map-credit">Mapa ilustrativo · localização aproximada</div></aside></div>
+    </section>
+    <section class="why-section" id="sobre"><div class="why-mark">m</div><div><div class="eyebrow muted">MENOS RUÍDO. MAIS SENTIDO.</div><h2>A procura pode<br>ser mais leve.</h2></div><p>Uma experiência simples para comparar opções, guardar seus favoritos e dar o próximo passo quando estiver pronto.</p><button id="aboutCta" class="text-link">Conheça a experiência <span>↗</span></button></section>
+    <footer><a class="brand footer-brand" href="#inicio"><span class="brand-mark">m</span><span>morada<span class="brand-dot">.</span></span></a><span>Demonstração conceitual para portfólio · dados e valores fictícios</span><a href="#inicio" class="back-top">Voltar ao topo ↑</a></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="propertyDialog" class="property-dialog"><button class="dialog-close" id="closeDialog" aria-label="Fechar detalhes">×</button><div id="dialogContent"></div></dialog>
+  <script src="app.js"></script>
+</body></html>
