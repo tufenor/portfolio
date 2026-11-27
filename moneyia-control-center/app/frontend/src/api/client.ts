@@ -40,6 +40,8 @@ export const decideSingleApproval = (id: string, decision: 'aprovar' | 'rejeitar
     by: 'mesa-react-ts',
     note
   });
+export const prepareProposalCheck = (id: string) =>
+  requestJson(`/api/aprovacoes/${encodeURIComponent(id)}/conferencia`, 'POST', {});
 export async function decideBatchApprovals(ids: string[], decision: 'aprovar' | 'rejeitar', note = '') {
   const results = [];
   for (const id of ids) results.push(await decideSingleApproval(id, decision, note));

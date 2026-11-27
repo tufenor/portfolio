@@ -12,7 +12,7 @@ import {
   readApprovals, readTasks, readIa, createApproval, updateApproval, decideApproval,
   createTask, updateTask, createIaItem, setIaResponse, setIaDelivery, summarize,
   readAgentQuestions, createAgentQuestion, answerAgentQuestion,
-  readProposalDispatch, createProposalDispatch, updateProposalDispatch, readEmailInbox, writeEmailInbox,
+  readProposalDispatch, createProposalDispatch, prepareProposalDispatchReview, updateProposalDispatch, readEmailInbox, writeEmailInbox,
   readEmailWatchStatus, readInboxFeed, writeInboxFeed,
   readRadarRuns, readRadarGates, readRadarOpportunities, readRadarSessions,
   writeRadarRuns, writeRadarGates, writeRadarOpportunities, writeRadarSessions
@@ -1118,6 +1118,22 @@ const server = createServer(async (req, res) => {
       return sendJson(res, 200, { item: row, task });
     }
 
+    const dispatchReview = path.match(/^\/api\/aprovacoes\/([^/]+)\/conferencia$/);
+    if (req.method === 'POST' && dispatchReview) {
+      const id = decodeURIComponent(dispatchReview[1]);
+      const approval = (await readApprovals()).find((row) => row.id === id);
+      if (!approval) return sendJson(res, 404, { error: 'aprovação não encontrada' });
+      if (approval.status !== 'aprovada' || approval.actionType !== 'candidatura' || !approval.opportunityId) {
+        return sendJson(res, 409, { error: 'a conferência requer uma candidatura aprovada' });
+      }
+      const proofLinks = [approval.opportunityUrl, approval.demoUrl];
+      if (!approval.proposalText?.trim() || !proofLinks.every((link) => typeof link === 'string' && /^https:\/\/[^\s/]+/i.test(link))) {
+        return sendJson(res, 409, { error: 'faltam proposta, demonstração ou página da plataforma' });
+      }
+      const result = await prepareProposalDispatchReview(approval);
+      return sendJson(res, result.created ? 201 : 200, result);
+    }
+
     const decision = path.match(/^\/api\/aprovacoes\/([^/]+)\/decision$/);
     if (req.method === 'POST' && decision) {
       const body = await readBody(req);
@@ -1131,6 +1147,7 @@ const server = createServer(async (req, res) => {
         delivery = await sendProposalDispatchWebhook(row, dispatch);
         if (delivery.status !== 'aguardando_agente') {
           dispatch = await updateProposalDispatch(dispatch.id, {
+            expectedStatus: dispatch.status,
             status: delivery.status,
             provider: delivery.providerId || dispatch.provider,
             agent: delivery.providerId || dispatch.agent,
@@ -1163,12 +1180,15 @@ const server = createServer(async (req, res) => {
       const requestedProviderId = String(body.providerId || '').trim().slice(0, 40);
       const delivery = await sendProposalDispatchWebhook(approval, dispatch, requestedProviderId);
       const row = await updateProposalDispatch(id, {
+        expectedStatus: dispatch.status,
         status: delivery.status,
         provider: delivery.providerId || dispatch.provider,
         agent: delivery.providerId || dispatch.agent,
         note: delivery.status === 'despachada_ao_agente'
           ? `Redundância acionada: ${delivery.providerLabel || delivery.providerId}; sem confirmação externa.`
-          : `Todos os agentes disponíveis falharam: ${delivery.webhookStatus || 'sem retorno'}`
+          : delivery.status === 'aguardando_evidencia'
+            ? 'Checklist preparado. Conferir o envio na plataforma.'
+            : `Ponte ainda indisponível: ${delivery.webhookStatus || 'sem retorno'}`
       });
       return sendJson(res, delivery.status === 'falha_agente' ? 502 : 200, { dispatch: row, delivery });
     }
@@ -1184,10 +1204,11 @@ const server = createServer(async (req, res) => {
       const delivery = await sendProposalDispatchWebhook(approval, dispatch, requestedProviderId);
       if (delivery.status === 'falha_agente') return sendJson(res, 502, { dispatch, delivery });
       const row = await updateProposalDispatch(id, {
-        status: 'despachada_ao_agente',
+        expectedStatus: dispatch.status,
+        status: delivery.status,
         provider: delivery.providerId || dispatch.provider,
         agent: delivery.providerId || dispatch.agent,
-        note: `Fila reencaminhada ao agente (${delivery.webhookStatus ?? 'fila local'}); sem confirmação externa.`
+        note: `Retorno da ponte (${delivery.webhookStatus ?? 'fila local'}). Conferir o estado do envio na plataforma.`
       });
       return sendJson(res, 200, { dispatch: row, delivery });
     }
@@ -1200,6 +1221,7 @@ const server = createServer(async (req, res) => {
       const body = await readBody(req);
       const agent = String(body.agent || dispatch.provider || 'deepseek').slice(0, 60);
       const row = await updateProposalDispatch(id, {
+        expectedStatus: dispatch.status,
         agent,
         status: 'em_execucao',
         note: `Agente ${agent} assumiu a conferência; ainda sem confirmação externa.`

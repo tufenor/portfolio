@@ -11,6 +11,7 @@ import {
   runQueueBatch,
   startRadar,
   prepareRadarQueue,
+  prepareProposalCheck,
   runSelfImprove,
   saveIaReturn,
   sendOpportunityToAi,
@@ -391,12 +392,14 @@ export const App: React.FC = () => {
           {activeNav === 'approvals' && (
             <ApprovalsView
               approvals={mesa?.approvals || []}
+              proposalDispatch={mesa?.proposalDispatch || []}
               onDecideOne={(id, dec, note) =>
                 void executeBusy(`${dec} ${id}`, () => decideSingleApproval(id, dec, note))
               }
               onDecideBatch={(ids, dec, note) =>
                 void executeBusy(`Lote ${dec}`, () => decideBatchApprovals(ids, dec, note))
               }
+              onPrepareCheck={(id) => void executeBusy(`Conferência ${id}`, () => prepareProposalCheck(id))}
               busy={busy}
             />
           )}

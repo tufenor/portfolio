@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { ApprovalItem } from '../types/moneyia';
+import type { ApprovalItem, ProposalDispatchItem } from '../types/moneyia';
 import { IconCheckShield } from './Icons';
 
 interface ApprovalsViewProps {
@@ -7,16 +7,27 @@ interface ApprovalsViewProps {
   onDecideOne: (id: string, decision: 'aprovar' | 'rejeitar', note: string) => void;
   onDecideBatch: (ids: string[], decision: 'aprovar' | 'rejeitar', note: string) => void;
   busy: boolean;
+  proposalDispatch: ProposalDispatchItem[];
+  onPrepareCheck: (id: string) => void;
 }
 
 export const ApprovalsView: React.FC<ApprovalsViewProps> = ({
   approvals,
   onDecideOne,
   onDecideBatch,
-  busy
+  busy,
+  proposalDispatch,
+  onPrepareCheck
 }) => {
   const [batchNote, setBatchNote] = useState('');
   const pending = approvals.filter((a) => a.status === 'pendente');
+  const dispatchByApproval = new Map(proposalDispatch.map((row) => [row.approvalId, row]));
+  const approvedCandidates = approvals.filter((item) => item.status === 'aprovada'
+    && item.actionType === 'candidatura'
+    && item.opportunityUrl?.startsWith('https://')
+    && item.proposalText
+    && item.demoUrl?.startsWith('https://'));
+  const dispatches = proposalDispatch.filter((row) => !row.sent);
 
   return (
     <section className="view-stack">
@@ -53,6 +64,56 @@ export const ApprovalsView: React.FC<ApprovalsViewProps> = ({
           </button>
         </div>
       </div>
+
+      <div className="surface-card">
+        <div className="row-top-flex">
+          <div>
+            <span className="kicker">CONFERÊNCIA DE PROPOSTAS</span>
+            <h3>Despachos aguardando prova</h3>
+            <p className="card-excerpt">A fila mostra o que o agente tentou e o que ainda precisa ser conferido na plataforma. Preparar conferência cria apenas a tarefa local.</p>
+          </div>
+          <span className="status-pill">{dispatches.length} abertos</span>
+        </div>
+        <div className="scroll-stack compact-stack">
+          {dispatches.map((dispatch) => (
+            <div key={dispatch.id} className="list-row">
+              <div>
+                <strong>{dispatch.id} · {dispatch.approvalId || dispatch.opportunityId || 'proposta'}</strong>
+                <div className="card-meta">
+                  {dispatch.status === 'falha_agente' ? 'Agente sem resposta' : 'Aguardando evidência externa'} · {dispatch.note || 'Sem observação'}
+                </div>
+              </div>
+              {dispatch.approvalId && <button type="button" className="btn btn-secondary btn-sm" disabled={busy} onClick={() => onPrepareCheck(dispatch.approvalId!)}>Preparar conferência</button>}
+            </div>
+          ))}
+          {!dispatches.length && <div className="muted-xs">Nenhum despacho aberto.</div>}
+        </div>
+      </div>
+
+      {approvedCandidates.length > 0 && (
+        <div className="surface-card">
+          <span className="kicker">APROVADAS SEM DESPACHO</span>
+          <h3>Conferir antes do envio</h3>
+          <div className="scroll-stack compact-stack">
+            {approvedCandidates.slice(0, 30).map((item) => {
+              const dispatch = dispatchByApproval.get(item.id);
+              return (
+                <div key={item.id} className="list-row">
+                  <div>
+                    <strong>{item.title || item.id}</strong>
+                    <div className="card-meta">{dispatch ? `Despacho ${dispatch.status}` : 'Ainda sem despacho local'}</div>
+                  </div>
+                  <div className="action-row">
+                    {item.demoUrl && <a className="link-inline" href={item.demoUrl} target="_blank" rel="noopener noreferrer">Demo</a>}
+                    {item.opportunityUrl && <a className="link-inline" href={item.opportunityUrl} target="_blank" rel="noopener noreferrer">Anúncio</a>}
+                    {!dispatch && <button type="button" className="btn btn-secondary btn-sm" disabled={busy} onClick={() => onPrepareCheck(item.id)}>Preparar conferência</button>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="scroll-stack">
         {pending.map((item) => (

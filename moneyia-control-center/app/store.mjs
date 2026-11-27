@@ -143,8 +143,24 @@ export async function updateApproval(id, patch = {}) {
   return row;
 }
 
-export async function createProposalDispatch(input) {
-  const rows = await readProposalDispatch();
+let dispatchWrites = Promise.resolve();
+
+function writeDispatchInOrder(mutator) {
+  const next = dispatchWrites.then(async () => {
+    const rows = await readFile(proposalDispatchFile, 'utf8').then(JSON.parse, (error) => {
+      if (error.code === 'ENOENT') return [];
+      throw error;
+    });
+    if (!Array.isArray(rows)) throw new Error('fila de propostas inválida');
+    const { value, changed } = mutator(rows);
+    if (changed) await writeJson(proposalDispatchFile, rows);
+    return value;
+  });
+  dispatchWrites = next.catch(() => {});
+  return next;
+}
+
+function newProposalDispatch(rows, input) {
   const now = new Date().toISOString();
   const row = {
     id: nextId(rows, 'PD'),
@@ -160,24 +176,52 @@ export async function createProposalDispatch(input) {
     note: String(input.note || 'Aprovação local registrada; aguardando o agente responsável.').slice(0, 1000)
   };
   rows.push(row);
-  await writeJson(proposalDispatchFile, rows);
   return row;
 }
 
-export async function updateProposalDispatch(id, patch = {}) {
-  const rows = await readProposalDispatch();
-  const row = rows.find((item) => item.id === id);
-  if (!row) throw new Error('dispatch de proposta não encontrado');
-  if (patch.status) row.status = String(patch.status).slice(0, 60);
-  if (patch.provider) row.provider = String(patch.provider).slice(0, 60);
-  if (patch.agent) row.agent = String(patch.agent).slice(0, 60);
-  if (typeof patch.sent === 'boolean') row.sent = patch.sent;
-  if (patch.externalEvidence) row.externalEvidence = String(patch.externalEvidence).slice(0, 2000);
-  if (patch.dispatchedAt) row.dispatchedAt = String(patch.dispatchedAt).slice(0, 60);
-  if (patch.note) row.note = String(patch.note).slice(0, 1000);
-  row.updatedAt = new Date().toISOString();
-  await writeJson(proposalDispatchFile, rows);
-  return row;
+export function createProposalDispatch(input) {
+  return writeDispatchInOrder((rows) => {
+    const existing = rows.find((row) => row.approvalId === input.approvalId);
+    if (existing) return { value: existing, changed: false };
+    return { value: newProposalDispatch(rows, input), changed: true };
+  });
+}
+
+export function prepareProposalDispatchReview(approval) {
+  return writeDispatchInOrder((rows) => {
+    const current = rows.find((row) => row.approvalId === approval.id);
+    const note = 'Conferir o histórico na conta da plataforma e registrar o resultado. A aprovação local não confirma envio.';
+    if (!current) {
+      const dispatch = newProposalDispatch(rows, {
+        opportunityId: approval.opportunityId, approvalId: approval.id,
+        provider: 'local', status: 'aguardando_evidencia', note
+      });
+      return { value: { dispatch, created: true }, changed: true };
+    }
+    const changed = !current.sent && ['falha_agente', 'aguardando_agente'].includes(current.status);
+    if (changed) Object.assign(current, { status: 'aguardando_evidencia', note, updatedAt: new Date().toISOString() });
+    return { value: { dispatch: current, created: false }, changed };
+  });
+}
+
+export function updateProposalDispatch(id, patch = {}) {
+  return writeDispatchInOrder((rows) => {
+    const row = rows.find((item) => item.id === id);
+    if (!row) throw new Error('dispatch de proposta não encontrado');
+    if ((row.sent || row.status === 'enviado_confirmado') && patch.status !== 'enviado_confirmado') {
+      return { value: row, changed: false };
+    }
+    if (patch.expectedStatus && row.status !== patch.expectedStatus) return { value: row, changed: false };
+    if (patch.status) row.status = String(patch.status).slice(0, 60);
+    if (patch.provider) row.provider = String(patch.provider).slice(0, 60);
+    if (patch.agent) row.agent = String(patch.agent).slice(0, 60);
+    if (typeof patch.sent === 'boolean') row.sent = patch.sent;
+    if (patch.externalEvidence) row.externalEvidence = String(patch.externalEvidence).slice(0, 2000);
+    if (patch.dispatchedAt) row.dispatchedAt = String(patch.dispatchedAt).slice(0, 60);
+    if (patch.note) row.note = String(patch.note).slice(0, 1000);
+    row.updatedAt = new Date().toISOString();
+    return { value: row, changed: true };
+  });
 }
 
 export async function decideApproval(id, decision, by = 'titular', note = '') {

@@ -20,6 +20,15 @@ export interface ApprovalItem {
   amount?: string;
 }
 
+export interface ProposalDispatchItem {
+  id: string;
+  approvalId?: string;
+  opportunityId?: string;
+  status: string;
+  sent?: boolean;
+  note?: string;
+}
+
 export interface TaskItem {
   id: string;
   title?: string;
@@ -121,6 +130,7 @@ export interface MesaState {
     tarefasConcluidas?: number;
   };
   approvals: ApprovalItem[];
+  proposalDispatch?: ProposalDispatchItem[];
   tasks: TaskItem[];
   ia: IaQueueItem[];
   agentQuestions: AgentQuestionItem[];
