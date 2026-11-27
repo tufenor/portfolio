@@ -28,9 +28,18 @@ def notify_next(base: str, state_file: Path) -> dict:
     if not isinstance(gates, list):
         return {"status": "invalid_response"}
 
+    waiting_for = None
+    try:
+        with urllib.request.urlopen(f"{base.rstrip('/')}/api/proposal-dispatch/automation", timeout=5) as response:
+            scheduler = json.loads(response.read().decode("utf-8"))
+        waiting_for = scheduler.get("waitingFor") if isinstance(scheduler, dict) else None
+    except (OSError, urllib.error.URLError, json.JSONDecodeError):
+        pass
+
     gates = sorted(
         (gate for gate in gates if isinstance(gate, dict) and gate.get("id") and gate.get("url")),
-        key=lambda gate: str(gate.get("createdAt") or ""),
+        key=lambda gate: (0 if waiting_for and gate.get("runId") == waiting_for else 1,
+                          str(gate.get("createdAt") or "")),
     )
     previous = {}
     try:
