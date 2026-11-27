@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Menu Studio · Cardápio digital editável</title>
+  <meta name="description" content="Cardápio digital para cafés e pequenos negócios, com busca, categorias e versão em português e espanhol. Teste a demo e prepare seu pedido de orçamento.">
+  <meta property="og:title" content="Menu Studio · Cardápio digital editável">
+  <meta property="og:image" content="https://tufenor.github.io/portfolio/assets/og/og-menu.png">
+  <link rel="canonical" href="https://tufenor.github.io/portfolio/cardapio-digital/">
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="oferta.css">
+  <script src="oferta.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Pular para o conteúdo</a>
+  <header class="top">
+    <div class="wrap">
+      <a class="brand" href="../">Tufenor · Portfólio</a>
+      <a href="../menu/">Abrir demonstração</a>
+    </div>
+  </header>
+
+  <main id="main" class="wrap offer">
+    <section class="offer-hero" aria-labelledby="service-title">
+      <div>
+        <p class="eyebrow">Menu Studio</p>
+        <h1 id="service-title">Seu cardápio, fácil de ler no celular.</h1>
+        <p class="lead">Organize itens, preços e horários em um link que você pode colocar no QR da mesa, no Instagram ou no WhatsApp.</p>
+        <p class="offer-price"><strong>A partir de R$ 297</strong> · configuração para o seu negócio</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#briefing">Preparar orçamento</a>
+          <a class="btn btn-ghost" href="../menu/">Testar o cardápio</a>
+        </div>
+      </div>
+      <figure class="offer-preview">
+        <a href="../menu/" aria-label="Abrir a demonstração do Menu Studio">
+          <img src="../assets/og/og-menu.png" alt="Prévia do Menu Studio com o cardápio fictício Pausa" fetchpriority="high">
+        </a>
+        <figcaption>Pausa · exemplo com conteúdo fictício</figcaption>
+      </figure>
+    </section>
+
+    <section class="offer-details" aria-labelledby="delivery-title">
+      <h2 id="delivery-title">O que você recebe</h2>
+      <div>
+        <ul>
+          <li>Uma página com busca, categorias e contato do negócio.</li>
+          <li>Português ou português e espanhol, conforme o material enviado.</li>
+          <li>Arquivos editáveis, guia de publicação e uma rodada de ajustes.</li>
+        </ul>
+        <p>Primeira versão em até 3 dias úteis após receber o material completo. Domínio, produção de fotos, pedidos e pagamentos ficam fora desse pacote.</p>
+      </div>
+    </section>
+
+    <section id="briefing" class="offer-details" aria-labelledby="briefing-title">
+      <div>
+        <h2 id="briefing-title">Prepare seu pedido</h2>
+        <p>Monte um resumo para conversar sobre o orçamento. Seus dados ficam nesta aba até você decidir compartilhá-los.</p>
+      </div>
+      <div>
+        <form id="briefing-form" hidden>
+          <label for="business">Nome do negócio</label>
+          <input id="business" name="business" required maxlength="100" placeholder="Ex.: Café da Praça">
+          <div class="offer-fields">
+            <div>
+              <label for="items">Quantidade aproximada de itens</label>
+              <input id="items" name="items" type="number" min="1" max="999" placeholder="Ex.: 24">
+            </div>
+            <div>
+              <label for="language">Idiomas</label>
+              <select id="language" name="language">
+                <option value="Português">Português</option>
+                <option value="Português e espanhol">Português e espanhol</option>
+              </select>
+            </div>
+          </div>
+          <label for="material">Você já tem o cardápio em texto ou planilha?</label>
+          <select id="material" name="material">
+            <option value="Ainda vou organizar">Ainda vou organizar</option>
+            <option value="Sim, tenho o material">Sim, tenho o material</option>
+          </select>
+          <button type="submit" class="btn btn-primary">Gerar resumo</button>
+        </form>
+
+        <div id="briefing-result" hidden>
+          <label for="briefing-text">Resumo para enviar</label>
+          <textarea id="briefing-text" rows="7" readonly></textarea>
+          <button type="button" id="copy-briefing" class="btn btn-ghost">Copiar resumo</button>
+        </div>
+        <p id="briefing-status" role="status"></p>
+        <p><a href="https://linkedin.com/in/tufenor">Conversar pelo LinkedIn</a></p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
