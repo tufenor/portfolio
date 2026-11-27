@@ -48,10 +48,28 @@ export const readAgentQuestions = () => readJson(agentQuestionsFile, []);
 export const readProposalDispatch = () => readJson(proposalDispatchFile, []);
 export const readEmailInbox = () => readJson(emailInboxFile, { scannedAt: null, total: 0, counts: {}, emails: [] });
 export const readInboxFeed = () => readJson(inboxFeedFile, []);
-export const readEmailWatchStatus = () => readJson(emailWatchStatusFile, {
+const defaultEmailWatchStatus = {
   status: 'unknown', lastAttemptAt: null, lastSuccessAt: null, lastError: null,
   intervalMs: 1800000, source: 'gmail-cdp-readonly', updatedAt: null
-});
+};
+
+// Derive freshness at read time; the persisted watcher record is never changed.
+export function deriveEmailWatchStatus(stored) {
+  if (!stored || stored.status !== 'ok') return stored;
+  const successMs = Date.parse(stored.lastSuccessAt);
+  if (!Number.isFinite(successMs)) return { ...stored, status: 'desatualizado', ageMinutes: null };
+  const intervalMs = Number.isFinite(Number(stored.intervalMs)) && Number(stored.intervalMs) > 0
+    ? Number(stored.intervalMs) : defaultEmailWatchStatus.intervalMs;
+  const ageMinutes = Math.max(0, Math.floor((Date.now() - successMs) / 60000));
+  return Date.now() - successMs > intervalMs * 2
+    ? { ...stored, status: 'desatualizado', ageMinutes }
+    : { ...stored, ageMinutes };
+}
+
+export const readEmailWatchStatus = async () => {
+  const stored = await readJson(emailWatchStatusFile, defaultEmailWatchStatus);
+  return deriveEmailWatchStatus(stored);
+};
 export const readRadarRuns = () => readJson(radarRunsFile, []);
 export const readRadarGates = () => readJson(radarGatesFile, []);
 export const readRadarOpportunities = () => readJson(radarOpportunitiesFile, []);
