@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f0e9">
+  <meta name="description" content="Demonstração de site institucional responsivo e editável para uma empresa de serviços. Marca e conteúdo fictícios.">
+  <meta property="og:title" content="Nortea — presença digital que explica o seu trabalho">
+  <meta property="og:description" content="Demonstração conceitual de um site institucional responsivo, com prévia de edição de conteúdo.">
+  <title>Nortea — presença digital para empresas de serviços</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="site-data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="demo-ribbon"><span>DEMONSTRAÇÃO CONCEITUAL · CONTEÚDO FICTÍCIO</span><span>01 / SITE INSTITUCIONAL</span></div>
+
+  <header class="site-header">
+    <a class="wordmark" href="#inicio" aria-label="Nortea, página inicial"><span class="wordmark-symbol" aria-hidden="true">n</span><span id="brand-name">NORTEA</span></a>
+    <nav class="desktop-nav" aria-label="Navegação principal">
+      <a href="#abordagem">Abordagem</a>
+      <a href="#servicos">O que fazemos</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <div class="header-actions">
+      <button class="edit-trigger" type="button" id="open-editor">Personalizar prévia <span aria-hidden="true">↗</span></button>
+      <button class="menu-toggle" type="button" id="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menu"><span></span><span></span></button>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Navegação móvel" hidden>
+      <a href="#abordagem">Abordagem</a><a href="#servicos">O que fazemos</a><a href="#contato">Contato</a>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero section-wrap" id="inicio">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="eyebrow-line"></span><span id="hero-kicker">ESTRATÉGIA · SERVIÇO · PRESENÇA</span></p>
+        <h1 id="hero-title">Seu trabalho merece uma presença <em>à altura.</em></h1>
+        <p class="hero-description" id="hero-description">Um site claro, rápido e fácil de atualizar — para explicar o que sua empresa faz e deixar o próximo passo visível.</p>
+        <div class="hero-actions">
+          <a class="button button-dark" href="#servicos"><span id="hero-cta">Conheça nossa abordagem</span><span aria-hidden="true">↘</span></a>
+          <span class="hero-caption">UMA EXPERIÊNCIA PENSADA<br>PARA CELULAR E DESKTOP</span>
+        </div>
+        <div class="hero-index"><span>01</span><span class="index-rule"></span><span>06</span><span class="index-label">APRESENTAÇÃO</span></div>
+      </div>
+      <div class="hero-art reveal" aria-label="Fotografia de uma equipe em um espaço de trabalho">
+        <img id="hero-image" src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1500&q=85" alt="Equipe colaborando em um espaço de trabalho" fetchpriority="high">
+        <div class="image-shade"></div>
+        <div class="art-stamp"><span class="stamp-orbit" aria-hidden="true">✳</span><span>CLAREZA<br>EM CADA<br>DETALHE</span></div>
+        <div class="art-caption"><span>UM BOM SITE COMEÇA<br>COM A PERGUNTA CERTA</span><span>SCROLL ↓</span></div>
+        <div class="floating-note"><span class="note-dot"></span><span>Conteúdo organizado.<br><b>Próxima ação simples.</b></span></div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Pilares do trabalho"><div class="ticker-track"><span>ESTRATÉGIA ANTES DO EFEITO</span><i>✳</i><span>RESPONSIVO POR CONSTRUÇÃO</span><i>✳</i><span>CONTEÚDO QUE VOCÊ PODE EDITAR</span><i>✳</i><span>ESTRATÉGIA ANTES DO EFEITO</span><i>✳</i></div></section>
+
+    <section class="intro section-wrap" id="abordagem">
+      <div class="section-index reveal"><span>01 / UMA BOA PRIMEIRA IMPRESSÃO</span><span>———</span></div>
+      <div class="intro-grid">
+        <h2 class="reveal">A pessoa chegou.<br><em>O que ela precisa<br>entender primeiro?</em></h2>
+        <div class="intro-copy reveal"><p>Seu site não precisa dizer tudo ao mesmo tempo. Ele precisa ajudar a pessoa certa a reconhecer o que você faz, entender como funciona e escolher o próximo passo.</p><p>Esta demonstração usa um negócio fictício. A estrutura, as cores, as imagens e os textos podem ser adaptados ao segmento e aos materiais reais da sua empresa.</p><a class="underlined-link" href="#servicos">Ver a estrutura do site <span aria-hidden="true">↘</span></a></div>
+      </div>
+      <div class="principles">
+        <article class="principle reveal"><span class="principle-no">01</span><div><h3>Orientar</h3><p>Uma mensagem principal, sem exigir que a pessoa decifre o que você oferece.</p></div><span class="principle-mark" aria-hidden="true">↗</span></article>
+        <article class="principle reveal"><span class="principle-no">02</span><div><h3>Demonstrar</h3><p>Serviços e diferenciais organizados com conteúdo fornecido pelo negócio.</p></div><span class="principle-mark" aria-hidden="true">↗</span></article>
+        <article class="principle reveal"><span class="principle-no">03</span><div><h3>Conectar</h3><p>Contato fácil de encontrar, com o canal escolhido pela equipe responsável.</p></div><span class="principle-mark" aria-hidden="true">↗</span></article>
+      </div>
+    </section>
+
+    <section class="photo-break" aria-label="Ambiente de trabalho">
+      <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=2000&q=85" alt="Ambiente de trabalho claro com mesa compartilhada" loading="lazy">
+      <div class="photo-overlay"><span>IDEIAS BEM APRESENTADAS<br>ABREM CONVERSAS MELHORES.</span><span class="photo-cross" aria-hidden="true">✳</span></div>
+      <p>Imagem ilustrativa · fonte: Unsplash</p>
+    </section>
+
+    <section class="services section-wrap" id="servicos">
+      <div class="section-index reveal"><span>02 / ESTRUTURA DA PÁGINA</span><span>———</span></div>
+      <div class="services-head"><h2 class="reveal">O essencial,<br><em>no lugar certo.</em></h2><p class="reveal">Uma página institucional de partida pode reunir o que a pessoa busca sem transformar a navegação em um labirinto.</p></div>
+      <div class="service-list">
+        <article class="service-row reveal"><span class="service-no">01</span><div class="service-title"><h3 id="service-one">Apresentação da empresa</h3><p>Quem somos e para quem trabalhamos.</p></div><span class="service-icon" aria-hidden="true">↗</span></article>
+        <article class="service-row reveal"><span class="service-no">02</span><div class="service-title"><h3 id="service-two">Serviços e soluções</h3><p>O que fazemos, explicado com exemplos do próprio negócio.</p></div><span class="service-icon" aria-hidden="true">↗</span></article>
+        <article class="service-row reveal"><span class="service-no">03</span><div class="service-title"><h3 id="service-three">Contato e próximo passo</h3><p>WhatsApp, formulário ou outro canal combinado com a empresa.</p></div><span class="service-icon" aria-hidden="true">↗</span></article>
+      </div>
+      <div class="services-foot"><span>ESTRUTURA DEMONSTRATIVA</span><span>O CONTEÚDO FINAL VEM DO CLIENTE</span></div>
+    </section>
+
+    <section class="editability">
+      <div class="section-wrap editability-inner">
+        <div class="edit-orbit reveal" aria-hidden="true"><span class="orbit-center">N</span><i class="orbit-dot dot-one"></i><i class="orbit-dot dot-two"></i><i class="orbit-dot dot-three"></i><span class="orbit-ring ring-one"></span><span class="orbit-ring ring-two"></span></div>
+        <div class="editability-copy reveal"><p class="eyebrow eyebrow-light"><span class="eyebrow-line"></span> FEITO PARA MUDAR</p><h2>O site acompanha<br><em>o negócio real.</em></h2><p>Atualize marca, mensagem, serviços e cor nesta prévia. Na entrega, o conteúdo fica separado da estrutura para facilitar revisões futuras.</p><button class="button button-light" type="button" id="open-editor-bottom">Editar conteúdo <span aria-hidden="true">↗</span></button><p class="edit-note">As alterações desta demonstração ficam neste navegador. Não são publicadas para outras pessoas.</p></div>
+      </div>
+    </section>
+
+    <section class="contact section-wrap" id="contato">
+      <div class="section-index reveal"><span>03 / CONVERSA</span><span>———</span></div>
+      <div class="contact-grid">
+        <div class="contact-copy reveal"><p class="eyebrow"><span class="eyebrow-line"></span>PRÓXIMO PASSO</p><h2>Vamos colocar<br>as informações<br><em>em movimento.</em></h2><p>Defina seu segmento, compartilhe os textos e escolha o canal de contato. A página final parte do que sua empresa realmente oferece.</p><span class="contact-disclaimer">DEMONSTRAÇÃO SEM FORMULÁRIO CONECTADO</span></div>
+        <form class="contact-form reveal" id="contact-form">
+          <label for="contact-name">Seu nome</label><input id="contact-name" name="name" autocomplete="name" placeholder="Como podemos chamar você?" required>
+          <label for="contact-message">O que você quer apresentar?</label><textarea id="contact-message" name="message" rows="3" placeholder="Conte em uma frase o que sua empresa faz" required></textarea>
+          <button class="button button-dark form-submit" type="submit">Preparar contato <span aria-hidden="true">↗</span></button>
+          <p id="form-feedback" class="form-feedback" role="status" aria-live="polite">Este formulário é demonstrativo; não envia seus dados.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="wordmark footer-brand" href="#inicio"><span class="wordmark-symbol" aria-hidden="true">n</span><span id="footer-brand-name">NORTEA</span></a><span>DEMO CONCEITUAL · CONTEÚDO FICTÍCIO · 2026</span><a href="#inicio">Voltar ao início ↑</a></footer>
+
+  <dialog class="editor-dialog" id="editor-dialog" aria-labelledby="editor-title">
+    <form method="dialog" class="editor-shell">
+      <div class="editor-head"><div><p class="eyebrow">PAINEL DE PRÉVIA</p><h2 id="editor-title">Personalize o conteúdo</h2></div><button class="editor-close" type="submit" aria-label="Fechar personalização">×</button></div>
+      <p class="editor-description">Edite os campos e veja o resultado nesta página. As mudanças ficam apenas neste navegador até você exportar a configuração.</p>
+      <div class="editor-fields">
+        <label for="edit-brand">Nome da empresa<input id="edit-brand" maxlength="32"></label>
+        <label for="edit-kicker">Linha de contexto<input id="edit-kicker" maxlength="54"></label>
+        <label for="edit-title">Título principal<textarea id="edit-title" rows="3" maxlength="120"></textarea></label>
+        <label for="edit-description">Apresentação<textarea id="edit-description" rows="3" maxlength="220"></textarea></label>
+        <label for="edit-cta">Texto do botão<input id="edit-cta" maxlength="40"></label>
+        <label for="edit-service-one">Serviço 1<input id="edit-service-one" maxlength="45"></label>
+        <label for="edit-service-two">Serviço 2<input id="edit-service-two" maxlength="45"></label>
+        <label for="edit-service-three">Serviço 3<input id="edit-service-three" maxlength="45"></label>
+        <label for="edit-color">Cor de destaque<input id="edit-color" type="color"></label>
+      </div>
+      <div class="editor-actions"><button class="button button-dark" type="button" id="save-preview">Salvar prévia</button><button class="button button-outline" type="button" id="export-config">Exportar configuração</button><button class="reset-button" type="button" id="reset-preview">Restaurar conteúdo inicial</button></div>
+      <p class="editor-status" id="editor-status" role="status" aria-live="polite">A prévia não publica alterações no site.</p>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
