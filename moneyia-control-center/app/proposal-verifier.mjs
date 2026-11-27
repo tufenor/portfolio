@@ -10,12 +10,28 @@ const file = join(root, 'data', 'proposal-checks.json');
 const port = Number(process.env.MONEYIA_CDP_PORT || 9333);
 let running = false;
 const readJson = async (path, fallback) => { try { return JSON.parse(await readFile(path, 'utf8')); } catch { return fallback; } };
+const interestText = 'Página individual mostra Não estou mais interessado.';
+
+function recordedInterest() {
+  return {
+    status: 'interesse_registrado',
+    evidence: `${interestText} Confira o histórico da conta para verificar se uma proposta também foi enviada.`
+  };
+}
 
 export async function sentProposals() {
   const lists = await Promise.all(['opportunities-brl.json', 'opportunities-usd.json'].map(name => readJson(join(root, 'data', name), [])));
   return lists.flat().filter(o => o.applicationStatus === 'proposta_enviada').map(o => ({ id: o.id, title: o.title, platform: o.platform, url: o.url, sentAt: o.applicationSentAt || null }));
 }
-export const readChecks = () => readJson(file, {});
+export async function readChecks() {
+  const checks = await readJson(file, {});
+  for (const [id, check] of Object.entries(checks)) {
+    if (check?.status === 'confirmada_na_plataforma' && check.evidence === interestText) {
+      checks[id] = { ...check, ...recordedInterest() };
+    }
+  }
+  return checks;
+}
 
 async function chromeOpen() {
   try { const r = await fetch(`http://127.0.0.1:${port}/json/version`, { signal: AbortSignal.timeout(2000) }); return r.ok; }
@@ -39,7 +55,7 @@ export function classifyPage(proposal, text) {
   if (/cloudflare|verificação de segurança|captcha|access denied|acesso negado/.test(page)) return { status: 'bloqueada', evidence: 'Página exige verificação de segurança.' };
   if (/conecte-se|faça login|entrar na conta|iniciar sessão/.test(page.slice(0, 1200)) && !/melhorar proposta|cancelar proposta|não estou mais interessado/.test(page)) return { status: 'sem_sessao', evidence: 'Página pede login.' };
   if (/99freelas/i.test(proposal.platform) && /melhorar proposta/.test(page) && /cancelar proposta/.test(page)) return { status: 'confirmada_na_plataforma', evidence: 'Página individual mostra Melhorar proposta e Cancelar proposta.' };
-  if (/freelancer\.com\.br/i.test(proposal.platform) && /não estou mais interessado/.test(page)) return { status: 'confirmada_na_plataforma', evidence: 'Página individual mostra Não estou mais interessado.' };
+  if (/freelancer\.com\.br|prolinker/i.test(proposal.platform) && /não estou mais interessado/.test(page)) return recordedInterest();
   // Workana exige sinal inequívoco da conta; texto genérico de anúncio não basta.
   if (/workana/i.test(proposal.platform) && /sua proposta foi enviada|proposta enviada com sucesso/.test(page)) return { status: 'confirmada_na_plataforma', evidence: 'Página individual mostra confirmação de envio.' };
   return { status: 'inconclusiva', evidence: 'Nenhum sinal inequívoco de envio na página individual.' };

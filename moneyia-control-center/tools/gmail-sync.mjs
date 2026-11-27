@@ -58,7 +58,8 @@ const result = await call('Runtime.evaluate', {
     const link = hrefs.find((href) => /99freelas|workana|upwork|freelancer/.test(href)) || '';
     const gmailLink = hrefs.find((href) => href.includes('mail.google.com/mail/') && href.includes('#')) || '';
     const idFromLink = gmailLink.split('#').pop()?.split('/').slice(1)[0] || '';
-    return { id: row.getAttribute('data-legacy-thread-id') || row.getAttribute('data-legacy-last-message-id') || row.getAttribute('data-thread-id') || idFromLink, from_: text('.yW, .bA4, [email]'), subject: text('.y6, .bog'), snippet: text('.y2, .y4'), email_ts: text('.xW, .bq3'), display_url: gmailLink, opportunityUrl: link, labels: [...row.classList] };
+    const from = row.querySelector('.yW [email], .bA4 [email], .yW[email]')?.getAttribute('email') || text('.yW, .bA4, [email]');
+    return { id: row.getAttribute('data-legacy-thread-id') || row.getAttribute('data-legacy-last-message-id') || row.getAttribute('data-thread-id') || idFromLink, from_: from, subject: text('.y6, .bog'), snippet: text('.y2, .y4'), email_ts: text('.xW, .bq3'), display_url: gmailLink, opportunityUrl: link, labels: [...row.classList] };
   }).filter((row) => row.subject || row.from_))`
 });
 ws.close();

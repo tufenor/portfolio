@@ -5,6 +5,8 @@ const stableId = (email, subject, from, emailTs) => String(email.id || email.mes
 
 const sourceFor = (from = '') => {
   const value = fold(from);
+  const address = (value.match(/<([^<>]+)>\s*$/)?.[1] || value).trim();
+  if (/^[^@<>\s]+@(?:[a-z0-9-]+\.)*payhip\.com$/.test(address)) return 'Payhip';
   if (value.includes('99freelas')) return '99Freelas';
   if (value.includes('workana')) return 'Workana';
   if (value.includes('upwork')) return 'Upwork';
@@ -24,7 +26,15 @@ export function classifyEmail(email = {}) {
   let priority = 'baixa';
   let reason = 'Sem sinal comercial claro.';
 
-  if (/(outra proposta foi aceita|outro profissional foi contratado|outro freelancer foi contratado|another proposal was accepted|another freelancer was hired)/.test(text)) {
+  if (source === 'Payhip') {
+    const sellerSale = /\b(new sale|you made a sale|you have a new sale|you sold|nova venda|voce fez uma venda)\b/.test(text);
+    const reversal = /\b(refund|refunded|chargeback|cancelad[ao]|reembolso)\b/.test(text);
+    if (sellerSale && /\bmenu studio\b/.test(text) && !reversal) {
+      kind = 'product_sale_signal';
+      priority = 'alta';
+      reason = 'Possível pedido do Menu Studio. Conferir no Payhip se houve cobrança ou cupom e conciliar com o processador.';
+    }
+  } else if (/(outra proposta foi aceita|outro profissional foi contratado|outro freelancer foi contratado|another proposal was accepted|another freelancer was hired)/.test(text)) {
     kind = 'proposal_status';
     priority = 'media';
     reason = 'Aviso de contratação de outra pessoa; não é aceite do titular.';

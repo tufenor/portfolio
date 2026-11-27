@@ -339,6 +339,7 @@ export const App: React.FC = () => {
           <div className="muted-xs">
             {email?.feedCount ?? 0} itens no feed · {email?.total ?? 0} mensagens analisadas ·
             {' '}{email?.counts?.acceptance_or_client_reply ?? 0} possíveis respostas ·
+            {' '}{email?.counts?.product_sale_signal ?? 0} possíveis pedidos ·
             {' '}{email?.counts?.payment_received ?? 0} possíveis recebimentos.
             {email?.watch?.lastError ? ` ${email.watch.lastError}` : ''}
           </div>
