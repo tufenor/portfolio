@@ -12,3 +12,4 @@ A vitrine não usa scripts de terceiros ou rastreadores. A nova demo imobiliári
 Publicado com GitHub Pages a partir da raiz do branch `main`.
 
 - `demos/prototipo-imobiliario/` — protótipo conceitual e interativo para busca de imóveis; dados fictícios, sem backend.
+- `demos/flowline-ops/` — demonstração autoral de triagem operacional com quatro cenários locais; dados fictícios, sem integrações externas.
