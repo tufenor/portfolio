@@ -1,0 +1,18 @@
+{
+  "brand": "Ateliê Horizonte",
+  "eyebrow": "Serviços para espaços que acolhem",
+  "title": "Cuidado visível em cada detalhe.",
+  "intro": "Uma apresentação clara para mostrar seu serviço, orientar dúvidas e abrir uma conversa sem fricção.",
+  "ctaLabel": "Pedir uma conversa",
+  "services": [
+    { "number": "01", "title": "Planejamento", "text": "Organizamos prioridades, prazo e o próximo passo antes de começar." },
+    { "number": "02", "title": "Execução", "text": "Colocamos o combinado em prática com atenção aos detalhes." },
+    { "number": "03", "title": "Acompanhamento", "text": "Você recebe orientação simples para seguir com segurança." }
+  ],
+  "faq": [
+    { "question": "Posso adaptar a página ao meu serviço?", "answer": "Sim. Troque textos, serviços, perguntas, cores e o destino do CTA no projeto final." },
+    { "question": "O formulário envia dados?", "answer": "Não nesta demonstração: ele apenas valida e mostra uma confirmação local." },
+    { "question": "A página funciona no celular?", "answer": "Sim. O layout é mobile-first e reorganiza o conteúdo em telas estreitas." }
+  ],
+  "contactNote": "Demonstração fictícia · nenhum dado é enviado para fora desta página."
+}

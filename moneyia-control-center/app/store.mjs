@@ -256,11 +256,29 @@ export async function decideApproval(id, decision, by = 'titular', note = '') {
   return row;
 }
 
-export async function createTask(input) {
+let taskWrites = Promise.resolve();
+
+function writeTaskInOrder(change) {
+  const next = taskWrites.then(change);
+  taskWrites = next.catch(() => {});
+  return next;
+}
+
+export function createTask(input) {
+  return writeTaskInOrder(() => insertTask(input));
+}
+
+async function insertTask(input) {
   const rows = await readTasks();
+  const operationKey = input.operationKey ? String(input.operationKey).slice(0, 100) : null;
+  if (operationKey) {
+    const existing = rows.find((row) => row.operationKey === operationKey);
+    if (existing) return existing;
+  }
   const now = new Date().toISOString();
   const row = {
     id: nextId(rows, 'T'),
+    ...(operationKey ? { operationKey } : {}),
     title: String(input.title || 'Sem título').slice(0, 160),
     description: String(input.description || '').slice(0, 2000),
     source: String(input.source || 'manual').slice(0, 40),
@@ -276,7 +294,11 @@ export async function createTask(input) {
   return row;
 }
 
-export async function updateTask(id, patch = {}) {
+export function updateTask(id, patch = {}) {
+  return writeTaskInOrder(() => applyTaskPatch(id, patch));
+}
+
+async function applyTaskPatch(id, patch) {
   const rows = await readTasks();
   const row = rows.find((r) => r.id === id);
   if (!row) throw new Error('tarefa não encontrada');

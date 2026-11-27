@@ -22,6 +22,8 @@ import { buildProposalPacket, isOpportunityEligible, rankOpportunities } from '.
 import { analyzeEmails } from './email-intake.mjs';
 import { runAiCascade } from './ai-router.mjs';
 import { radarEmailDiscoveries } from './radar-inputs.mjs';
+import { commercialPipeline, commercialTask } from './commercial-pipeline.mjs';
+import { matchingTemplate, templates } from './template-library.mjs';
 import { createRadarRun, updateRunFromResults, mergeOpportunities, gateRecord, completeGate, detectBrowserGate, sessionKey, canAcquireSession, canonicalUrl } from './radar.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -299,6 +301,7 @@ async function prepareRadarSendQueue(requestedLimit = 30) {
 
 function iaPrompt(o) {
   const topic = fold([o.title, o.category, o.scope].filter(Boolean).join(' '));
+  const template = matchingTemplate(topic);
   const skill = /automat|integrac|python|\bn8n\b|api\b/.test(topic)
     ? 'Automação Python e Workflow da Vercel'
     : /identidade|figma|\bux\b|\bui\b|design/.test(topic)
@@ -318,6 +321,11 @@ function iaPrompt(o) {
     `Estado verificado: ${o.status || 'não registrado'}`,
     `Verificação: ${o.verification || 'não registrada'}`,
     `Skill inicial para este escopo: ${skill}. Se faltar capacidade, indique qual alternativa pesquisar e que teste comprovaria o ganho.`,
+    ...(template ? [
+      `Modelo disponível: ${template.name}. Exemplo: ${template.exampleUrl}. Material reutilizável: ${template.sourceUrl}.`,
+      `Campos para adaptar: ${template.editable.join(', ')}. Condição de uso: ${template.whenToUse} Teste de entrega: ${template.checks}`
+    ] : []),
+    'Na entrega, registre os campos reutilizáveis e os testes que passaram. Proponha um exemplo público com dados fictícios se houver componente novo que possa ser reaproveitado.',
     '',
     'Responda em português, curto e direto:',
     '1. Encaixe real no que o moneyIA consegue entregar.',
@@ -538,6 +546,8 @@ async function state() {
       return (rank[a.priority] ?? 9) - (rank[b.priority] ?? 9);
     }),
     ia,
+    commercial: commercialPipeline(finance, approvals, proposalDispatch, tasks),
+    templates,
     agentQuestions: questions.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))),
     agentWebhook: Boolean(process.env.MONEYIA_AGENT_WEBHOOK_URL),
     aiWebhook: Boolean(process.env.MONEYIA_AI_WEBHOOK_URL || process.env.MONEYIA_CHATGPT_DISPATCH_URL || process.env.MONEYIA_DEEPSEEK_DISPATCH_URL || process.env.MONEYIA_GEMINI_DISPATCH_URL),
@@ -1141,7 +1151,12 @@ const server = createServer(async (req, res) => {
     if (req.method === 'POST' && decision) {
       const body = await readBody(req);
       if (!['aprovar', 'rejeitar'].includes(body.decision)) return sendJson(res, 400, { error: 'decision deve ser aprovar ou rejeitar' });
-      const row = await decideApproval(decodeURIComponent(decision[1]), body.decision, body.by || 'titular', body.note || '');
+      const approvalId = decodeURIComponent(decision[1]);
+      const existingApproval = (await readApprovals()).find((item) => item.id === approvalId);
+      const commercialRetry = body.decision === 'aprovar' && commercialTask(existingApproval || {});
+      const row = commercialRetry ? existingApproval : await decideApproval(approvalId, body.decision, body.by || 'titular', body.note || '');
+      const taskPacket = commercialTask(row);
+      const task = taskPacket ? await createTask(taskPacket) : null;
       let dispatch = null;
       let delivery = null;
       if (row.status === 'aprovada' && row.actionType === 'candidatura' && row.opportunityId) {
@@ -1165,7 +1180,7 @@ const server = createServer(async (req, res) => {
           priority: 'alta'
         });
       }
-      return sendJson(res, 200, { approval: row, dispatch, delivery });
+      return sendJson(res, 200, { approval: row, dispatch, delivery, task });
     }
 
     const dispatchEvidence = path.match(/^\/api\/proposal-dispatch\/([^/]+)\/evidence$/);

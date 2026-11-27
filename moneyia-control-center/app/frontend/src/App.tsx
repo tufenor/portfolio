@@ -153,8 +153,9 @@ export const App: React.FC = () => {
   const iaList = mesa?.ia || [];
   const opps = mesa?.opportunities || { recent: [] };
   const totalOpps = opps.total ?? ((opps.brl || 0) + (opps.usd || 0) + (opps.global || 0));
-  const resultsCount = iaList.filter((i) => i.retorno || i.response).length + (opps.recent?.length || 0);
-  const rec = mesa?.finance?.confirmedReceived || {};
+  const resultsCount = iaList.filter((i) => i.retorno || i.response).length;
+  const commercial = mesa?.commercial;
+  const rec = commercial?.received || mesa?.finance?.confirmedReceived || {};
   const email = mesa?.email;
   const emailStatus = email?.watch?.status || 'unknown';
 
@@ -304,7 +305,7 @@ export const App: React.FC = () => {
           <button type="button" className="kpi-tile" onClick={() => selectNav('results')}>
             <span className="kpi-label">RESULTADOS CONSOLIDADOS</span>
             <strong className="kpi-num">{resultsCount}</strong>
-            <span className="kpi-sub">Prontos para decisão</span>
+            <span className="kpi-sub">Análises IA com retorno</span>
           </button>
           <button type="button" className="kpi-tile" onClick={() => selectNav('agents')}>
             <span className="kpi-label">IAS & SUB-IAS ATIVAS</span>
@@ -341,9 +342,24 @@ export const App: React.FC = () => {
             {' '}{email?.counts?.acceptance_or_client_reply ?? 0} possíveis respostas ·
             {' '}{email?.counts?.product_sale_signal ?? 0} possíveis pedidos ·
             {' '}{email?.counts?.payment_received ?? 0} possíveis recebimentos.
-            {email?.watch?.lastError ? ` ${email.watch.lastError}` : ''}
+            {email?.watch?.lastError ? ' · Sinal técnico a conferir' : ''}
           </div>
         </section>
+
+        {commercial && (
+          <section className="surface-card commercial-panel" style={{ marginBottom: '18px' }}>
+            <div className="card-header"><div><div className="kicker">CONVERSÃO COMERCIAL</div><strong>Envios, contratos e recebimentos separados</strong></div></div>
+            <div className="kpi-grid compact-kpis">
+              <div className="kpi-tile"><span className="kpi-label">ENVIOS HISTÓRICOS</span><strong className="kpi-num">{commercial.historicalSent}</strong><span className="kpi-sub">registro histórico</span></div>
+              <div className="kpi-tile"><span className="kpi-label">DESPACHES CONFIRMADOS</span><strong className="kpi-num">{commercial.confirmedDispatches}</strong><span className="kpi-sub">evidência de plataforma</span></div>
+              <div className="kpi-tile"><span className="kpi-label">CONTRATOS</span><strong className="kpi-num">{commercial.contracts}</strong><span className="kpi-sub">não confundir com proposta</span></div>
+            </div>
+            <div className="scroll-stack">
+              {commercial.queue.map((item) => <div className="list-row" key={item.id}><div><strong>{item.id} · {item.title}</strong><div className="card-meta">{item.stage} · Próximo passo: {item.nextAction}{item.amount ? ` · ${item.amount}` : ''}</div></div>{(item.demoUrl || item.url) && <a className="link-inline" href={item.demoUrl || item.url} target="_blank" rel="noreferrer">Abrir evidência</a>}</div>)}
+            </div>
+            {mesa.templates && mesa.templates.length > 0 && <><div className="card-header" style={{ marginTop: '18px' }}><strong>Modelos reutilizáveis editáveis</strong></div><div className="cards-grid">{mesa.templates.map((t) => <article className="surface-card" key={t.id}><h3 className="card-title">{t.name}</h3><div className="card-excerpt">{t.description}</div><div className="card-meta">Usar quando: {t.whenToUse}<br />Campos: {t.editable.join(', ')}</div><div className="card-actions"><a className="btn btn-secondary btn-sm" href={t.exampleUrl} target="_blank" rel="noreferrer">Demo</a><a className="btn btn-secondary btn-sm" href={t.sourceUrl} target="_blank" rel="noreferrer">Fonte</a></div></article>)}</div></>}
+          </section>
+        )}
 
         <main className="view-container">
           {activeNav === 'results' && (

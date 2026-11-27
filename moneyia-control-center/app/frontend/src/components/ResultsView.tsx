@@ -19,29 +19,21 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
 }) => {
   const [query, setQuery] = useState('');
 
-  const consolidated = [
-    ...iaItems
+  const consolidated = iaItems
       .slice()
       .reverse()
+      .filter((item) => item.retorno || item.response)
       .map((item) => ({
-        key: `ia-${item.id}`,
-        badge: item.retorno || item.response ? 'Resultado Pronto' : 'Na Fila IA',
+        key: `ia-${item.opportunityId || item.id}`,
+        badge: 'Análise IA',
         title: item.title || item.opportunityId || item.id,
         meta: `${item.platform || 'Canal'} · ${item.budget || 'Orçamento a confirmar'} · ${item.status}`,
         body: item.retorno || item.response || '',
         url: item.url,
         oppId: item.opportunityId
-      })),
-    ...opportunities.map((opp) => ({
-      key: `opp-${opp.id}`,
-      badge: opp.status || 'Oportunidade',
-      title: opp.title || opp.id,
-      meta: `${opp.platform || 'Plataforma'} · ${opp.budget || 'Orçamento N/D'}`,
-      body: opp.verification ? `Verificação: ${opp.verification}` : `Prioridade: ${opp.priority || 'normal'}`,
-      url: opp.url,
-      oppId: opp.id
-    }))
-  ].filter((row) => {
+      }));
+  const unique = consolidated.filter((row, index, all) => all.findIndex((candidate) => candidate.oppId === row.oppId) === index);
+  const visible = unique.filter((row) => {
     if (!query.trim()) return true;
     const q = query.toLowerCase();
     return `${row.badge} ${row.title} ${row.meta} ${row.body}`.toLowerCase().includes(q);
@@ -65,13 +57,13 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
           />
           <button type="button" className="btn btn-primary" disabled={busy} onClick={onHuntNow}>
             <IconSpark size={15} />
-            <span>Rodar Caça de Receita</span>
+            <span>Analisar 3 oportunidades</span>
           </button>
         </div>
       </div>
 
       <div className="cards-grid">
-        {consolidated.slice(0, 18).map((row) => (
+        {visible.slice(0, 18).map((row) => (
           <article key={row.key} className="surface-card">
             <div className="card-header">
               <span className="status-tag status-ok">{row.badge}</span>

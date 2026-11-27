@@ -150,6 +150,8 @@ export interface MesaState {
   email?: EmailSummary;
   radar?: { runs?: Array<{ id: string; status: string; normalizedCount?: number; updatedAt?: string }>;
     gates?: Array<{ id: string; platform?: string; url?: string; status: string; type?: string }> };
+  commercial?: { historicalSent: number; confirmedDispatches: number; contracts: number; received: { BRL: number; BOB: number; USD: number }; queue: Array<{ id: string; title: string; stage: string; nextAction: string; amount?: string; url?: string; demoUrl?: string }> };
+  templates?: Array<{ id: string; name: string; description: string; exampleUrl: string; sourceUrl: string; editable: string[]; whenToUse: string }>;
 }
 
 export interface SubAiAgent {
