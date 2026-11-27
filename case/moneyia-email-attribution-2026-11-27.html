@@ -79,7 +79,7 @@
     </div></section>
 
     <section><div class="wrap"><h2>Receita e gasto seguem caminhos separados</h2>
-      <p class="small">A rotina Python também reconhece avisos de saída e pedidos pendentes. Se um aviso de pagamento pendente e outro de pagamento aprovado coincidirem em comerciante, valor e minuto, o painel registra um único evento com evidências pareadas — sem somar duas vezes. <a href="../demo/moneyia-financial-email-signals.py">Ver código Python sanitizado</a>.</p>
+      <p class="small">A rotina Python também reconhece avisos de saída e pedidos pendentes. Se um aviso de pagamento pendente e outro de pagamento aprovado coincidirem em comerciante, valor e minuto, o painel registra um único evento com evidências pareadas — sem somar duas vezes. <a href="https://github.com/tufenor/portfolio/blob/main/demo/moneyia-financial-email-signals.py">Ver código Python sanitizado</a>.</p>
       <div class="grid">
         <article class="card"><h3>Exemplo fictício</h3><p>Plano Demo · R$ 42,00 · aviso pendente seguido de confirmação no mesmo minuto.</p><p><strong>Resultado:</strong> 1 sinal de saída · 1 aviso pareado · caixa de receita sem alteração.</p></article>
         <article class="card"><h3>Conciliação antes do caixa</h3><p>O resumo local identifica a mensagem, separa entrada de saída e mantém a confirmação bancária fora do automático.</p><p><strong>Regra de registro:</strong> e-mail é indício; saldo recebido só muda com confirmação da origem e disponibilidade.</p></article>
