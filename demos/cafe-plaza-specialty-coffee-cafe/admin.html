@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Panel de contenido — Cafe Plaza Specialty Coffee</title>
+<title>Editor local de contenido — Cafe Plaza</title>
 <meta name="robots" content="noindex">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -11,10 +11,11 @@
   *{box-sizing:border-box}
   body{margin:0;background:#efe5d5;color:var(--tinta);font:16px/1.6 "Inter",system-ui,Segoe UI,Arial,sans-serif}
   h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-.01em;margin:0}
-  .wrap{max-width:1000px;margin:0 auto;padding:28px 20px 120px}
+  .wrap{max-width:1000px;margin:0 auto;padding:28px 20px 48px}
   header.topo{background:var(--tinta);color:var(--creme);padding:16px 0}
-  .topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:0}
+  .topo .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-block:0}
   .marca{display:flex;align-items:center;gap:12px;font-family:"Fraunces",serif}
+  .marca h1{font-size:1.2rem;line-height:1.25}
   .marca img{width:38px;height:38px;filter:invert(1) brightness(1.6)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border:0;border-radius:3px;background:var(--tinta);color:var(--creme);font:inherit;font-weight:600;cursor:pointer}
   .btn.sec{background:transparent;border:1px solid var(--linha);color:var(--tinta)}
@@ -32,13 +33,10 @@
   .foto img{width:74px;height:74px;object-fit:cover;border-radius:4px;border:1px solid var(--linha);background:#e8dccb}
   .foto input[type=file]{font-size:.85rem}
   .aviso{background:#fff6e8;border-left:3px solid var(--cafe);padding:12px 14px;font-size:.9rem;margin-top:16px;border-radius:0 4px 4px 0}
-  .erro{color:#a52626;font-size:.9rem;margin-top:8px}
-  .rodape-fixo{position:fixed;left:0;right:0;bottom:0;background:rgba(27,18,12,.96);color:var(--creme);padding:14px 0}
+  .rodape-fixo{position:sticky;bottom:0;background:rgba(27,18,12,.96);color:var(--creme);padding:14px 0}
   .rodape-fixo .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;padding-block:0}
   .rodape-fixo .btn{background:var(--dourado);color:#1b120c}
   .dica{font-size:.82rem;color:rgba(27,18,12,.6);margin-top:4px}
-  .oculto{display:none!important}
-  #login{max-width:420px;margin:8vh auto}
   .abaP{display:flex;gap:10px;margin:22px 0;flex-wrap:wrap}
   .abaP button{background:none;border:1px solid var(--linha);padding:9px 16px;border-radius:999px;font:inherit;font-size:.9rem;cursor:pointer}
   .abaP button.ativa{background:var(--tinta);color:var(--creme);border-color:var(--tinta)}
@@ -46,110 +44,103 @@
 </head>
 <body>
 
-<header class="topo oculto" id="cabecalho">
+<header class="topo">
   <div class="wrap">
-    <div class="marca"><img src="img/logo.svg" alt=""><span>Cafe Plaza · Panel de contenido</span></div>
+    <div class="marca"><img src="img/logo.svg" alt=""><h1>Cafe Plaza · Editor local</h1></div>
     <a class="btn sec" href="index.html" style="background:transparent;color:#f7f1e6;border-color:rgba(247,241,230,.4)">Ver el sitio</a>
   </div>
 </header>
 
-<div class="oculto" id="app">
+<main id="app">
   <div class="wrap">
+    <p class="aviso">Edita una copia de demostración en este navegador. Puedes ver la vista previa y descargar el archivo para que el responsable publique los cambios, después de revisarlos.</p>
+    <noscript><p>Activa JavaScript para cargar el contenido y descargar una copia editada.</p></noscript>
     <div class="card">
       <h2>Datos del negocio</h2>
       <div class="grid duas">
-        <div><label>Nombre</label><input id="negocio"></div>
-        <div><label>WhatsApp (con código de país, solo números)</label><input id="whatsapp"></div>
+        <div><label for="negocio">Nombre</label><input id="negocio"></div>
+        <div><label for="whatsapp">WhatsApp (con código de país, solo números)</label><input id="whatsapp" inputmode="tel"></div>
       </div>
       <div class="grid duas">
-        <div><label>Título principal (línea 1)</label><input id="titulo1"></div>
-        <div><label>Título principal (línea 2, en cursiva)</label><input id="titulo2"></div>
+        <div><label for="titulo1">Título principal (línea 1)</label><input id="titulo1"></div>
+        <div><label for="titulo2">Título principal (línea 2, en cursiva)</label><input id="titulo2"></div>
       </div>
-      <label>Subtítulo del hero</label><textarea id="subtitulo" rows="2"></textarea>
+      <label for="subtitulo">Descripción de la portada</label><textarea id="subtitulo" rows="2"></textarea>
       <div class="grid tres">
-        <div><label>Horario L-V</label><input id="lv"></div>
-        <div><label>Horario sábado</label><input id="sab"></div>
-        <div><label>Domingo</label><input id="dom"></div>
+        <div><label for="lv">Horario L-V</label><input id="lv"></div>
+        <div><label for="sab">Horario sábado</label><input id="sab"></div>
+        <div><label for="dom">Domingo</label><input id="dom"></div>
       </div>
     </div>
 
     <div class="card">
       <div class="item-topo">
         <h2>Menú</h2>
-        <button class="btn cafe" id="novoItem">+ Agregar ítem</button>
+        <button class="btn cafe" id="novoItem" type="button" disabled>+ Agregar ítem</button>
       </div>
       <div class="abaP" id="abasP"></div>
       <div id="listaItens"></div>
       <div class="aviso">Cada ítem puede tener su propia foto. La foto se guarda dentro del archivo de contenido (no hace falta subir a ningún servidor).</div>
     </div>
 
-    <div class="card">
-      <h2>Horario del sitio</h2>
-      <p class="dica">El sello “abierto/cerrado” se calcula solo con estos horarios.</p>
-    </div>
   </div>
 
   <div class="rodape-fixo">
     <div class="wrap">
-      <span id="estadoPub">Sin cambios todavía</span>
+      <span id="estadoPub" role="status">Cargando el contenido…</span>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn sec" id="previa" style="background:transparent;color:#f7f1e6;border-color:rgba(247,241,230,.4)">Ver con cambios</button>
-        <button class="btn" id="baixar">Descargar contenido</button>
+        <button class="btn sec" id="previa" type="button" disabled style="background:transparent;color:#f7f1e6;border-color:rgba(247,241,230,.4)">Ver con cambios</button>
+        <button class="btn" id="baixar" type="button" disabled>Descargar contenido</button>
       </div>
     </div>
   </div>
-</div>
-
-<div id="login">
-  <div class="card">
-    <h2>Entrar al panel</h2>
-    <p class="dica">Panel de edición del sitio. Pedile la clave al responsable.</p>
-    <label>Clave</label>
-    <input id="senha" type="password" autocomplete="current-password">
-    <div class="erro oculto" id="erroSenha">Clave incorrecta.</div>
-    <button class="btn cafe" id="entrar" style="width:100%;margin-top:16px">Entrar</button>
-  </div>
-</div>
+</main>
 
 <script>
-const CLAVE = 'plaza2026'; // o cliente pode trocar esta linha
+const PREVIEW_KEY = 'moneyia:cafe-plaza:preview:v1';
 const CATS = [['cafes','Cafés'],['dulces','Dulces'],['salados','Salados']];
 let dados = null;
 let aba = 'cafes';
 
-function mostrar(el, sim){ el.classList.toggle('oculto', !sim); }
+function status(texto) {
+  document.getElementById('estadoPub').textContent = texto;
+}
 
-document.getElementById('entrar').addEventListener('click', () => {
-  if (document.getElementById('senha').value.trim() === CLAVE) {
-    mostrar(document.getElementById('login'), false);
-    mostrar(document.getElementById('cabecalho'), true);
-    mostrar(document.getElementById('app'), true);
-    carregar();
-  } else {
-    mostrar(document.getElementById('erroSenha'), true);
-  }
-});
-document.getElementById('senha').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('entrar').click(); });
+function fotoLocal(src) {
+  return typeof src === 'string' && (
+    /^img\/[a-z0-9_-]+\.(?:jpe?g|png|webp)$/i.test(src)
+    || /^data:image\/(?:jpeg|png|webp);base64,[a-z0-9+/]+=*$/i.test(src)
+  );
+}
 
 async function carregar() {
   try {
     const r = await fetch('conteudo.json', { cache: 'no-store' });
+    if (!r.ok) throw new Error('Contenido no disponible');
     dados = await r.json();
+    if (!dados || typeof dados !== 'object' || Array.isArray(dados)) throw new Error('Contenido inválido');
   } catch {
-    dados = { negocio: 'Cafe Plaza Specialty Coffee', whatsapp: '59167401463', titulo1: 'Café de barrio,', titulo2: 'tostado aquí', subtitulo: '', horario: {}, itens: { cafes: [], dulces: [], salados: [] } };
+    status('No se pudo cargar el ejemplo. Vuelve a abrir el editor.');
+    return;
   }
-  if (!dados.itens) dados.itens = { cafes: [], dulces: [], salados: [] };
+  if (!dados.itens || typeof dados.itens !== 'object' || Array.isArray(dados.itens)) dados.itens = {};
+  for (const [categoria] of CATS) {
+    const lista = dados.itens[categoria];
+    dados.itens[categoria] = Array.isArray(lista) ? lista.filter((item) => item && typeof item === 'object') : [];
+  }
   document.getElementById('negocio').value = dados.negocio || '';
   document.getElementById('whatsapp').value = dados.whatsapp || '';
   document.getElementById('titulo1').value = dados.titulo1 || '';
   document.getElementById('titulo2').value = dados.titulo2 || '';
   document.getElementById('subtitulo').value = dados.subtitulo || '';
   const h = dados.horario || {};
-  document.getElementById('lv').value = h.lv || '07:30 – 20:00';
-  document.getElementById('sab').value = h.sab || '08:00 – 18:00';
+  document.getElementById('lv').value = h.lv || '';
+  document.getElementById('sab').value = h.sab || '';
   document.getElementById('dom').value = h.dom || 'Cerrado';
   desenharAbas();
   desenharItens();
+  for (const id of ['novoItem', 'previa', 'baixar']) document.getElementById(id).disabled = false;
+  status('Copia de demostración lista. Tus cambios quedan en este navegador.');
 }
 
 function desenharAbas() {
@@ -174,21 +165,22 @@ function desenharItens() {
 
 function editorItem(it, i) {
   const wrap = document.createElement('div');
+  const prefix = 'edit-' + aba + '-' + i;
   wrap.className = 'item-editor';
   wrap.innerHTML = `
     <div class="item-topo"><strong>${aba === 'cafes' ? 'Café' : aba === 'dulces' ? 'Dulce' : 'Salado'} ${i + 1}</strong>
       <button class="btn sec" style="min-height:34px;padding:0 12px;font-size:.82rem">Eliminar</button></div>
     <div class="grid duas">
-      <div><label>Nombre</label><input data-c="nome" value=""></div>
-      <div><label>Precio</label><input data-c="preco" value=""></div>
+      <div><label for="${prefix}-nome">Nombre</label><input id="${prefix}-nome" data-c="nome" value=""></div>
+      <div><label for="${prefix}-preco">Precio</label><input id="${prefix}-preco" data-c="preco" value=""></div>
     </div>
-    <label>Descripción</label><input data-c="detalhe" value="">
+    <label for="${prefix}-detalhe">Descripción</label><input id="${prefix}-detalhe" data-c="detalhe" value="">
     <div class="foto">
       <img alt="">
       <div style="flex:1">
-        <label style="margin-top:0">Foto del ítem</label>
-        <input type="file" accept="image/*">
-        <div class="dica">JPG o PNG. Se optimiza sola antes de guardar.</div>
+        <label for="${prefix}-foto" style="margin-top:0">Foto del ítem</label>
+        <input id="${prefix}-foto" type="file" accept="image/jpeg,image/png,image/webp">
+        <div class="dica">JPG, PNG o WebP. El editor reduce la foto antes de exportarla.</div>
       </div>
     </div>`;
   wrap.querySelector('[data-c="nome"]').value = it.nome || '';
@@ -214,9 +206,14 @@ function editorItem(it, i) {
   wrap.querySelector('input[type=file]').addEventListener('change', (e) => {
     const arq = e.target.files[0];
     if (!arq) return;
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(arq.type)) {
+      status('Elige una foto en formato JPG, PNG o WebP.');
+      return;
+    }
     const leitor = new FileReader();
     leitor.onload = () => {
       const imagem = new Image();
+      imagem.onerror = () => status('No se pudo abrir la foto elegida.');
       imagem.onload = () => {
         const lado = 900;
         const escala = Math.min(1, lado / Math.max(imagem.width, imagem.height));
@@ -230,15 +227,16 @@ function editorItem(it, i) {
       };
       imagem.src = leitor.result;
     };
+    leitor.onerror = () => status('No se pudo leer la foto elegida.');
     leitor.readAsDataURL(arq);
   });
 
-  if (it.foto) img.src = it.foto;
+  if (fotoLocal(it.foto)) img.src = it.foto;
   return wrap;
 }
 
 function marcarAlteracao() {
-  document.getElementById('estadoPub').textContent = 'Cambios sin descargar';
+  status('Cambios sin descargar');
 }
 
 document.getElementById('novoItem').addEventListener('click', () => {
@@ -268,17 +266,26 @@ document.getElementById('baixar').addEventListener('click', () => {
   const json = JSON.stringify(coletar(), null, 2);
   const blob = new Blob([json], { type: 'application/json' });
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
+  const url = URL.createObjectURL(blob);
+  a.href = url;
   a.download = 'conteudo.json';
   a.click();
-  URL.revokeObjectURL(a.href);
-  document.getElementById('estadoPub').textContent = 'Archivo descargado — reemplazalo en la carpeta del sitio';
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  status('Archivo descargado. Envíaselo al responsable para que revise y publique los cambios.');
 });
 
 document.getElementById('previa').addEventListener('click', () => {
-  localStorage.setItem('previaConteudo', JSON.stringify(coletar()));
-  window.open('index.html?previa=1', '_blank');
+  try {
+    localStorage.setItem(PREVIEW_KEY, JSON.stringify(coletar()));
+  } catch {
+    status('El navegador no pudo guardar la vista previa. Todavía puedes descargar el archivo.');
+    return;
+  }
+  window.open('index.html?previa=1', '_blank', 'noopener');
 });
+
+document.querySelectorAll('#app input, #app textarea').forEach((field) => field.addEventListener('input', marcarAlteracao));
+carregar();
 </script>
 </body>
 </html>
