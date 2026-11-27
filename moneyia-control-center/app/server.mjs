@@ -35,6 +35,7 @@ const appUser = process.env.MONEYIA_APP_USER || '';
 const appPass = process.env.MONEYIA_APP_PASSWORD || '';
 const authEnabled = Boolean(appUser && appPass);
 const run = promisify(execFile);
+let emailIngestQueue = Promise.resolve();
 const MCP_ACTIONS = {
   panorama: ['tools/panorama.mjs', []],
   healthcheck: ['tools/healthcheck.mjs', []],
@@ -94,6 +95,15 @@ function readBody(req) {
     });
     req.on('error', reject);
   });
+}
+
+async function serializeEmailIngest(work) {
+  const previous = emailIngestQueue;
+  let release;
+  emailIngestQueue = new Promise((resolve) => { release = resolve; });
+  await previous;
+  try { return await work(); }
+  finally { release(); }
 }
 
 const readJson = async (name, fallback) => {
@@ -1124,61 +1134,62 @@ const server = createServer(async (req, res) => {
       const body = await readBody(req);
       const incoming = Array.isArray(body.emails) ? body.emails.slice(0, 500) : [];
       if (!incoming.length) return sendJson(res, 400, { error: 'emails deve ser uma lista não vazia' });
-      const previous = await readEmailInbox();
-      const merged = [...(previous.emails || []), ...incoming];
-      const analysis = analyzeEmails(merged);
-      await writeEmailInbox({ ...analysis, source: body.source || 'gmail-connector' });
-      const priorFeed = await readInboxFeed();
-      const feedById = new Map((Array.isArray(priorFeed) ? priorFeed : []).map((row) => [String(row.id), row]));
-      for (const email of analysis.emails) {
-        feedById.set(String(email.id), {
-          id: email.id, source: email.source, kind: email.kind, priority: email.priority,
-          from: email.from, subject: email.subject, snippet: email.snippet,
-          displayUrl: email.displayUrl, opportunityUrl: email.opportunityUrl,
-          emailTs: email.emailTs, receivedAt: email.emailTs || analysis.scannedAt,
-          status: email.status, reason: email.reason
-        });
-      }
-      await writeInboxFeed([...feedById.values()].sort((a, b) => String(b.receivedAt || '').localeCompare(String(a.receivedAt || ''))));
-      const tasks = await readTasks();
-      // Gmail IDs can arrive as a bare provider ID or with a `gmail:` prefix.
-      // Normalize both forms so repeated watcher/connector scans never create
-      // a second task for the same message.
-      const emailIdKeys = (value) => {
-        const raw = String(value || '').trim();
-        if (!raw) return [];
-        const withoutProvider = raw.replace(/^gmail:/i, '');
-        return [...new Set([raw, withoutProvider, withoutProvider.split(':').pop()])];
-      };
-      const taskEmails = new Set();
-      for (const task of tasks) {
-        const match = String(task.description || '').match(/email-id:([^\s\]]+)/i);
-        for (const key of emailIdKeys(match?.[1])) taskEmails.add(key);
-      }
-      const createdTasks = [];
-      for (const email of analysis.emails) {
-        const keys = emailIdKeys(email.id);
-        if (!['acceptance_or_client_reply', 'new_opportunity', 'account_security', 'payment_received', 'product_sale_signal'].includes(email.kind) || !keys.length || keys.some((key) => taskEmails.has(key))) continue;
-        const title = email.kind === 'new_opportunity'
-          ? `Revisar nova oportunidade recebida por e-mail — ${email.subject}`
-          : email.kind === 'payment_received'
-            ? `Confirmar possível recebimento relacionado ao MoneyIA — ${email.subject}`
-          : email.kind === 'account_security'
-            ? `Verificar segurança da conta — ${email.subject}`
-            : email.kind === 'product_sale_signal'
-              ? 'Conferir possível pedido do Menu Studio'
-            : `Verificar possível aceite/resposta de cliente — ${email.subject}`;
-        const emailNote = `[email-id:${email.id}] ${email.reason}`;
-        createdTasks.push(await createTask({
-          title: title.slice(0, 160),
-          description: (email.kind === 'product_sale_signal' ? emailNote : `${emailNote}\nDe: ${email.from}\n${email.snippet}`).slice(0, 2000),
-          source: 'gmail-moneyia',
-          assignee: ['account_security', 'payment_received', 'product_sale_signal'].includes(email.kind) ? 'titular' : 'codex',
-          priority: email.priority
-        }));
-        keys.forEach((key) => taskEmails.add(key));
-      }
-      return sendJson(res, 200, { analysis, createdTasks: createdTasks.map((task) => task.id) });
+      return serializeEmailIngest(async () => {
+        const previous = await readEmailInbox();
+        const merged = [...(previous.emails || []), ...incoming];
+        const analysis = analyzeEmails(merged);
+        await writeEmailInbox({ ...analysis, source: body.source || 'gmail-connector' });
+        const priorFeed = await readInboxFeed();
+        const feedById = new Map((Array.isArray(priorFeed) ? priorFeed : []).map((row) => [String(row.id), row]));
+        for (const email of analysis.emails) {
+          feedById.set(String(email.id), {
+            id: email.id, source: email.source, kind: email.kind, priority: email.priority,
+            from: email.from, subject: email.subject, snippet: email.snippet,
+            displayUrl: email.displayUrl, opportunityUrl: email.opportunityUrl,
+            emailTs: email.emailTs, receivedAt: email.emailTs || analysis.scannedAt,
+            status: email.status, reason: email.reason
+          });
+        }
+        await writeInboxFeed([...feedById.values()].sort((a, b) => String(b.receivedAt || '').localeCompare(String(a.receivedAt || ''))));
+        const tasks = await readTasks();
+        // Capture the entire persisted ID, including spaces in derived IDs.
+        // Serialize ingestion so overlapping watchers cannot race this check.
+        const emailIdKeys = (value) => {
+          const raw = String(value || '').trim();
+          if (!raw) return [];
+          const withoutProvider = raw.replace(/^gmail:/i, '');
+          return [...new Set([raw, withoutProvider, withoutProvider.split(':').pop()])];
+        };
+        const taskEmails = new Set();
+        for (const task of tasks) {
+          const match = String(task.description || '').match(/email-id:([^\]]+)/i);
+          for (const key of emailIdKeys(match?.[1])) taskEmails.add(key);
+        }
+        const createdTasks = [];
+        for (const email of analysis.emails) {
+          const keys = emailIdKeys(email.id);
+          if (!['acceptance_or_client_reply', 'new_opportunity', 'account_security', 'payment_received', 'product_sale_signal'].includes(email.kind) || !keys.length || keys.some((key) => taskEmails.has(key))) continue;
+          const title = email.kind === 'new_opportunity'
+            ? `Revisar nova oportunidade recebida por e-mail — ${email.subject}`
+            : email.kind === 'payment_received'
+              ? `Confirmar possível recebimento relacionado ao MoneyIA — ${email.subject}`
+            : email.kind === 'account_security'
+              ? `Verificar segurança da conta — ${email.subject}`
+              : email.kind === 'product_sale_signal'
+                ? 'Conferir possível pedido do Menu Studio'
+              : `Verificar possível aceite/resposta de cliente — ${email.subject}`;
+          const emailNote = `[email-id:${email.id}] ${email.reason}`;
+          createdTasks.push(await createTask({
+            title: title.slice(0, 160),
+            description: (email.kind === 'product_sale_signal' ? emailNote : `${emailNote}\nDe: ${email.from}\n${email.snippet}`).slice(0, 2000),
+            source: 'gmail-moneyia',
+            assignee: ['account_security', 'payment_received', 'product_sale_signal'].includes(email.kind) ? 'titular' : 'codex',
+            priority: email.priority
+          }));
+          keys.forEach((key) => taskEmails.add(key));
+        }
+        return sendJson(res, 200, { analysis, createdTasks: createdTasks.map((task) => task.id) });
+      });
     }
     if (req.method === 'POST' && path === '/api/propostas/verificar') {
       const result = await verifyProposals();

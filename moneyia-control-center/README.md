@@ -39,10 +39,13 @@ Para abrir a Mesa:
 node app/server.mjs
 ```
 
-As rotinas Python consultam a saúde da Mesa e consolidam o feed público
-de projetos. Use `python tools/collect_public_opportunities.py` para atualizar
-o cache do Remotive, que é distribuído com atraso. A Mesa apresenta esses
-anúncios para verificação de disponibilidade e encaixe.
+As rotinas Python consultam a saúde da Mesa, consolidam o feed público e podem
+preparar até 30 pacotes por ciclo para revisão visual. No Windows, o ciclo roda
+a cada 30 minutos pelo Agendador de Tarefas e pode consultar o Gmail em modo
+somente leitura. Ele não envia propostas. Use
+`python tools/moneyia_automation.py cycle --with-email --prepare-queue --queue-limit 30`
+para executar a rotina; `python tools/collect_public_opportunities.py` atualiza
+o cache público do Remotive, que é distribuído com atraso.
 
 Abra `http://127.0.0.1:8899`. Sem `MONEYIA_APP_USER` e
 `MONEYIA_APP_PASSWORD`, o servidor aceita somente loopback. Para acesso remoto,
@@ -61,3 +64,4 @@ marca uma candidatura como confirmada quando recebe evidência verificável da
 plataforma. Este snapshot não contém candidaturas nem receita.
 
 Case público: https://tufenor.github.io/portfolio/case/moneyia-jarvis-bridge-2026-11-26.html
+Case de automação Python: https://tufenor.github.io/portfolio/case/moneyia-python-cycle-2026-11-27.html

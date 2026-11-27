@@ -7,6 +7,8 @@ import shutil
 import subprocess
 import sys
 import time
+import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -69,8 +71,35 @@ def _mail_watch(root: Path, base: str) -> str:
         return "error"
 
 
-def run_cycle(root: Path, base: str = "http://127.0.0.1:8899", *, with_email: bool = False) -> dict:
-    """Update enabled inputs and publish one operational snapshot."""
+def _prepare_proposal_queue(base: str, limit: int = 30) -> dict:
+    """Build review packets in the local Mesa; this never submits proposals."""
+    payload = json.dumps({"limit": max(1, min(30, int(limit)))}).encode("utf-8")
+    request = urllib.request.Request(
+        f"{base.rstrip('/')}/api/radar/send-queue",
+        data=payload,
+        headers={"accept": "application/json", "content-type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            result = json.loads(response.read().decode("utf-8"))
+            return {
+                "status": "prepared",
+                "createdCount": int(result.get("createdCount", 0)),
+                "eligibleCount": int(result.get("eligibleCount", 0)),
+                "packetedCount": int(result.get("packetedCount", 0)),
+                "remainingEligible": int(result.get("remainingEligible", 0)),
+                "mode": result.get("mode", "visual_review"),
+            }
+    except urllib.error.HTTPError as exc:
+        return {"status": "error", "httpStatus": exc.code, "error": exc.read().decode("utf-8", "replace")[:240]}
+    except (OSError, urllib.error.URLError, json.JSONDecodeError, ValueError) as exc:
+        return {"status": "error", "error": str(exc)[:240]}
+
+
+def run_cycle(root: Path, base: str = "http://127.0.0.1:8899", *, with_email: bool = False,
+              prepare_queue: bool = False, queue_limit: int = 30) -> dict:
+    """Update inputs, optionally prepare review packets, and publish a snapshot."""
     status_path = root / "data" / "automation-cycle-status.json"
     started = datetime.now(timezone.utc).isoformat()
     status = {"ok": False, "startedAt": started, "statusPath": str(status_path)}
@@ -85,6 +114,7 @@ def run_cycle(root: Path, base: str = "http://127.0.0.1:8899", *, with_email: bo
             mail = _mail_watch(root, base) if with_email else "disabled"
             snapshot = run_snapshot(root, base)
             collector = _collector(root, previous)
+            queue = _prepare_proposal_queue(base, queue_limit) if prepare_queue and snapshot.get("moneyia", {}).get("ok") else {"status": "disabled" if not prepare_queue else "mesa_offline"}
             status.update(
                 {
                     "ok": bool(snapshot.get("ok")),
@@ -96,6 +126,7 @@ def run_cycle(root: Path, base: str = "http://127.0.0.1:8899", *, with_email: bo
                     "files": snapshot.get("files", {}),
                     "collector": collector,
                     "mailWatch": mail,
+                    "proposalQueue": queue,
                 }
             )
             atomic_write_json(status_path, status)
