@@ -1,6 +1,7 @@
+import { createHash } from 'node:crypto';
 const fold = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const stableId = (email, subject, from, emailTs) => String(email.id || email.message_id || '').trim().slice(0, 120)
-  || `derived:${fold(from).slice(0, 80)}|${fold(subject).slice(0, 140)}|${String(emailTs || '').slice(0, 40)}`;
+  || `derived:${createHash('sha256').update(`${fold(from)}|${fold(subject)}|${String(emailTs || '')}`).digest('hex').slice(0, 24)}`;
 
 const sourceFor = (from = '') => {
   const value = fold(from);
@@ -23,7 +24,11 @@ export function classifyEmail(email = {}) {
   let priority = 'baixa';
   let reason = 'Sem sinal comercial claro.';
 
-  if (/(proposta aceita|proposta foi aceita|voce foi contratado|contratacao confirmada|contrato iniciado|proposal accepted|you.?re hired|contract started|awarded|cliente escolheu|cliente enviou uma mensagem|nova mensagem do cliente|mensagem do cliente)/.test(text)) {
+  if (/(outra proposta foi aceita|outro profissional foi contratado|outro freelancer foi contratado|another proposal was accepted|another freelancer was hired)/.test(text)) {
+    kind = 'proposal_status';
+    priority = 'media';
+    reason = 'Aviso de contratação de outra pessoa; não é aceite do titular.';
+  } else if (/(proposta aceita|proposta foi aceita|voce foi contratado|contratacao confirmada|contrato iniciado|proposal accepted|you.?re hired|contract started|awarded|cliente escolheu|cliente enviou uma mensagem|nova mensagem do cliente|mensagem do cliente)/.test(text)) {
     kind = 'acceptance_or_client_reply';
     priority = 'alta';
     reason = 'Possível aceite, contratação ou resposta direta do cliente; conferir a página autenticada.';
@@ -35,7 +40,7 @@ export function classifyEmail(email = {}) {
     kind = 'proposal_status';
     priority = 'media';
     reason = 'Mudança de estado da proposta; não é aceite.';
-  } else if (/(novo projeto|new project|projeto que pode ser do seu interesse|job alert|new job|oportunidade de trabalho)/.test(text)) {
+  } else if (/(novos? projetos?|new projects?|projeto que pode ser do seu interesse|job alert|new job|oportunidade de trabalho)/.test(text)) {
     kind = 'new_opportunity';
     priority = 'media';
     reason = 'Alerta de nova oportunidade enviado por um portal.';

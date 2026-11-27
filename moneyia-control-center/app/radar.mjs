@@ -134,7 +134,7 @@ export function normalizeOpportunity(row = {}, context = {}) {
     verification: gate ? 'human_gate_required' : String(row.verification || 'observed_public').slice(0, 50),
     gate: gate ? { ...gate, platform: row.platform || context.platform || 'unknown', url } : null,
     radarScore: score,
-    observedAt: row.observedAt || new Date().toISOString(),
+    observedAt: row.observedAt || row.checked || '',
     sourceShard: context.shardId || row.sourceShard || null,
     source: context.source || row.source || row.platform || 'unknown'
   };

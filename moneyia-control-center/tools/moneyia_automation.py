@@ -14,6 +14,9 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from automation.supervisor import run_snapshot
+from automation.cycle import run_cycle
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -32,7 +35,9 @@ def inbox_check() -> dict:
     except (OSError, json.JSONDecodeError):
         rows = []
     rows = rows if isinstance(rows, list) else []
-    ids = [str(row.get("id", "")) for row in rows if isinstance(row, dict)]
+    malformed = sum(not isinstance(row, dict) for row in rows)
+    ids = [str(row.get("id", "")).strip() for row in rows if isinstance(row, dict)]
+    missing_ids = sum(not row_id for row_id in ids)
     unique = len(set(ids))
     kinds = {}
     for row in rows:
@@ -40,10 +45,12 @@ def inbox_check() -> dict:
             kind = str(row.get("kind", "other"))
             kinds[kind] = kinds.get(kind, 0) + 1
     return {
-        "ok": unique == len(ids),
+        "ok": malformed == 0 and missing_ids == 0 and unique == len(ids),
         "feedPath": str(feed_path),
         "count": len(rows),
         "uniqueIds": unique,
+        "missingIds": missing_ids,
+        "malformedRows": malformed,
         "kinds": kinds,
     }
 
@@ -63,10 +70,17 @@ def bridge_check(base: str) -> dict:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("inbox-check", "bridge-check"))
+    parser.add_argument("command", choices=("inbox-check", "bridge-check", "supervisor", "cycle"))
     parser.add_argument("--base", default="http://127.0.0.1:8899")
     args = parser.parse_args()
-    payload = inbox_check() if args.command == "inbox-check" else bridge_check(args.base)
+    if args.command == "inbox-check":
+        payload = inbox_check()
+    elif args.command == "bridge-check":
+        payload = bridge_check(args.base)
+    elif args.command == "supervisor":
+        payload = run_snapshot(ROOT, args.base)
+    else:
+        payload = run_cycle(ROOT, args.base)
     print(json.dumps(payload, ensure_ascii=False))
     return 0 if payload.get("ok") else 1
 

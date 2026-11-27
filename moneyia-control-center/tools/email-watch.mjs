@@ -45,12 +45,15 @@ async function once() {
     await refreshAlerts();
     await status({ status: 'ok', lastSuccessAt: new Date().toISOString(), lastResult: String(result.stdout || '').slice(0, 500), lastError: null });
   } catch (error) {
-    const message = String(error.stderr || error.message || `falha na leitura (código ${error.code || 'desconhecido'})`).trim().slice(0, 500);
-    const waiting = error.code === 2 || error.killed || /nenhuma linha|Gmail não está aberto|CDP|Chrome de trabalho|timed out/i.test(message);
-    await status({ status: waiting ? 'waiting_for_gmail_rows' : 'error', lastError: message, lastSuccessAt: null });
+    const detail = String(error.stderr || error.message || '').trim();
+    const message = detail.split(/\r?\n/).find((line) => line.trim())?.slice(0, 250) || 'falha na leitura';
+    const unavailable = /Chrome de trabalho não está disponível|Gmail não está aberto|CDP timeout|CDP não abriu|falha no websocket CDP/i.test(detail);
+    const noRows = /nenhuma linha da caixa foi renderizada/i.test(detail);
+    await status({ status: unavailable ? 'waiting_for_chrome' : noRows ? 'waiting_for_gmail_rows' : 'error', lastError: message });
   }
 }
 
 await once();
 if (process.argv.includes('--once')) process.exit(0);
-setInterval(once, intervalMs);
+const scheduleNext = () => setTimeout(async () => { await once(); scheduleNext(); }, intervalMs);
+scheduleNext();
