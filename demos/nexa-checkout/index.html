@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f4ee">
+  <meta name="description" content="Estudo autoral de interface para checkout e painel de pagamentos. Dados ilustrativos; sem transações reais.">
+  <title>Nexa — checkout e painel | Estudo de produto</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Pular para a demonstração</a>
+  <header class="topbar">
+    <a class="brand" href="#checkout" aria-label="Nexa, início">
+      <span class="brand-mark" aria-hidden="true">n</span>
+      <span>Nexa<span class="brand-period">.</span></span>
+    </a>
+    <div class="topbar-center"><span class="status-dot"></span> Ambiente de demonstração</div>
+    <a class="topbar-link" href="../../">Portfólio <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="workspace">
+    <section class="intro" aria-labelledby="intro-title">
+      <div class="intro-copy">
+        <p class="eyebrow">ESTUDO DE PRODUTO · FINTECH</p>
+        <h1 id="intro-title">Dinheiro em movimento.<br><em>Clareza em cada passo.</em></h1>
+        <p>Uma proposta visual para tornar pagamento, acesso e acompanhamento financeiro mais simples de entender.</p>
+      </div>
+      <div class="intro-note"><span class="note-index">01</span><span>Três telas<br>Um fluxo conectado</span></div>
+    </section>
+
+    <nav class="screen-nav" aria-label="Telas da demonstração" role="tablist">
+      <button class="screen-tab is-active" id="tab-checkout" type="button" role="tab" aria-selected="true" aria-controls="screen-checkout" data-screen="checkout"><span class="tab-number">01</span> Checkout</button>
+      <button class="screen-tab" id="tab-access" type="button" role="tab" aria-selected="false" aria-controls="screen-access" data-screen="access"><span class="tab-number">02</span> Acesso</button>
+      <button class="screen-tab" id="tab-dashboard" type="button" role="tab" aria-selected="false" aria-controls="screen-dashboard" data-screen="dashboard"><span class="tab-number">03</span> Visão geral</button>
+      <span class="nav-spacer"></span>
+      <span class="screen-count"><span id="screen-count">01</span> / 03</span>
+    </nav>
+
+    <div class="demo-stage" id="demo-stage">
+      <section class="screen screen-checkout is-visible" id="screen-checkout" role="tabpanel" aria-labelledby="tab-checkout" tabindex="0" data-panel="checkout">
+        <div class="checkout-layout">
+          <div class="checkout-main">
+            <div class="checkout-head"><div><p class="eyebrow">FINALIZAÇÃO SEGURA</p><h2>Seu próximo passo começa aqui.</h2></div><span class="secure-label"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 8V5.9a4.5 4.5 0 0 1 9 0V8m-10 0h11v9h-11z"/></svg>Conexão protegida</span></div>
+            <div class="progress-track" aria-label="Etapa 1 de 2"><span class="progress-fill"></span><span>1 de 2 · pagamento</span></div>
+            <div class="field-grid">
+              <label class="field field-wide">Seu nome<input type="text" autocomplete="name" placeholder="Ex.: Marina Costa" value="Marina Costa"></label>
+              <label class="field field-wide">E-mail para o recibo<input type="email" autocomplete="email" placeholder="cliente@example.com" value="marina@example.com"></label>
+            </div>
+            <div class="method-heading"><div><h3>Como prefere pagar?</h3><p>Escolha um método para continuar.</p></div><span class="method-mark" aria-hidden="true">↘</span></div>
+            <div class="payment-methods" role="group" aria-label="Método de pagamento">
+              <button class="method-card selected" type="button" data-method="pix" aria-pressed="true"><span class="method-icon pix-icon" aria-hidden="true">P</span><span><strong>Pix</strong><small>Aprovação rápida</small></span><span class="radio-dot"></span></button>
+              <button class="method-card" type="button" data-method="card" aria-pressed="false"><span class="method-icon card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18m-14 5h4"/></svg></span><span><strong>Cartão</strong><small>Crédito ou débito</small></span><span class="radio-dot"></span></button>
+            </div>
+            <button class="primary-button" type="button" id="pay-button">Continuar com Pix <span aria-hidden="true">→</span></button>
+            <p class="inline-note">Esta é uma amostra de interface. Nenhum dado é enviado e nenhum pagamento é processado.</p>
+          </div>
+          <aside class="order-summary" aria-label="Resumo da compra">
+            <div class="summary-top"><span class="product-symbol" aria-hidden="true">n</span><span class="summary-kicker">SEU PEDIDO</span><span class="summary-step">01 / 02</span></div>
+            <h3>Plano Studio</h3><p class="summary-subtitle">Tudo o que você precisa para começar.</p>
+            <ul class="plan-features"><li><span>✓</span> 1 espaço de trabalho</li><li><span>✓</span> Pagamentos organizados</li><li><span>✓</span> Suporte por e-mail</li></ul>
+            <div class="summary-divider"></div>
+            <div class="price-row"><span>Plano anual</span><span>R$ 239,00</span></div>
+            <div class="price-row muted-row"><span>Desconto de boas-vindas</span><span>− R$ 40,00</span></div>
+            <div class="total-row"><span>Total hoje</span><strong>R$ 199,00</strong></div>
+            <div class="renewal-note"><span class="renewal-icon" aria-hidden="true">↻</span><span>Renovação anual. Você pode cancelar quando quiser.</span></div>
+            <div class="summary-footer"><span>Pagamento processado por</span><strong>nexa<span>.</span></strong></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="screen screen-access" id="screen-access" role="tabpanel" aria-labelledby="tab-access" tabindex="0" data-panel="access" hidden>
+        <div class="access-card">
+          <div class="access-brand"><span class="brand-mark" aria-hidden="true">n</span><span>Nexa<span class="brand-period">.</span></span></div>
+          <div class="access-intro"><p class="eyebrow">BOM TER VOCÊ DE VOLTA</p><h2>Entre no seu<br><em>espaço.</em></h2><p>Acesse seu painel e acompanhe o que importa.</p></div>
+          <form id="login-form" class="login-form">
+            <label class="field">E-mail<input type="email" autocomplete="username" placeholder="voce@example.com" required></label>
+            <label class="field">Senha <a href="#ajuda" class="field-action" id="forgot-link">Esqueceu?</a><input type="password" autocomplete="current-password" placeholder="Pelo menos 8 caracteres" required minlength="8"></label>
+            <label class="remember"><input type="checkbox" checked> Manter conectado neste dispositivo</label>
+            <button class="primary-button" type="submit">Entrar na minha conta <span aria-hidden="true">→</span></button>
+          </form>
+          <p class="access-foot">Ainda não tem uma conta? <button type="button" class="text-button" id="signup-button">Criar conta</button></p>
+        </div>
+        <aside class="access-aside"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="access-quote"><span class="quote-mark">“</span><p>O melhor painel financeiro é aquele que deixa você pensar no seu negócio.</p><div class="quote-byline"><span class="byline-line"></span><span>NEXA · VISÃO CLARA, AÇÃO SIMPLES</span></div></div><div class="aside-index">02 <span>/</span> ACESSO</div></aside>
+      </section>
+
+      <section class="screen screen-dashboard" id="screen-dashboard" role="tabpanel" aria-labelledby="tab-dashboard" tabindex="0" data-panel="dashboard" hidden>
+        <aside class="dashboard-side">
+          <div class="dash-brand"><span class="brand-mark" aria-hidden="true">n</span><span>Nexa<span class="brand-period">.</span></span></div>
+          <p class="side-label">ESPAÇO DE TRABALHO</p>
+          <button class="side-link active" type="button"><span class="side-icon">▦</span> Visão geral</button>
+          <button class="side-link" type="button" data-toast="A aba de pagamentos é ilustrativa."><span class="side-icon">↗</span> Pagamentos</button>
+          <button class="side-link" type="button" data-toast="A aba de clientes é ilustrativa."><span class="side-icon">◉</span> Clientes</button>
+          <button class="side-link" type="button" data-toast="A aba de relatórios é ilustrativa."><span class="side-icon">▤</span> Relatórios</button>
+          <div class="side-bottom"><div class="user-badge">MC</div><div><strong>Marina Costa</strong><small>Plano Studio</small></div><button type="button" class="more-button" aria-label="Mais opções" data-toast="Menu de opções ilustrativo.">···</button></div>
+        </aside>
+        <div class="dashboard-main">
+          <div class="dash-top"><div><p class="eyebrow">SEXTA-FEIRA, 27 DE NOVEMBRO</p><h2>Bom dia, Marina <span aria-hidden="true">✳</span></h2></div><button class="period-select" type="button" data-toast="Filtro de período demonstrativo">Últimos 30 dias <span aria-hidden="true">⌄</span></button></div>
+          <div class="dashboard-note"><span class="status-dot"></span> Dados de demonstração <span>·</span> Nenhuma transação real</div>
+          <div class="metrics-grid">
+            <article class="metric-card"><div class="metric-top"><span>Volume recebido</span><span class="metric-icon">↘</span></div><strong>R$ 24.860<span>,00</span></strong><div class="metric-foot"><span class="trend-up">↑ 12,8%</span><span>vs. mês anterior · ilustrativo</span></div></article>
+            <article class="metric-card"><div class="metric-top"><span>Pagamentos</span><span class="metric-icon">◉</span></div><strong>184</strong><div class="metric-foot"><span class="trend-up">↑ 8,2%</span><span>vs. mês anterior · ilustrativo</span></div></article>
+            <article class="metric-card"><div class="metric-top"><span>Ticket médio</span><span class="metric-icon">R$</span></div><strong>R$ 135<span>,11</span></strong><div class="metric-foot"><span class="trend-neutral">— 0,4%</span><span>vs. mês anterior · ilustrativo</span></div></article>
+          </div>
+          <div class="dashboard-panels">
+            <section class="chart-card" aria-labelledby="chart-title"><div class="panel-heading"><div><p class="eyebrow">RESUMO FINANCEIRO</p><h3 id="chart-title">Entradas no período</h3></div><span class="chart-legend"><i></i> Recebido</span></div><div class="chart-wrap"><div class="chart-y-axis"><span>R$ 8 mil</span><span>R$ 6 mil</span><span>R$ 4 mil</span><span>R$ 2 mil</span><span>R$ 0</span></div><svg class="chart" viewBox="0 0 640 228" role="img" aria-label="Gráfico ilustrativo de recebimentos crescentes de maio a novembro"><defs><linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#bfd95f" stop-opacity=".36"/><stop offset="1" stop-color="#bfd95f" stop-opacity="0"/></linearGradient></defs><path class="chart-area" d="M0 183 C38 170 54 178 90 153 S147 132 180 149 S228 112 270 120 S326 96 360 110 S408 74 450 88 S507 54 540 66 S594 28 640 33 L640 228 L0 228Z"/><path class="chart-line" d="M0 183 C38 170 54 178 90 153 S147 132 180 149 S228 112 270 120 S326 96 360 110 S408 74 450 88 S507 54 540 66 S594 28 640 33"/><circle cx="540" cy="66" r="5" class="chart-point"/></svg><div class="chart-x-axis"><span>Mai</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Set</span><span>Out</span><span>Nov</span></div></div><p class="chart-footnote">Valores fictícios, criados apenas para demonstrar hierarquia e leitura de dados.</p></section>
+            <section class="activity-card" aria-labelledby="activity-title"><div class="panel-heading"><div><p class="eyebrow">MOVIMENTAÇÃO</p><h3 id="activity-title">Atividade recente</h3></div><button type="button" class="panel-link" data-toast="Lista completa ilustrativa.">Ver tudo →</button></div><ul class="activity-list"><li><span class="activity-avatar avatar-lime">AC</span><span class="activity-detail"><strong>Assinatura Studio</strong><small>Hoje, 10:42 · Pix</small></span><span class="activity-amount">+ R$ 199,00</span></li><li><span class="activity-avatar avatar-peach">JM</span><span class="activity-detail"><strong>Consultoria mensal</strong><small>Hoje, 09:18 · Cartão</small></span><span class="activity-amount">+ R$ 420,00</span></li><li><span class="activity-avatar avatar-blue">RL</span><span class="activity-detail"><strong>Plano Essencial</strong><small>Ontem, 17:06 · Pix</small></span><span class="activity-amount">+ R$ 89,90</span></li><li><span class="activity-avatar avatar-sand">MP</span><span class="activity-detail"><strong>Curso intensivo</strong><small>Ontem, 13:52 · Cartão</small></span><span class="activity-amount">+ R$ 279,00</span></li></ul><p class="activity-footnote">Nomes, valores e horários ilustrativos.</p></section>
+          </div>
+          <footer class="dash-footer"><span>© 2026 Nexa · Conceito de produto</span><span>Protótipo estático. Sem conta, dados ou pagamentos reais.</span></footer>
+        </div>
+      </section>
+    </div>
+
+    <section class="design-notes" aria-label="Princípios de design">
+      <span><b>01</b> Informação visível antes da ação</span><span><b>02</b> Estados e próximos passos claros</span><span><b>03</b> Adaptado para celular</span>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
