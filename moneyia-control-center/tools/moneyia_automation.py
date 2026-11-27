@@ -72,6 +72,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("command", choices=("inbox-check", "bridge-check", "supervisor", "cycle"))
     parser.add_argument("--base", default="http://127.0.0.1:8899")
+    parser.add_argument("--with-email", action="store_true", help="run the local read-only Gmail watcher during cycle")
     args = parser.parse_args()
     if args.command == "inbox-check":
         payload = inbox_check()
@@ -80,7 +81,7 @@ def main() -> int:
     elif args.command == "supervisor":
         payload = run_snapshot(ROOT, args.base)
     else:
-        payload = run_cycle(ROOT, args.base)
+        payload = run_cycle(ROOT, args.base, with_email=args.with_email)
     print(json.dumps(payload, ensure_ascii=False))
     return 0 if payload.get("ok") else 1
 

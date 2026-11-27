@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import os
+import shutil
 import subprocess
 import sys
 import time
@@ -48,12 +50,27 @@ def _collector(root: Path, previous: dict) -> dict:
         return {"status": "failed", "lastAttemptAt": attempted, "error": "collector timeout"}
 
 
-def run_cycle(root: Path, base: str = "http://127.0.0.1:8899") -> dict:
-    """Run one read-mostly snapshot and persist only the cycle status.
+def _mail_watch(root: Path, base: str) -> str:
+    node = shutil.which("node")
+    script = root / "tools" / "email-watch.mjs"
+    if not node or not script.is_file():
+        return "unavailable"
+    if base.rstrip("/") != "http://127.0.0.1:8899":
+        return "requires_local_mesa"
+    try:
+        subprocess.run([node, str(script), "--once"], cwd=root, timeout=55,
+                       env={**os.environ, "MONEYIA_APP_URL": base.rstrip("/")},
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
+        status = json.loads((root / "data" / "email-watch-status.json").read_text(encoding="utf-8"))
+        return status.get("status", "unknown")
+    except subprocess.TimeoutExpired:
+        return "timeout"
+    except (subprocess.CalledProcessError, OSError, ValueError):
+        return "error"
 
-    The lock prevents overlapping scheduled invocations. No proposal, email,
-    browser, payment, approval, or external API action is performed here.
-    """
+
+def run_cycle(root: Path, base: str = "http://127.0.0.1:8899", *, with_email: bool = False) -> dict:
+    """Update enabled inputs and publish one operational snapshot."""
     status_path = root / "data" / "automation-cycle-status.json"
     started = datetime.now(timezone.utc).isoformat()
     status = {"ok": False, "startedAt": started, "statusPath": str(status_path)}
@@ -65,6 +82,7 @@ def run_cycle(root: Path, base: str = "http://127.0.0.1:8899") -> dict:
                 previous = json.loads(status_path.read_text(encoding="utf-8"))
             except (OSError, json.JSONDecodeError):
                 pass
+            mail = _mail_watch(root, base) if with_email else "disabled"
             snapshot = run_snapshot(root, base)
             collector = _collector(root, previous)
             status.update(
@@ -77,6 +95,7 @@ def run_cycle(root: Path, base: str = "http://127.0.0.1:8899") -> dict:
                     "jarvisOk": bool(snapshot.get("jarvis", {}).get("ok")),
                     "files": snapshot.get("files", {}),
                     "collector": collector,
+                    "mailWatch": mail,
                 }
             )
             atomic_write_json(status_path, status)
