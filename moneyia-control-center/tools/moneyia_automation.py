@@ -16,7 +16,7 @@ from pathlib import Path
 
 from automation.supervisor import run_snapshot
 from automation.cycle import run_cycle
-from automation.codex_bridge import export_pending, import_responses
+from automation.codex_bridge import export_pending, import_responses, mark_export_failure
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -79,7 +79,11 @@ def main() -> int:
     parser.add_argument("--responses-file", help="JSON temporário local para importar respostas do worker Codex")
     args = parser.parse_args()
     if args.command == "codex-bridge-export":
-        payload = export_pending(ROOT, args.base, limit=min(30, max(1, args.queue_limit)))
+        try:
+            payload = export_pending(ROOT, args.base, limit=min(30, max(1, args.queue_limit)))
+        except (OSError, urllib.error.URLError, json.JSONDecodeError, ValueError) as exc:
+            status = mark_export_failure(ROOT, exc)
+            payload = {"ok": False, "error": str(exc)[:240], "status": status.get("status")}
     elif args.command == "codex-bridge-import":
         try:
             if args.responses_file:
@@ -92,7 +96,7 @@ def main() -> int:
             payload = import_responses(ROOT, args.base, responses)
             if args.responses_file and payload.get("ok"):
                 response_path.unlink(missing_ok=True)
-        except (json.JSONDecodeError, ValueError) as exc:
+        except (OSError, json.JSONDecodeError, ValueError) as exc:
             payload = {"ok": False, "error": str(exc)}
     elif args.command == "inbox-check":
         payload = inbox_check()

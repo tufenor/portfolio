@@ -53,6 +53,20 @@ def _write_status(root: Path, value: dict) -> None:
     temporary.replace(path)
 
 
+def mark_export_failure(root: Path, error: Exception) -> dict:
+    status = _read_status(root)
+    status.update({
+        "status": "error",
+        "provider": "codex:gpt-5.6-luna",
+        "exportedIds": [],
+        "exportedCount": 0,
+        "lastError": str(error)[:240],
+        "failedAt": _now(),
+    })
+    _write_status(root, status)
+    return status
+
+
 def export_pending(root: Path, base: str, limit: int = 30) -> dict:
     limit = max(1, min(30, int(limit)))
     status = _read_status(root)
