@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Diagnóstico local em Python que diferencia serviço online de fluxo pronto, identifica bloqueios de navegador e resume o próximo passo.">
+  <meta name="theme-color" content="#f4f0e6">
+  <title>Monitoramento de fluxo local — MoneyIA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <style>
+    :root{--ink:#17251c;--moss:#294b38;--lime:#cde98a;--paper:#f4f0e6;--line:#d9d3c4;--muted:#59645b;--orange:#e16d49}
+    body{background:var(--paper);color:var(--ink)}.wrap{width:min(70rem,calc(100% - 2rem));margin-inline:auto}
+    .hero{padding:clamp(4rem,9vw,8rem) 0 3rem;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:26rem;height:26rem;right:-9rem;top:-10rem;border-radius:50%;background:radial-gradient(circle,var(--lime),transparent 70%);opacity:.4;z-index:-1;animation:float 10s ease-in-out infinite alternate}
+    .eyebrow{color:var(--orange);font-size:.78rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase}h1{max-width:58rem;font-size:clamp(2.6rem,7vw,5.7rem);line-height:.98;letter-spacing:-.055em;margin:.8rem 0 1.3rem}.lead{max-width:47rem;color:var(--muted);font-size:clamp(1.05rem,2vw,1.3rem);line-height:1.7}
+    .pills,.actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.5rem}.pill{border:1px solid var(--line);border-radius:99px;padding:.55rem .8rem;background:#fffaf1;font-size:.86rem}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:.7rem;padding:.8rem 1rem;text-decoration:none;font-weight:700}.primary{background:var(--moss);color:white}.secondary{border:1px solid var(--moss);color:var(--moss)}
+    section{padding:3rem 0}h2{font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-.04em;margin:0 0 1.25rem}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:1rem}.card{background:#fffaf1;border:1px solid var(--line);border-radius:1rem;padding:1.25rem}.metric strong{display:block;color:var(--moss);font-size:2.2rem;letter-spacing:-.05em}.metric p,.card p{color:var(--muted);line-height:1.6}.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr));gap:.8rem;counter-reset:n}.step{counter-increment:n;transition:transform .2s ease,box-shadow .2s ease}.step:hover{transform:translateY(-4px);box-shadow:0 14px 30px #17251c14}.step:before{content:"0" counter(n);display:grid;place-items:center;width:2rem;height:2rem;background:var(--moss);color:white;border-radius:50%;font-size:.75rem;font-weight:800;margin-bottom:1rem}.step h3{margin:0 0 .4rem}.step p{margin:0}.note{border-left:4px solid var(--orange);background:#fceee5;border-radius:0 .75rem .75rem 0;padding:1rem 1.2rem}.note p{margin:0;line-height:1.65}.muted{color:var(--muted)}footer{padding:2rem 0;border-top:1px solid var(--line)}
+    @keyframes float{to{transform:translate(-1.5rem,1.5rem) scale(1.07)}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Pular para o conteúdo</a>
+  <header class="top"><div class="wrap"><a class="brand" href="../">Tufenor · portfólio</a><nav aria-label="Navegação"><a href="../">Início</a><a href="moneyia-python-cycle-2026-11-27.html">Ciclo Python</a></nav></div></header>
+  <main id="main">
+    <section class="hero wrap">
+      <p class="eyebrow">MoneyIA · Python · operação local</p>
+      <h1>“Está online” não quer dizer “está pronto para continuar”.</h1>
+      <p class="lead">Um supervisor Python verifica separadamente se a Mesa responde, se a versão tem o recurso necessário, se há uma etapa humana pendente e se o despachante está aguardando. Assim, um processo antigo não parece saudável só porque a página inicial abre.</p>
+      <div class="actions"><a class="btn primary" href="moneyia-python-cycle-2026-11-27.html">Ver ciclo Python</a><a class="btn secondary" href="../">Voltar ao portfólio</a></div>
+      <div class="pills"><span class="pill">Diagnóstico por API local</span><span class="pill">Resumo sem URL de cliente</span><span class="pill">Próximo passo legível</span></div>
+    </section>
+    <section><div class="wrap"><h2>Sinais observados nesta execução</h2><div class="grid">
+      <article class="card metric"><strong>200</strong><p>Mesa respondeu à verificação básica.</p></article>
+      <article class="card metric"><strong>404</strong><p>Recurso de reconciliação ainda não carregado no processo ativo.</p></article>
+      <article class="card metric"><strong>3</strong><p>Etapas do navegador aguardavam confirmação humana.</p></article>
+      <article class="card metric"><strong>0</strong><p>Envios externos foram marcados como confirmados.</p></article>
+    </div></div></section>
+    <section><div class="wrap"><h2>Como o diagnóstico funciona</h2><div class="flow">
+      <article class="card step"><h3>Verificar a Mesa</h3><p>Consulta saúde e recursos específicos em rotas separadas.</p></article>
+      <article class="card step"><h3>Contar pendências</h3><p>Resume quantas etapas existem e seus tipos, sem gravar os links no relatório de diagnóstico.</p></article>
+      <article class="card step"><h3>Conferir o despachante</h3><p>Detecta se a fila está ativa, parada ou esperando uma etapa anterior.</p></article>
+      <article class="card step"><h3>Indicar a ação</h3><p>Devolve uma orientação operacional curta para aparecer no ciclo automático.</p></article>
+    </div></div></section>
+    <section><div class="wrap"><div class="grid">
+      <article class="card"><h2>Rotina Python</h2><p class="muted">O supervisor é executado junto ao ciclo local e grava um resumo persistente para o painel e a equipe acompanharem.</p><p class="muted">Os dados registrados são códigos de estado, contagens e tipos de pendência.</p></article>
+      <article class="card"><h2>Estado real</h2><p class="muted">A verificação identificou um serviço de Mesa ativo com versão antiga e uma ponte JARVIS sem resposta. O diagnóstico tornou o bloqueio explícito; a recuperação do serviço ainda requer que a versão atual seja carregada.</p></article>
+    </div></div></section>
+    <section><div class="wrap"><div class="note"><p><strong>Escopo:</strong> o supervisor não abre sessão, não envia candidatura e não confirma contrato ou pagamento. Um estado técnico só vira sucesso comercial quando houver evidência da plataforma.</p></div></div></section>
+  </main>
+  <footer><div class="wrap"><p>Case público sanitizado, baseado em uma execução local verificada em 27/11/2026.</p><p><a href="../">Portfólio</a></p></div></footer>
+</body>
+</html>
