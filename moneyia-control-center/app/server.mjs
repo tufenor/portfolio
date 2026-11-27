@@ -2,6 +2,7 @@
 // Uso: node app/server.mjs
 // URL: http://127.0.0.1:8899
 import { createServer } from 'node:http';
+import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -1222,6 +1223,7 @@ const server = createServer(async (req, res) => {
               : `Verificar possível aceite/resposta de cliente — ${email.subject}`;
           const emailNote = `[email-id:${email.id}] ${email.reason}`;
           createdTasks.push(await createTask({
+            operationKey: `gmail-email:${createHash('sha256').update(String(email.id)).digest('hex')}`,
             title: title.slice(0, 160),
             description: (email.kind === 'product_sale_signal' ? emailNote : `${emailNote}\nDe: ${email.from}\n${email.snippet}`).slice(0, 2000),
             source: 'gmail-moneyia',
