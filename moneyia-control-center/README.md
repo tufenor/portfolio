@@ -11,6 +11,7 @@ humanas e evidência de entrega.
 - fila persistente com estados separados para descoberta, proposta, despacho e
   evidência externa;
 - fallback local e roteamento explícito de provedores;
+- ingestão de alertas com chave idempotente para não criar tarefas repetidas para a mesma mensagem;
 - detecção de gates de login/verificação sem tentar resolvê-los;
 - pacote de publicação remota separado para um VPS com Caddy/HTTPS.
 
@@ -72,3 +73,4 @@ plataforma. Este snapshot não contém candidaturas nem receita.
 Case público: https://tufenor.github.io/portfolio/case/moneyia-jarvis-bridge-2026-11-26.html
 Case de automação Python: https://tufenor.github.io/portfolio/case/moneyia-python-cycle-2026-11-27.html
 Case da ponte assíncrona: https://tufenor.github.io/portfolio/case/moneyia-codex-bridge-2026-11-27.html
+Case de triagem de pagamentos por e-mail: https://tufenor.github.io/portfolio/case/moneyia-email-attribution-2026-11-27.html

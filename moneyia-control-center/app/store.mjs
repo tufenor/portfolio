@@ -13,13 +13,10 @@ export const agentQuestionsFile = join(dataDir, 'agent-questions.json');
 export const proposalDispatchFile = join(dataDir, 'proposal-dispatch.json');
 export const notificationsFile = join(dataDir, 'notificacoes.jsonl');
 export const emailInboxFile = join(dataDir, 'email-inbox.json');
-export const inboxFeedFile = join(dataDir, 'inbox-feed.json');
-export const emailWatchStatusFile = join(dataDir, 'email-watch-status.json');
 export const radarRunsFile = join(dataDir, 'radar-runs.json');
 export const radarGatesFile = join(dataDir, 'radar-gates.json');
 export const radarOpportunitiesFile = join(dataDir, 'radar-opportunities.json');
 export const radarSessionsFile = join(dataDir, 'radar-sessions.json');
-export const dispatchSchedulerFile = join(dataDir, 'dispatch-scheduler.json');
 
 const readJson = async (file, fallback = []) => {
   try { return JSON.parse(await readFile(file, 'utf8')); } catch { return fallback; }
@@ -47,64 +44,14 @@ export const readIa = () => readJson(iaFile, []);
 export const readAgentQuestions = () => readJson(agentQuestionsFile, []);
 export const readProposalDispatch = () => readJson(proposalDispatchFile, []);
 export const readEmailInbox = () => readJson(emailInboxFile, { scannedAt: null, total: 0, counts: {}, emails: [] });
-export const readInboxFeed = () => readJson(inboxFeedFile, []);
-const defaultEmailWatchStatus = {
-  status: 'unknown', lastAttemptAt: null, lastSuccessAt: null, lastError: null,
-  intervalMs: 1800000, source: 'gmail-cdp-readonly', updatedAt: null
-};
-
-// Derive freshness at read time; the persisted watcher record is never changed.
-export function deriveEmailWatchStatus(stored) {
-  if (!stored || stored.status !== 'ok') return stored;
-  const successMs = Date.parse(stored.lastSuccessAt);
-  if (!Number.isFinite(successMs)) return { ...stored, status: 'desatualizado', ageMinutes: null };
-  const intervalMs = Number.isFinite(Number(stored.intervalMs)) && Number(stored.intervalMs) > 0
-    ? Number(stored.intervalMs) : defaultEmailWatchStatus.intervalMs;
-  const ageMinutes = Math.max(0, Math.floor((Date.now() - successMs) / 60000));
-  return Date.now() - successMs > intervalMs * 2
-    ? { ...stored, status: 'desatualizado', ageMinutes }
-    : { ...stored, ageMinutes };
-}
-
-export const readEmailWatchStatus = async () => {
-  const stored = await readJson(emailWatchStatusFile, defaultEmailWatchStatus);
-  return deriveEmailWatchStatus(stored);
-};
 export const readRadarRuns = () => readJson(radarRunsFile, []);
 export const readRadarGates = () => readJson(radarGatesFile, []);
 export const readRadarOpportunities = () => readJson(radarOpportunitiesFile, []);
 export const readRadarSessions = () => readJson(radarSessionsFile, []);
-export const readDispatchScheduler = () => readJson(dispatchSchedulerFile, {
-  enabled: false,
-  intervalMs: 300000,
-  nextAt: null,
-  lastRunAt: null,
-  lastDispatchId: null,
-  lastPlatform: null,
-  processedCount: 0,
-  inFlight: false,
-  updatedAt: null
-});
-
-export async function writeDispatchScheduler(value = {}) {
-  await writeJson(dispatchSchedulerFile, { ...value, updatedAt: new Date().toISOString() });
-  return value;
-}
 
 export async function writeEmailInbox(value) {
   await writeJson(emailInboxFile, value);
   return value;
-}
-
-export async function writeInboxFeed(value) {
-  await writeJson(inboxFeedFile, Array.isArray(value) ? value.slice(0, 500) : []);
-  return value;
-}
-
-export async function writeEmailWatchStatus(value = {}) {
-  const next = { ...value, updatedAt: new Date().toISOString() };
-  await writeJson(emailWatchStatusFile, next);
-  return next;
 }
 
 export async function writeRadarRuns(value) { await writeJson(radarRunsFile, value); return value; }
@@ -161,24 +108,8 @@ export async function updateApproval(id, patch = {}) {
   return row;
 }
 
-let dispatchWrites = Promise.resolve();
-
-function writeDispatchInOrder(mutator) {
-  const next = dispatchWrites.then(async () => {
-    const rows = await readFile(proposalDispatchFile, 'utf8').then(JSON.parse, (error) => {
-      if (error.code === 'ENOENT') return [];
-      throw error;
-    });
-    if (!Array.isArray(rows)) throw new Error('fila de propostas inválida');
-    const { value, changed } = mutator(rows);
-    if (changed) await writeJson(proposalDispatchFile, rows);
-    return value;
-  });
-  dispatchWrites = next.catch(() => {});
-  return next;
-}
-
-function newProposalDispatch(rows, input) {
+export async function createProposalDispatch(input) {
+  const rows = await readProposalDispatch();
   const now = new Date().toISOString();
   const row = {
     id: nextId(rows, 'PD'),
@@ -194,52 +125,24 @@ function newProposalDispatch(rows, input) {
     note: String(input.note || 'Aprovação local registrada; aguardando o agente responsável.').slice(0, 1000)
   };
   rows.push(row);
+  await writeJson(proposalDispatchFile, rows);
   return row;
 }
 
-export function createProposalDispatch(input) {
-  return writeDispatchInOrder((rows) => {
-    const existing = rows.find((row) => row.approvalId === input.approvalId);
-    if (existing) return { value: existing, changed: false };
-    return { value: newProposalDispatch(rows, input), changed: true };
-  });
-}
-
-export function prepareProposalDispatchReview(approval) {
-  return writeDispatchInOrder((rows) => {
-    const current = rows.find((row) => row.approvalId === approval.id);
-    const note = 'Conferir o histórico na conta da plataforma e registrar o resultado. A aprovação local não confirma envio.';
-    if (!current) {
-      const dispatch = newProposalDispatch(rows, {
-        opportunityId: approval.opportunityId, approvalId: approval.id,
-        provider: 'local', status: 'aguardando_evidencia', note
-      });
-      return { value: { dispatch, created: true }, changed: true };
-    }
-    const changed = !current.sent && ['falha_agente', 'aguardando_agente'].includes(current.status);
-    if (changed) Object.assign(current, { status: 'aguardando_evidencia', note, updatedAt: new Date().toISOString() });
-    return { value: { dispatch: current, created: false }, changed };
-  });
-}
-
-export function updateProposalDispatch(id, patch = {}) {
-  return writeDispatchInOrder((rows) => {
-    const row = rows.find((item) => item.id === id);
-    if (!row) throw new Error('dispatch de proposta não encontrado');
-    if ((row.sent || row.status === 'enviado_confirmado') && patch.status !== 'enviado_confirmado') {
-      return { value: row, changed: false };
-    }
-    if (patch.expectedStatus && row.status !== patch.expectedStatus) return { value: row, changed: false };
-    if (patch.status) row.status = String(patch.status).slice(0, 60);
-    if (patch.provider) row.provider = String(patch.provider).slice(0, 60);
-    if (patch.agent) row.agent = String(patch.agent).slice(0, 60);
-    if (typeof patch.sent === 'boolean') row.sent = patch.sent;
-    if (patch.externalEvidence) row.externalEvidence = String(patch.externalEvidence).slice(0, 2000);
-    if (patch.dispatchedAt) row.dispatchedAt = String(patch.dispatchedAt).slice(0, 60);
-    if (patch.note) row.note = String(patch.note).slice(0, 1000);
-    row.updatedAt = new Date().toISOString();
-    return { value: row, changed: true };
-  });
+export async function updateProposalDispatch(id, patch = {}) {
+  const rows = await readProposalDispatch();
+  const row = rows.find((item) => item.id === id);
+  if (!row) throw new Error('dispatch de proposta não encontrado');
+  if (patch.status) row.status = String(patch.status).slice(0, 60);
+  if (patch.provider) row.provider = String(patch.provider).slice(0, 60);
+  if (patch.agent) row.agent = String(patch.agent).slice(0, 60);
+  if (typeof patch.sent === 'boolean') row.sent = patch.sent;
+  if (patch.externalEvidence) row.externalEvidence = String(patch.externalEvidence).slice(0, 2000);
+  if (patch.dispatchedAt) row.dispatchedAt = String(patch.dispatchedAt).slice(0, 60);
+  if (patch.note) row.note = String(patch.note).slice(0, 1000);
+  row.updatedAt = new Date().toISOString();
+  await writeJson(proposalDispatchFile, rows);
+  return row;
 }
 
 export async function decideApproval(id, decision, by = 'titular', note = '') {
@@ -298,7 +201,7 @@ export function updateTask(id, patch = {}) {
   return writeTaskInOrder(() => applyTaskPatch(id, patch));
 }
 
-async function applyTaskPatch(id, patch) {
+async function applyTaskPatch(id, patch = {}) {
   const rows = await readTasks();
   const row = rows.find((r) => r.id === id);
   if (!row) throw new Error('tarefa não encontrada');
@@ -345,24 +248,16 @@ export async function createIaItem(input) {
   return row;
 }
 
-let iaResponseWrites = Promise.resolve();
-export function setIaResponse(id, response, source = 'retorno_registrado') {
-  const next = iaResponseWrites.then(async () => {
-    const rows = await readIa();
-    const row = rows.find((r) => r.id === id);
-    if (!row) throw new Error('item da IA não encontrado');
-    // A response importer may retry after a timeout. Keep the first committed
-    // result and avoid duplicate follow-up tasks or silent overwrites.
-    if (row.status === 'respondida') return { ...row, idempotent: true };
-    row.retorno = String(response || '').slice(0, 10000);
-    row.status = 'respondida';
-    row.respondedAt = new Date().toISOString();
-    row.responseSource = String(source).slice(0, 80);
-    await writeJson(iaFile, rows);
-    return row;
-  });
-  iaResponseWrites = next.catch(() => {});
-  return next;
+export async function setIaResponse(id, response, source = 'retorno_registrado') {
+  const rows = await readIa();
+  const row = rows.find((r) => r.id === id);
+  if (!row) throw new Error('item da IA não encontrado');
+  row.retorno = String(response || '').slice(0, 10000);
+  row.status = 'respondida';
+  row.respondedAt = new Date().toISOString();
+  row.responseSource = String(source).slice(0, 80);
+  await writeJson(iaFile, rows);
+  return row;
 }
 
 export async function setIaDelivery(id, status, webhookStatus = null, providerId = null, providerLabel = null) {
