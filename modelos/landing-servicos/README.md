@@ -1,7 +1,7 @@
 # Modelo de landing para serviços
 
-Modelo estático, fictício e sem dependências externas. `config.json` é a fonte explícita do conteúdo: edite `brand`, `eyebrow`, `title`, `intro`, `ctaLabel`, `services` (lista de `number`, `title`, `text`), `faq` (lista de `question`, `answer`) e `contactNote`. Opcionalmente, `ctaUrl` aceita somente URLs `http`/`https` validadas; o template não usa formulário externo.
+Modelo estático e fictício. Edite `brand`, `eyebrow`, `title`, `intro`, `ctaLabel`, `services` (campos `number`, `title` e `text`), `faq` (campos `question` e `answer`) e `contactNote` em `config.json`. Os campos opcionais `ctaUrl` e `heroImage.src` aceitam links HTTP/HTTPS e caminhos relativos. Ao incluir uma imagem, adicione a descrição em `heroImage.alt`.
 
-Abra `index.html` por um servidor local para permitir o `fetch` de `config.json`. A prévia importa a configuração e renderiza com `textContent`; se o JSON estiver inválido ou incompleto, mantém o conteúdo seguro de fallback. Isso é uma prévia editável, distinta de uma publicação de produção após aprovação do conteúdo.
+Na [demo publicada](https://tufenor.github.io/portfolio/modelos/landing-servicos/), abra **Editar demo**, baixe o JSON e carregue o arquivo após a edição. Um arquivo inválido preserva a visualização anterior. Para publicar a versão final, substitua o JSON no projeto e sirva a pasta inteira. O formulário da demonstração valida localmente. Configure o CTA final para o canal de contato aprovado.
 
-QA: revisar em 320, 768, 1024 e 1440 px; navegar somente por teclado; testar foco, FAQ, formulário local e configuração inválida; conferir contraste e `prefers-reduced-motion`. Nenhum contato, dado pessoal, segredo, métrica ou promessa de cliente está incluído.
+Antes de publicar, revise em 320, 768, 1024 e 1440 px. Teste o CTA, as perguntas frequentes, o teclado, o formulário e o carregamento de JSON inválido.

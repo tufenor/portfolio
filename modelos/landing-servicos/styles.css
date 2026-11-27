@@ -1,1 +1,39 @@
 :root{--ink:#143238;--muted:#52686b;--paper:#f6f7f2;--mint:#dcebdc;--accent:#d7ef9a;--deep:#0d5e5c;--line:#c8d8d2}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.6 system-ui,sans-serif}.wrap{width:min(1120px,calc(100% - 2rem));margin:auto}.skip{position:absolute;left:-999px}.skip:focus{left:1rem;top:1rem;background:#fff;padding:.6rem;z-index:9}.top{position:sticky;top:0;background:#f6f7f2ee;border-bottom:1px solid var(--line);backdrop-filter:blur(12px);z-index:2}.bar{min-height:4.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}.brand{font:700 1.35rem Georgia,serif;color:var(--deep);text-decoration:none}.bar nav{display:flex;gap:1.2rem}.bar nav a{color:var(--ink);text-decoration:none}.hero{padding:clamp(4rem,10vw,8rem) 0 6rem;background:linear-gradient(135deg,var(--paper),var(--mint));overflow:hidden}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4rem;align-items:center}.eyebrow{color:var(--deep);font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}h1,h2{font-family:Georgia,serif;letter-spacing:-.04em;line-height:1.05}h1{font-size:clamp(2.8rem,7vw,5.5rem);max-width:10ch;margin:.5rem 0 1rem}h2{font-size:clamp(2rem,4vw,3.2rem);margin:.4rem 0 1rem}.lead{color:var(--muted);max-width:55ch}.button{display:inline-block;border:0;border-radius:99px;background:var(--deep);color:#fff;padding:.8rem 1.2rem;font:700 1rem inherit;text-decoration:none;cursor:pointer;margin-top:1rem}.button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}.visual{min-height:24rem;background:var(--deep);display:grid;place-items:center;box-shadow:1rem 1rem 0 var(--accent);position:relative}.visual:before,.visual:after{content:"";position:absolute;border:1px solid #d7ef9a88;border-radius:50%;inset:12%}.visual:after{inset:25%}.visual span{background:#fff;padding:1rem;border-radius:.7rem;box-shadow:0 1rem 2rem #063c3c44;transform:rotate(-5deg);font:700 1.2rem Georgia,serif;z-index:1}.section{padding:clamp(4rem,8vw,7rem) 0;border-top:1px solid var(--line)}.alt{background:#eaf3ed}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}.card{border:1px solid var(--line);padding:1.4rem;background:#fff;border-radius:1rem}.card:first-child{background:var(--deep);color:#fff}.card p{color:var(--muted)}.card:first-child p{color:#e2f0e8}.card b{color:var(--deep);font-size:1.4rem}.card:first-child b{color:var(--accent)}.card h3{font:700 1.35rem Georgia,serif}.faq{max-width:52rem}.faq details{border-bottom:1px solid var(--line);padding:1rem 0}.faq summary{cursor:pointer;font:1.2rem Georgia,serif}.faq p{color:var(--muted)}.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:3rem}.form{background:#fff;padding:1.5rem;border:1px solid var(--line);border-radius:1rem;display:grid;gap:.45rem}.form input,.form textarea{font:inherit;border:1px solid #abc0b9;padding:.75rem;border-radius:.4rem;background:#fff}.form textarea{min-height:8rem;resize:vertical}.status{min-height:1.5rem;color:var(--deep)}footer{background:var(--deep);color:#e5f1eb;padding:2rem 0;font-size:.9rem}@media(max-width:760px){.bar{align-items:flex-start;flex-direction:column;padding:.75rem 0}.hero-grid,.contact-grid{grid-template-columns:1fr;gap:2.5rem}.visual{min-height:17rem;order:-1}.cards{grid-template-columns:1fr}h1{font-size:clamp(2.7rem,15vw,4rem)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.visual img {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  max-height: 32rem;
+  object-fit: cover;
+}
+.visual img[hidden] { display: none; }
+.bar nav { flex-wrap: wrap; }
+section[id] { scroll-margin-top: 7rem; }
+.editor { max-width: 52rem; }
+.editor-actions {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.editor-actions label {
+  display: block;
+  font-weight: 700;
+}
+.editor-actions input { max-width: 100%; }
+.editor-actions button {
+  padding: .55rem .85rem;
+  border-radius: .5rem;
+  border: 1px solid var(--deep);
+  color: var(--deep);
+  background: white;
+  font: inherit;
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 3px solid var(--deep);
+  outline-offset: 3px;
+}

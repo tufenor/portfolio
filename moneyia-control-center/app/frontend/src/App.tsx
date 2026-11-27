@@ -355,7 +355,23 @@ export const App: React.FC = () => {
               <div className="kpi-tile"><span className="kpi-label">CONTRATOS</span><strong className="kpi-num">{commercial.contracts}</strong><span className="kpi-sub">não confundir com proposta</span></div>
             </div>
             <div className="scroll-stack">
-              {commercial.queue.map((item) => <div className="list-row" key={item.id}><div><strong>{item.id} · {item.title}</strong><div className="card-meta">{item.stage} · Próximo passo: {item.nextAction}{item.amount ? ` · ${item.amount}` : ''}</div></div>{(item.demoUrl || item.url) && <a className="link-inline" href={item.demoUrl || item.url} target="_blank" rel="noreferrer">Abrir evidência</a>}</div>)}
+              {commercial.queue.map((item) => (
+                <div className="list-row" key={item.id}>
+                  <div>
+                    <strong>{item.id} · {item.title}</strong>
+                    <div className="card-meta">{item.stage} · {item.nextAction}{item.amount ? ` · ${item.amount}` : ''}</div>
+                  </div>
+                  <div className="action-row">
+                    {item.stage === 'Aguardando decisão' && (
+                      <button type="button" className="btn btn-secondary btn-sm" onClick={() => selectNav('approvals')}>
+                        Revisar na Mesa
+                      </button>
+                    )}
+                    {item.url && <a className="link-inline" href={item.url} target="_blank" rel="noreferrer">Fonte</a>}
+                    {item.demoUrl && <a className="link-inline" href={item.demoUrl} target="_blank" rel="noreferrer">Demo</a>}
+                  </div>
+                </div>
+              ))}
             </div>
             {mesa.templates && mesa.templates.length > 0 && <><div className="card-header" style={{ marginTop: '18px' }}><strong>Modelos reutilizáveis editáveis</strong></div><div className="cards-grid">{mesa.templates.map((t) => <article className="surface-card" key={t.id}><h3 className="card-title">{t.name}</h3><div className="card-excerpt">{t.description}</div><div className="card-meta">Usar quando: {t.whenToUse}<br />Campos: {t.editable.join(', ')}</div><div className="card-actions"><a className="btn btn-secondary btn-sm" href={t.exampleUrl} target="_blank" rel="noreferrer">Demo</a><a className="btn btn-secondary btn-sm" href={t.sourceUrl} target="_blank" rel="noreferrer">Fonte</a></div></article>)}</div></>}
           </section>

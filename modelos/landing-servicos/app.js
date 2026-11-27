@@ -1,7 +1,123 @@
-const fallback={brand:'Ateliê Horizonte',eyebrow:'Serviços para espaços que acolhem',title:'Cuidado visível em cada detalhe.',intro:'Uma apresentação clara para mostrar seu serviço, orientar dúvidas e abrir uma conversa sem fricção.',ctaLabel:'Pedir uma conversa',services:[],faq:[],contactNote:'Demonstração fictícia · nenhum dado é enviado para fora desta página.'};
-const text=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value};
-function validUrl(value){try{const u=new URL(value,location.href);return ['http:','https:'].includes(u.protocol)}catch{return false}}
-function sanitize(raw){if(!raw||typeof raw!=='object')throw Error('configuração inválida');const c={...fallback,...raw};for(const k of ['brand','eyebrow','title','intro','ctaLabel','contactNote'])if(typeof c[k]!=='string'||!c[k].trim())throw Error('campo textual inválido');if(!Array.isArray(c.services)||!c.services.length||!c.services.every(x=>x&&['number','title','text'].every(k=>typeof x[k]==='string')))throw Error('serviços inválidos');if(!Array.isArray(c.faq)||!c.faq.length||!c.faq.every(x=>x&&typeof x.question==='string'&&typeof x.answer==='string'))throw Error('FAQ inválido');if(raw.ctaUrl!==undefined&&!validUrl(raw.ctaUrl))throw Error('URL inválida');return c}
-function render(c){text('brand',c.brand);text('footerBrand',c.brand);text('eyebrow',c.eyebrow);text('title',c.title);text('intro',c.intro);text('heroCta',c.ctaLabel);text('contactNote',c.contactNote);document.title=c.brand+' — '+c.title;const services=document.getElementById('services');services.replaceChildren(...c.services.map(s=>{const a=document.createElement('article');a.className='card';const n=document.createElement('b');n.textContent=s.number;const h=document.createElement('h3');h.textContent=s.title;const p=document.createElement('p');p.textContent=s.text;a.append(n,h,p);return a}));const faq=document.getElementById('faq');faq.replaceChildren(...c.faq.map(item=>{const d=document.createElement('details');const q=document.createElement('summary');q.textContent=item.question;const p=document.createElement('p');p.textContent=item.answer;d.append(q,p);return d}))}
-async function load(){let candidate=fallback;try{candidate=sanitize(await (await fetch('config.json',{cache:'no-store'})).json())}catch(error){console.warn('Configuração inválida; fallback seguro.',error)}render(candidate)}
-document.getElementById('leadForm').addEventListener('submit',event=>{event.preventDefault();const name=document.getElementById('name').value.trim();const message=document.getElementById('message').value.trim();text('status',name&&message.length>=10?'Pedido validado nesta demonstração. Nenhum dado foi enviado.':'Preencha seu nome e escreva pelo menos 10 caracteres.')});load();
+const byId = (id) => document.getElementById(id);
+const setText = (id, value) => { byId(id).textContent = value; };
+const example = new URL('config.json', location.href);
+
+function configLink(value) {
+  if (typeof value !== 'string' || !value.trim()) throw new Error('Link inválido.');
+  const url = new URL(value, location.href);
+  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) {
+    throw new Error('Use um link HTTP ou HTTPS.');
+  }
+  return url.href;
+}
+
+function sanitize(config) {
+  const required = ['brand', 'eyebrow', 'title', 'intro', 'ctaLabel', 'contactNote'];
+  const hasText = (record, fields) => record && fields.every(
+    (key) => typeof record[key] === 'string' && record[key].trim()
+  );
+  if (!hasText(config, required)) throw new Error('Confira os campos de texto obrigatórios.');
+  for (const [key, fields] of [['services', ['number', 'title', 'text']], ['faq', ['question', 'answer']]]) {
+    const items = config[key];
+    if (!Array.isArray(items) || !items.length || items.length > 30 || !items.every((item) => hasText(item, fields))) {
+      throw new Error(`Confira os itens em ${key}.`);
+    }
+  }
+  let heroImage = null;
+  if (config.heroImage) {
+    if (!hasText(config.heroImage, ['src', 'alt'])) throw new Error('Informe o endereço e a descrição da imagem.');
+    heroImage = { src: configLink(config.heroImage.src), alt: config.heroImage.alt };
+  }
+  return { ...config, ctaUrl: config.ctaUrl ? configLink(config.ctaUrl) : '#contato', heroImage };
+}
+
+function element(tag, text) {
+  const node = document.createElement(tag);
+  node.textContent = text;
+  return node;
+}
+
+function render(config) {
+  for (const id of ['brand', 'eyebrow', 'title', 'intro', 'contactNote']) setText(id, config[id]);
+  setText('footerBrand', config.brand);
+  setText('heroCta', config.ctaLabel);
+  byId('heroCta').setAttribute('href', config.ctaUrl);
+  document.title = `${config.brand} — ${config.title}`;
+  const image = byId('heroImage');
+  image.hidden = !config.heroImage;
+  if (config.heroImage) {
+    image.alt = config.heroImage.alt;
+    image.src = config.heroImage.src;
+  } else {
+    image.removeAttribute('src');
+  }
+  byId('services').replaceChildren(...config.services.map((service) => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.append(element('b', service.number), element('h3', service.title), element('p', service.text));
+    return card;
+  }));
+  byId('faq').replaceChildren(...config.faq.map((item) => {
+    const detail = document.createElement('details');
+    detail.append(element('summary', item.question), element('p', item.answer));
+    return detail;
+  }));
+}
+
+async function loadExample() {
+  const response = await fetch(example, { cache: 'no-store' });
+  if (!response.ok) throw new Error('O exemplo não carregou.');
+  render(sanitize(await response.json()));
+}
+
+async function loadSampleForEditor(message = '') {
+  try {
+    await loadExample();
+    setText('editorStatus', message);
+  } catch {
+    setText('editorStatus', 'O exemplo está indisponível. Você pode carregar um JSON local.');
+  }
+}
+
+loadSampleForEditor().finally(() => {
+  byId('previewFile').disabled = false;
+  byId('resetPreview').disabled = false;
+});
+
+byId('previewFile').addEventListener('change', async (event) => {
+  const input = event.currentTarget;
+  const [file] = input.files;
+  if (!file) return;
+  input.disabled = true;
+  byId('resetPreview').disabled = true;
+  try {
+    if (file.size > 256_000) throw new Error('Use um JSON de até 256 KB.');
+    render(sanitize(JSON.parse(await file.text())));
+    setText('editorStatus', 'Prévia atualizada nesta página.');
+  } catch {
+    setText('editorStatus', 'Arquivo inválido. Confira os campos do JSON de exemplo.');
+  } finally {
+    input.value = '';
+    input.disabled = false;
+    byId('resetPreview').disabled = false;
+  }
+});
+
+byId('resetPreview').addEventListener('click', async () => {
+  byId('previewFile').disabled = true;
+  byId('resetPreview').disabled = true;
+  try {
+    await loadSampleForEditor('Exemplo original restaurado.');
+  } finally {
+    byId('previewFile').disabled = false;
+    byId('resetPreview').disabled = false;
+  }
+});
+
+byId('leadForm').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const valid = byId('name').value.trim() && byId('message').value.trim().length >= 10;
+  setText('status', valid
+    ? 'Pedido validado nesta demonstração.'
+    : 'Preencha seu nome e escreva pelo menos 10 caracteres.');
+});
