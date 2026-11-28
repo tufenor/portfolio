@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Case técnico de monitoramento de e-mail somente leitura, fallback entre fontes e triagem auditável.">
+  <meta name="theme-color" content="#f5f3ec">
+  <title>Monitoramento de e-mail | MoneyIA — case técnico</title>
+  <style>
+    :root{color-scheme:light;--ink:#19271f;--muted:#58645d;--paper:#f5f3ec;--surface:#fffefa;--line:#d9ded7;--green:#235c43;--green-soft:#e8f1eb;--amber:#7a5111;--amber-soft:#fff1d7;--coral:#c45138;--space:clamp(1rem,3vw,2rem)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    a{color:var(--green);text-underline-offset:.2em}a:focus-visible{outline:3px solid var(--coral);outline-offset:3px}.wrap{width:min(1080px,calc(100% - 2rem));margin:auto}
+    header{border-bottom:1px solid var(--line);background:rgba(245,243,236,.94)}.top{height:68px;display:flex;align-items:center;justify-content:space-between;gap:1rem}.brand{display:flex;gap:.65rem;align-items:center;color:var(--ink);font-weight:750;text-decoration:none}.mark{width:32px;height:32px;border-radius:8px;background:var(--green);color:white;display:grid;place-items:center;font:700 15px Georgia,serif}.back{font-size:.9rem}
+    main{padding:clamp(3rem,8vw,6rem) 0}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:.76rem;color:var(--coral);font-weight:800;margin:0 0 .8rem}.hero{max-width:800px}.hero h1{font:500 clamp(2.4rem,6vw,4.6rem)/1.03 Georgia,"Times New Roman",serif;letter-spacing:-.035em;margin:0 0 1.2rem}.lead{font-size:clamp(1.08rem,2vw,1.3rem);color:var(--muted);max-width:720px}.chips{display:flex;gap:.55rem;flex-wrap:wrap;margin:1.5rem 0 2rem}.chip{border:1px solid var(--line);background:var(--surface);padding:.35rem .7rem;border-radius:999px;font-size:.82rem;color:var(--muted)}
+    .status{display:flex;gap:.8rem;padding:1rem 1.1rem;border:1px solid #e8d5aa;background:var(--amber-soft);border-radius:10px;max-width:800px;margin:2rem 0}.status strong{display:block;color:var(--amber)}.status p{margin:.2rem 0 0;color:#5f4a28}.status .icon{flex:0 0 1.5rem;color:var(--amber)}
+    section{margin-top:4rem}.section-head{max-width:700px;margin-bottom:1.3rem}.section-head h2{font:500 clamp(1.8rem,4vw,2.5rem)/1.1 Georgia,serif;margin:.2rem 0 .6rem}.section-head p{color:var(--muted);margin:0}
+    .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1.1rem;min-height:170px}.step .num{color:var(--coral);font-size:.78rem;font-weight:800;letter-spacing:.08em}.step h3{font-size:1rem;margin:.45rem 0}.step p{font-size:.9rem;color:var(--muted);margin:0}.step small{display:inline-block;margin-top:.8rem;color:var(--green);font-weight:700}
+    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:1rem}.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:clamp(1rem,3vw,1.5rem)}.panel h3{margin:0 0 .65rem;font-size:1.05rem}.panel p{color:var(--muted);margin:.25rem 0}.list{padding-left:1.15rem;color:var(--muted)}.list li+li{margin-top:.55rem}
+    .callout{border-left:3px solid var(--green);padding:.25rem 0 .25rem 1rem;color:var(--muted);margin-top:1rem}.callout strong{color:var(--ink)}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}.metric{border-top:2px solid var(--green);padding-top:.7rem}.metric b{display:block;font:500 1.65rem Georgia,serif}.metric span{font-size:.82rem;color:var(--muted)}
+    footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.9rem}.foot{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    @media(max-width:760px){.flow{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.top{height:auto;min-height:64px}.metrics{grid-template-columns:1fr}}
+    @media(max-width:430px){.flow{grid-template-columns:1fr}.step{min-height:unset}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+<header><div class="wrap top"><a class="brand" href="../"><span class="mark" aria-hidden="true">M</span><span>Gabriel de Moura Pereira</span></a><a class="back" href="../">Voltar ao portfólio</a></div></header>
+<main class="wrap">
+  <div class="hero">
+    <p class="eyebrow">Case de engenharia · MoneyIA</p>
+    <h1>Um sinal de e-mail não pode virar receita por engano.</h1>
+    <p class="lead">Um fluxo local para acompanhar respostas de plataformas de trabalho, detectar recibos e transformar eventos relevantes em itens revisáveis — mantendo a confirmação da plataforma como evidência final.</p>
+    <div class="chips"><span class="chip">Python</span><span class="chip">Gmail API · leitura somente</span><span class="chip">Fila local</span><span class="chip">Revisão auditável</span></div>
+  </div>
+  <aside class="status" aria-label="Estado atual da integração">
+    <span class="icon" aria-hidden="true">●</span><div><strong>Integração local ainda requer autorização inicial</strong><p>O código de leitura está preparado; o OAuth Desktop não foi configurado neste computador. Até lá, o histórico é consultado pelo conector Gmail da sessão e a rotina local informa o bloqueio com clareza.</p></div>
+  </aside>
+  <section>
+    <div class="section-head"><p class="eyebrow">Fluxo</p><h2>Do alerta ao estado que dá para provar</h2><p>Uma arquitetura pequena, feita para separar notificação, decisão e dinheiro efetivamente recebido.</p></div>
+    <div class="flow">
+      <article class="step"><span class="num">01 · CAPTURAR</span><h3>Fontes redundantes</h3><p>Chrome autenticado por CDP como primeira fonte; API oficial do Gmail como alternativa local, após OAuth.</p><small>Somente leitura</small></article>
+      <article class="step"><span class="num">02 · FILTRAR</span><h3>Plataformas e pagamentos</h3><p>Consulta direcionada a alertas de trabalho e notificações de processadores e bancos relevantes.</p><small>Janela de 30 dias</small></article>
+      <article class="step"><span class="num">03 · CLASSIFICAR</span><h3>Evento é sinal</h3><p>Resposta, nova vaga, recibo e alerta de segurança entram em categorias separadas e podem gerar tarefa.</p><small>Sem alterar a caixa</small></article>
+      <article class="step"><span class="num">04 · CONCILIAR</span><h3>Confirmação de origem</h3><p>Envio, aceite, contrato, saldo e pagamento ficam em etapas distintas; mensagem isolada não altera a receita.</p><small>Trilha de evidência</small></article>
+    </div>
+  </section>
+  <section class="grid">
+    <article class="panel"><p class="eyebrow">Decisão de produto</p><h3>O que entra no radar</h3><ul class="list"><li>Alertas de marketplaces: 99Freelas, Workana, Upwork, Freelancer, Fiverr, Outlier, uTest e DataAnnotation.</li><li>Notificações de pagamento: Mercado Pago, PayPal, Wise, Payoneer, AirTM, Stripe e Inter.</li><li>O conteúdo do e-mail é tratado como dado externo não confiável; extratos e a página oficial definem o estado comercial.</li></ul><p class="callout"><strong>Estado da coleta:</strong> a ampliação de fontes foi implementada no watcher Python. A leitura periódica via Gmail API só passa a funcionar após instalar o arquivo OAuth local e autorizar a conta.</p></article>
+    <article class="panel"><p class="eyebrow">Evidência</p><h3>Leitura operacional atual</h3><div class="metrics"><div class="metric"><b>229</b><span>mensagens no feed local</span></div><div class="metric"><b>0</b><span>duplicatas por ID</span></div><div class="metric"><b>0</b><span>receita MoneyIA confirmada</span></div></div><p class="callout">Os valores do painel são um retrato local, não uma integração bancária em tempo real. Não há proposta enviada por este fluxo.</p></article>
+  </section>
+  <section>
+    <div class="section-head"><p class="eyebrow">Próxima etapa</p><h2>Autorização local, depois observação real</h2><p>A implantação é concluída somente quando o watcher se autentica, lê mensagens recentes e alimenta a fila sem duplicar tarefas. O estado deste case não declara isso como concluído.</p></div>
+    <a href="https://github.com/tufenor/portfolio" rel="noreferrer">Ver código público do portfólio ↗</a>
+  </section>
+</main>
+<footer><div class="wrap foot"><span>Case conceitual e técnico do MoneyIA · dados agregados, sem caixa bancário nem credenciais.</span><span><a href="../">Início do portfólio</a></span></div></footer>
+</body>
+</html>
