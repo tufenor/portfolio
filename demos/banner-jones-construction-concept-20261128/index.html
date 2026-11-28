@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f1e9">
+  <meta name="description" content="Concept preview for a UK construction and project delivery company. Five-section, mobile-first landing page demonstration.">
+  <title>Banner &amp; Jones | Construction and project delivery — concept</title>
+  <style>
+    :root{--ink:#202923;--ink-soft:#46534a;--paper:#f3f1e9;--surface:#fcfbf7;--line:#d9ddd4;--orange:#c65f37;--orange-dark:#a44b2b;--green:#3c5848;--muted:#68736b;--space:clamp(1rem,3vw,2rem);--serif:Georgia,"Times New Roman",serif;--sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:6.5rem}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--sans)}img{display:block;max-width:100%}a{color:inherit;text-underline-offset:.22em}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--orange);outline-offset:3px}.wrap{width:min(1180px,calc(100% - 2rem));margin-inline:auto}
+    .concept{background:var(--ink);color:#fff;text-align:center;padding:.42rem 1rem;font-size:.74rem;letter-spacing:.035em}.header{position:sticky;top:0;z-index:10;background:rgba(243,241,233,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.nav{display:flex;align-items:center;justify-content:space-between;min-height:76px;gap:1.5rem}.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;font-weight:800;letter-spacing:.02em}.brand-mark{width:38px;height:38px;display:grid;place-items:center;background:var(--orange);color:#fff;font:700 1rem var(--serif);border-radius:2px}.brand small{display:block;font-size:.63rem;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);font-weight:700;margin-top:-.15rem}.nav-links{display:flex;align-items:center;gap:clamp(.9rem,2vw,1.7rem)}.nav-links a{text-decoration:none;font-size:.84rem;color:var(--ink-soft)}.nav-links a:hover{color:var(--orange-dark)}.button{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:48px;padding:.8rem 1.15rem;border:1px solid var(--orange);background:var(--orange);color:#fff;text-decoration:none;font-size:.84rem;font-weight:750;transition:transform .2s ease,background .2s ease,border-color .2s ease}.button:hover{background:var(--orange-dark);border-color:var(--orange-dark);transform:translateY(-2px)}.button-outline{background:transparent;color:var(--ink);border-color:var(--line)}.button-outline:hover{background:var(--ink);color:#fff;border-color:var(--ink)}.menu-toggle{display:none;border:1px solid var(--line);background:var(--surface);width:44px;height:44px;color:var(--ink);font-size:1.2rem}
+    .hero{padding:clamp(2.5rem,6vw,5.8rem) 0 4rem}.hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(2rem,6vw,5rem);align-items:center}.eyebrow{display:flex;align-items:center;gap:.55rem;color:var(--orange-dark);text-transform:uppercase;font-size:.72rem;font-weight:800;letter-spacing:.15em;margin:0 0 1rem}.eyebrow:before{content:"";width:28px;height:2px;background:currentColor}.hero h1{max-width:670px;margin:0;font:500 clamp(3rem,6vw,5.7rem)/.99 var(--serif);letter-spacing:-.055em}.hero h1 em{font-style:normal;color:var(--orange)}.hero-copy{max-width:560px;font-size:1.08rem;color:var(--muted);margin:1.35rem 0 1.7rem}.hero-actions{display:flex;gap:.7rem;flex-wrap:wrap}.proofline{display:flex;align-items:center;gap:.65rem;margin-top:1.6rem;color:var(--muted);font-size:.8rem}.proofline .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}.hero-visual{position:relative;min-height:520px;overflow:hidden;background:#4a4f48}.hero-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}.hero-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(17,24,19,.68))}.image-caption{position:absolute;z-index:1;bottom:1rem;left:1.1rem;color:#fff;font-size:.7rem;letter-spacing:.02em}.hero-note{position:absolute;z-index:2;top:1.1rem;left:1.1rem;background:var(--surface);padding:.65rem .8rem;max-width:210px;font-size:.72rem;line-height:1.4;color:var(--ink)}
+    .section{padding:clamp(3.5rem,7vw,6.5rem) 0;border-top:1px solid var(--line)}.section-heading{display:grid;grid-template-columns:.7fr 1.3fr;gap:2rem;align-items:end;margin-bottom:2.2rem}.section-heading h2{margin:0;font:500 clamp(2.2rem,4.5vw,4rem)/1.05 var(--serif);letter-spacing:-.04em}.section-heading p{max-width:610px;color:var(--muted);margin:.5rem 0 0}.section-kicker{color:var(--orange-dark);text-transform:uppercase;font-size:.72rem;letter-spacing:.15em;font-weight:800;margin:0 0 .6rem}
+    .about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:1rem}.about-copy{padding:clamp(1.4rem,4vw,3rem);background:var(--surface);border:1px solid var(--line)}.about-copy p{color:var(--muted);max-width:650px}.about-copy .statement{font:500 clamp(1.55rem,3vw,2.4rem)/1.2 var(--serif);color:var(--ink);max-width:660px;margin:0 0 1rem}.about-photo{position:relative;min-height:340px;overflow:hidden;background:#9c9d92}.about-photo img{position:absolute;width:100%;height:100%;object-fit:cover}.photo-label{position:absolute;bottom:1rem;left:1rem;background:var(--surface);padding:.55rem .75rem;font-size:.72rem}
+    .services{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem}.service{background:var(--surface);border:1px solid var(--line);padding:1.35rem;min-height:180px;transition:transform .2s ease,border-color .2s ease}.service:hover{transform:translateY(-4px);border-color:#b9c4b9}.service-index{color:var(--orange);font:500 1.3rem var(--serif)}.service h3{margin:.6rem 0 .35rem;font-size:1rem}.service p{margin:0;color:var(--muted);font-size:.88rem}.service-icon{width:30px;height:30px;stroke:var(--green);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .approach{background:var(--ink);color:#f9f7f0}.approach .section-kicker{color:#ef9a70}.approach .section-heading p{color:#c7cfc7}.approach-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2rem,6vw,5rem);align-items:start}.approach-intro h2{font:500 clamp(2.4rem,5vw,4.2rem)/1.05 var(--serif);letter-spacing:-.04em;margin:0}.approach-intro p{color:#c7cfc7;max-width:420px}.approach-list{border-top:1px solid #526056}.approach-item{display:grid;grid-template-columns:54px 1fr;gap:1rem;padding:1.15rem 0;border-bottom:1px solid #526056}.approach-item span{color:#ef9a70;font:500 1.25rem var(--serif)}.approach-item h3{margin:0 0 .2rem;font-size:1rem}.approach-item p{margin:0;color:#c7cfc7;font-size:.88rem}
+    .contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(2rem,6vw,5rem);align-items:start}.contact-copy h2{font:500 clamp(2.5rem,5vw,4.4rem)/1.02 var(--serif);letter-spacing:-.04em;margin:0}.contact-copy>p{color:var(--muted);max-width:420px}.contact-details{border-top:1px solid var(--line);margin-top:1.5rem;padding-top:1.2rem}.detail{margin:.75rem 0}.detail span{display:block;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em}.detail strong{font-weight:650;font-size:.9rem}.form-card{background:var(--surface);border:1px solid var(--line);padding:clamp(1.25rem,3vw,2rem)}.form-card h3{margin:0 0 1.15rem;font:500 1.7rem var(--serif)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}.field{display:flex;flex-direction:column;gap:.35rem}.field.full{grid-column:1/-1}.field label{font-size:.76rem;font-weight:750}.field input,.field textarea{width:100%;padding:.75rem .8rem;background:#fff;border:1px solid var(--line);font:inherit;color:var(--ink)}.field textarea{min-height:110px;resize:vertical}.form-note{font-size:.72rem;color:var(--muted);margin:.8rem 0}.form-status{display:none;margin:.8rem 0 0;padding:.65rem .8rem;background:var(--green);color:#fff;font-size:.8rem}.form-status.show{display:block}.contact-footnote{margin-top:1rem;color:var(--muted);font-size:.72rem}
+    footer{background:#19211b;color:#d6ddd5;padding:1.5rem 0}.footer-top{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap}.footer-top p{margin:.3rem 0;color:#aeb8af;font-size:.75rem}.footer-links{display:flex;gap:1rem;flex-wrap:wrap}.footer-links a{color:#d6ddd5;font-size:.78rem}.footer-credits{margin-top:1.25rem;padding-top:1rem;border-top:1px solid #39453d;font-size:.7rem;color:#aeb8af}.footer-credits a{color:#fff}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}.reveal.visible{opacity:1;transform:none}
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-visual{min-height:440px}.section-heading{grid-template-columns:1fr;gap:.8rem}.approach-grid{grid-template-columns:1fr}.about-grid{grid-template-columns:1fr .9fr}}
+    @media(max-width:680px){.nav{min-height:68px}.menu-toggle{display:grid;place-items:center}.nav-links{display:none;position:absolute;top:100%;left:0;right:0;padding:1rem;background:var(--paper);border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:.2rem}.nav-links.open{display:flex}.nav-links a{padding:.7rem}.nav-links .button{margin-top:.3rem}.nav>.button{display:none}.hero{padding-top:2.7rem}.hero-visual{min-height:360px}.about-grid{grid-template-columns:1fr}.about-photo{min-height:260px}.services{grid-template-columns:1fr 1fr}.service{min-height:160px}.contact{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+    @media(max-width:430px){.services{grid-template-columns:1fr}.hero h1{font-size:clamp(2.75rem,14vw,4rem)}.hero-actions .button{width:100%}.hero-visual{min-height:310px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <div class="concept">Independent concept preview based on the public brief · not the official company website</div>
+  <header class="header">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Banner and Jones, top of page"><span class="brand-mark" aria-hidden="true">B&J</span><span>Banner &amp; Jones<small>Construction · project delivery</small></span></a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#about">About</a><a href="#services">Services</a><a href="#approach">Our approach</a><a href="#contact">Contact</a>
+        <a class="button" href="#contact">Discuss a project <span aria-hidden="true">↗</span></a>
+      </nav>
+      <a class="button" href="#contact">Discuss a project <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+  <main id="top">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div class="reveal">
+          <p class="eyebrow">Domestic &amp; commercial construction</p>
+          <h1 id="hero-title">A clear plan for <em>every build.</em></h1>
+          <p class="hero-copy">Construction and project delivery for homes and businesses — with costing, planning and coordinated trades brought into one conversation.</p>
+          <div class="hero-actions"><a class="button" href="#contact">Talk through your project <span aria-hidden="true">↗</span></a><a class="button button-outline" href="#services">Explore our services</a></div>
+          <p class="proofline"><span class="dot" aria-hidden="true"></span>One team for construction, refurbishment and project coordination</p>
+        </div>
+        <figure class="hero-visual reveal">
+          <img src="https://images.unsplash.com/photo-1770756248866-00b8b7c1dd75?auto=format&amp;fit=crop&amp;fm=jpg&amp;q=80&amp;w=1800" alt="High-rise construction site with scaffolding and a worker, used as an illustrative concept image" fetchpriority="high">
+          <span class="hero-note">Planning, costing and delivery for commercial and domestic work.</span>
+          <figcaption class="image-caption">Illustrative construction photography · not a Banner &amp; Jones project</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section id="about" class="section" aria-labelledby="about-title">
+      <div class="wrap">
+        <div class="section-heading reveal"><div><p class="section-kicker">01 / About us</p><h2 id="about-title">From the first conversation to the final detail.</h2></div><p>A practical partner for construction and property projects. Share the scope, discuss the options and shape a delivery plan around what the work needs.</p></div>
+        <div class="about-grid">
+          <div class="about-copy reveal"><p class="statement">Good building work starts with clear decisions.</p><p>Banner &amp; Jones works across domestic and commercial construction, renovations, structural alterations and project management. The right approach depends on the property, the brief and the people who will use the space.</p><p>This concept uses only the services named in the project brief. Company details, project photography and final copy should be supplied and approved by the client before publication.</p><a href="#contact" class="button button-outline">Start with a conversation <span aria-hidden="true">↗</span></a></div>
+          <figure class="about-photo reveal"><img src="https://images.unsplash.com/photo-1711296168555-ea2526321306?auto=format&amp;fit=crop&amp;fm=jpg&amp;q=80&amp;w=1000" alt="An unfinished interior with concrete walls, illustrating refurbishment work" loading="lazy"><figcaption class="photo-label">Refurbishment · illustrative image</figcaption></figure>
+        </div>
+      </div>
+    </section>
+    <section id="services" class="section" aria-labelledby="services-title">
+      <div class="wrap">
+        <div class="section-heading reveal"><div><p class="section-kicker">02 / What we do</p><h2 id="services-title">One brief. The right trades and services.</h2></div><p>Every project is different. Begin with the outcome you need and decide the scope, sequence and support together.</p></div>
+        <div class="services">
+          <article class="service reveal"><span class="service-index">01</span><h3>Construction &amp; project delivery</h3><p>Coordinated delivery for defined commercial and domestic scopes.</p></article>
+          <article class="service reveal"><span class="service-index">02</span><h3>Renovations &amp; refurbishment</h3><p>Refresh existing spaces with a plan shaped around the property.</p></article>
+          <article class="service reveal"><span class="service-index">03</span><h3>Structural alterations</h3><p>Extensions and structural changes planned with the right specialists.</p></article>
+          <article class="service reveal"><span class="service-index">04</span><h3>Property development</h3><p>Practical construction support at the stages a project requires.</p></article>
+          <article class="service reveal"><span class="service-index">05</span><h3>Specialist trades</h3><p>Scope and coordinate the trades needed for the work.</p></article>
+          <article class="service reveal"><span class="service-index">06</span><h3>Costing &amp; planning</h3><p>Discuss budgets, sequence and project management before work begins.</p></article>
+        </div>
+      </div>
+    </section>
+    <section id="approach" class="section approach" aria-labelledby="approach-title">
+      <div class="wrap approach-grid">
+        <div class="approach-intro reveal"><p class="section-kicker">03 / Our approach</p><h2 id="approach-title">Make the next step clear.</h2><p>A straightforward process helps everyone understand what is included, what is needed and what happens next.</p><a href="#contact" class="button">Plan a project <span aria-hidden="true">↗</span></a></div>
+        <div class="approach-list reveal">
+          <article class="approach-item"><span>01</span><div><h3>Understand the brief</h3><p>Talk through the property, priorities, timing and the outcome you have in mind.</p></div></article>
+          <article class="approach-item"><span>02</span><div><h3>Define the scope</h3><p>Clarify the work, costing and specialist input needed before moving forward.</p></div></article>
+          <article class="approach-item"><span>03</span><div><h3>Coordinate the work</h3><p>Agree responsibilities and a practical sequence for the project.</p></div></article>
+          <article class="approach-item"><span>04</span><div><h3>Review the next stage</h3><p>Keep decisions and changes connected to the agreed plan.</p></div></article>
+        </div>
+      </div>
+    </section>
+    <section id="contact" class="section" aria-labelledby="contact-title">
+      <div class="wrap contact">
+        <div class="contact-copy reveal"><p class="section-kicker">04 / Contact</p><h2 id="contact-title">Tell us what you are planning.</h2><p>Share a few details and the team can follow up to understand the work and the next step.</p>
+          <div class="contact-details"><div class="detail"><span>Registered office</span><strong>Address to be supplied by the client</strong></div><div class="detail"><span>Company registration</span><strong>Number to be supplied by the client</strong></div><div class="detail"><span>Phone &amp; email</span><strong>Contact details to be supplied by the client</strong></div></div>
+        </div>
+        <form class="form-card reveal" id="enquiry-form">
+          <h3>Project enquiry</h3><div class="form-grid">
+            <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" placeholder="Name" required></div>
+            <div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required></div>
+            <div class="field full"><label for="project">A little about the project</label><textarea id="project" name="project" placeholder="Property, type of work and what you would like to achieve" required></textarea></div>
+            <div class="field full"><button class="button" type="submit">Preview enquiry <span aria-hidden="true">↗</span></button></div>
+          </div>
+          <p class="form-note">Concept demo only. This form does not send or store the information you enter.</p>
+          <div class="form-status" id="form-status" role="status" aria-live="polite">Demo complete: no information was sent or saved.</div>
+          <p class="contact-footnote">A live contact form would be connected to the client's chosen mailbox or form service after access and destination are confirmed.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap"><div class="footer-top"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">B&J</span><span>Banner &amp; Jones<small>Construction · project delivery</small></span></a><div class="footer-links"><a href="#about">About</a><a href="#services">Services</a><a href="#contact">Contact</a></div><p>Registered office and company number to be confirmed with the client.</p></div><div class="footer-credits">Independent visual concept based on the public project brief; not an official company website. Photography: <a href="https://unsplash.com/photos/construction-crane-above-unfinished-building-with-worker-3N-hn9yfR5w" target="_blank" rel="noreferrer">Dmitrii Filatov / Unsplash</a> and <a href="https://unsplash.com/photos/a-room-that-is-under-construction-with-concrete-walls-pBZBbCqyW8M" target="_blank" rel="noreferrer">Steffen Lemmerzahl / Unsplash</a>.</div></div></footer>
+  <script>
+    const menuButton=document.querySelector('.menu-toggle');
+    const nav=document.querySelector('.nav-links');
+    menuButton.addEventListener('click',()=>{const open=nav.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Close navigation':'Open navigation')});
+    nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{nav.classList.remove('open');menuButton.setAttribute('aria-expanded','false')}));
+    const form=document.querySelector('#enquiry-form');
+    form.addEventListener('submit',event=>{event.preventDefault();document.querySelector('#form-status').classList.add('show')});
+    const items=document.querySelectorAll('.reveal');
+    if('IntersectionObserver'in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12});items.forEach(item=>observer.observe(item))}else items.forEach(item=>item.classList.add('visible'));
+  </script>
+</body>
+</html>
+
