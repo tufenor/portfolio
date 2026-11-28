@@ -6,7 +6,7 @@ Página estática de apresentação profissional e uma demonstração de correç
 - `demo/cafe-aurora.html` — versão corrigida de uma página de demonstração. Empresa fictícia, declarada como tal.
 - `demo/cafe-aurora-antes.html` — a mesma página com os defeitos de celular que a correção resolve.
 - `case/moneyia-radar.html` — case público e sanitizado do Radar global MoneyIA.
-- `case/moneyia-email-watch-2026-11-28.html` — case técnico de monitoramento de e-mail, fallback e conciliação; informa que o OAuth local ainda está pendente.
+- `case/moneyia-email-watch-2026-11-28.html` — case de monitoramento, triagem persistente por ID, tarefas sem duplicação e conciliação; informa que o OAuth local ainda está pendente.
 
 A vitrine não usa scripts de terceiros ou rastreadores. A nova demo imobiliária carrega fotografias públicas do Unsplash; o restante abre localmente sem instalação. Para abrir a vitrine, basta servir a pasta ou abrir `index.html` no navegador.
 
