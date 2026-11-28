@@ -15,6 +15,7 @@ import shutil
 import sys
 import tempfile
 from datetime import datetime, timezone
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode, urlsplit, urlunsplit
@@ -279,17 +280,29 @@ def main() -> int:
     previous_rows = previous_rows if isinstance(previous_rows, list) else []
     statuses = {}
     fresh_rows: list[dict] = []
-    for key, source in SOURCES.items():
-        try:
-            raw = fetch_json(source["endpoint"])
-            rows = PARSERS[key](raw)
-            statuses[key] = {"status": "ok", "recordsRead": len(raw.get("jobs", raw.get("data", []))),
-                             "matches": len(rows), "fetchedAt": fetched_at,
-                             "endpoint": source["endpoint"], "freshness": source["freshness"]}
-            fresh_rows.extend(rows)
-        except (HTTPError, URLError, TimeoutError, ValueError, json.JSONDecodeError, OSError) as exc:
-            statuses[key] = {"status": "failed", "fetchedAt": fetched_at,
-                             "endpoint": source["endpoint"], "error": f"{type(exc).__name__}: {str(exc)[:180]}"}
+
+    def fetch_source(key: str) -> tuple[dict, list[dict]]:
+        source = SOURCES[key]
+        raw = fetch_json(source["endpoint"])
+        rows = PARSERS[key](raw)
+        return ({"status": "ok", "recordsRead": len(raw.get("jobs", raw.get("data", []))),
+                 "matches": len(rows), "fetchedAt": fetched_at,
+                 "endpoint": source["endpoint"], "freshness": source["freshness"]}, rows)
+
+    # Query the independent public, read-only APIs concurrently.
+    with ThreadPoolExecutor(max_workers=min(6, len(SOURCES))) as executor:
+        futures = {executor.submit(fetch_source, key): key for key in SOURCES}
+        for future in as_completed(futures):
+            key = futures[future]
+            source = SOURCES[key]
+            try:
+                source_status, rows = future.result()
+                statuses[key] = source_status
+                fresh_rows.extend(rows)
+            except (HTTPError, URLError, TimeoutError, ValueError, json.JSONDecodeError, OSError) as exc:
+                statuses[key] = {"status": "failed", "fetchedAt": fetched_at,
+                                 "endpoint": source["endpoint"],
+                                 "error": f"{type(exc).__name__}: {str(exc)[:180]}"}
 
     if not any(s.get("status") == "ok" for s in statuses.values()):
         print(json.dumps({"ok": False, "sources": statuses}, ensure_ascii=False), file=sys.stderr)
