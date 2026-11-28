@@ -74,3 +74,10 @@ Case público: https://tufenor.github.io/portfolio/case/moneyia-jarvis-bridge-20
 Case de automação Python: https://tufenor.github.io/portfolio/case/moneyia-python-cycle-2026-11-27.html
 Case da ponte assíncrona: https://tufenor.github.io/portfolio/case/moneyia-codex-bridge-2026-11-27.html
 Case de triagem de pagamentos por e-mail: https://tufenor.github.io/portfolio/case/moneyia-email-attribution-2026-11-27.html
+
+
+## Gmail API watcher (read-only)
+
+The local Windows watcher uses the official Gmail API with the narrow `gmail.readonly` scope. Its public source lives at [tools/automation/gmail_api_watch.py](tools/automation/gmail_api_watch.py). Set `MONEYIA_GMAIL_ACCOUNT` to your own mailbox locally, place a Google Desktop OAuth client JSON in `%LOCALAPPDATA%\\MoneyIA\\gmail-oauth-client.json`, then authorize once with `python tools/moneyia_automation.py gmail-api-auth`. Keep the OAuth client and token on the machine; runtime status/feed files are local data, not portfolio artifacts.
+
+For payment alerts only, the watcher temporarily reads text MIME parts to identify explicit `mocked=true` fixtures, stores only the classification flag, and discards the message body. Message content is never published; the watcher does not modify or send email. The periodic job remains inactive for Gmail until OAuth is configured on the user's machine.
