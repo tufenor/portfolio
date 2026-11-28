@@ -13,3 +13,5 @@ Publicado com GitHub Pages a partir da raiz do branch `main`.
 
 - `demos/prototipo-imobiliario/` — protótipo conceitual e interativo para busca de imóveis; dados fictícios, sem backend.
 - `demos/flowline-ops/` — demonstração autoral de triagem operacional com quatro cenários locais; dados fictícios, sem integrações externas.
+
+- `demos/catalog-flow/` — protótipo responsivo de enriquecimento e revisão de catálogo, importação CSV local e exportação JSON; dados fictícios, sugestão simulada e sem integrações.
