@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#172720">
+  <meta name="description" content="Protótipo responsivo de painel para operação de uma fábrica de bebidas, com dados simulados e edição local.">
+  <title>Casa Brava · painel de operação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegação principal">
+      <a class="brand" href="#overview" aria-label="Casa Brava, início">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 28V12h5l5 8 5-8h5v16h-5v-8l-5 7-5-7v8z"/></svg></span>
+        <span><strong id="brand-name">casa brava</strong><small>OPERAÇÃO · DEMO</small></span>
+      </a>
+      <div class="workspace-label">CENTRAL DE OPERAÇÃO</div>
+      <nav class="main-nav" aria-label="Seções">
+        <button class="nav-item is-active" type="button" data-view="overview" aria-current="page"><span class="nav-icon">⌂</span>Visão geral</button>
+        <button class="nav-item" type="button" data-view="production"><span class="nav-icon">◷</span>Produção <span class="nav-count">4</span></button>
+        <button class="nav-item" type="button" data-view="inventory"><span class="nav-icon">▤</span>Estoque <span class="nav-count warning">3</span></button>
+        <button class="nav-item" type="button" data-view="orders"><span class="nav-icon">▧</span>Pedidos <span class="nav-count">8</span></button>
+        <button class="nav-item" type="button" data-view="customers"><span class="nav-icon">♧</span>Clientes</button>
+        <button class="nav-item" type="button" data-view="reports"><span class="nav-icon">⌁</span>Relatórios</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="connection-card"><span class="connection-dot"></span><div><strong>Ambiente demonstrativo</strong><small>Sem conexão com ERP ou API</small></div></div>
+        <button class="profile-button" id="edit-unit" type="button"><span class="avatar">CB</span><span><strong>Editar unidade</strong><small>Preferências locais</small></span><span class="profile-more">···</span></button>
+      </div>
+    </aside>
+
+    <main id="main" class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Operação</span><span aria-hidden="true">/</span><strong id="breadcrumb">Visão geral</strong></div>
+        <div class="topbar-actions">
+          <span class="live-label"><i></i> Dados de exemplo</span>
+          <button class="icon-button" id="help-button" type="button" aria-label="Sobre esta demonstração">?</button>
+          <button class="avatar top-avatar" id="top-edit-unit" type="button" aria-label="Editar unidade">CB</button>
+        </div>
+      </header>
+
+      <div class="demo-notice" role="note">
+        <span class="notice-mark" aria-hidden="true">i</span>
+        <p><strong>Protótipo de interface.</strong> Indicadores, produtos, pedidos e clientes são fictícios. Alterações são salvas apenas neste navegador; esta tela não está ligada a uma fábrica real.</p>
+        <button id="notice-close" class="notice-close" type="button" aria-label="Ocultar aviso">×</button>
+      </div>
+
+      <section class="page-heading" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">SEXTA-FEIRA · TURNO DA MANHÃ</p>
+          <h1 id="page-title">A operação em um só lugar<span class="title-period">.</span></h1>
+          <p class="page-subtitle" id="page-subtitle">Produção, estoque e pedidos para o time decidir o próximo passo com clareza.</p>
+        </div>
+        <div class="heading-actions">
+          <label class="sr-only" for="period-select">Período do painel</label>
+          <select id="period-select" class="select-control"><option value="7">Últimos 7 dias</option><option value="30">Últimos 30 dias</option></select>
+          <button class="button button-quiet" id="export-orders" type="button"><span aria-hidden="true">↓</span> Exportar</button>
+          <button class="button button-primary" id="new-order" type="button"><span aria-hidden="true">＋</span> Novo pedido</button>
+        </div>
+      </section>
+
+      <div class="view-panel is-visible" id="view-overview" data-screen="overview">
+        <section class="metrics-grid" aria-label="Indicadores simulados">
+          <article class="metric-card metric-production"><div class="metric-top"><span>Unidades produzidas</span><span class="metric-symbol">01</span></div><strong class="metric-value" id="metric-units">842</strong><div class="metric-foot"><span class="trend trend-good">↗ 8,4%</span><span>vs. semana anterior</span></div><div class="sparkline"><svg viewBox="0 0 200 42" aria-hidden="true"><path d="M2 33 C18 30 20 20 37 25 S62 31 78 16 S102 23 119 13 S142 20 158 8 S184 14 198 4"/></svg></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Pedidos em aberto</span><span class="metric-symbol symbol-gold">02</span></div><strong class="metric-value">18</strong><div class="metric-foot"><span class="trend trend-neutral">6 para hoje</span><span>janela de expedição</span></div><div class="metric-progress"><span style="width:68%"></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Itens em atenção</span><span class="metric-symbol symbol-coral">03</span></div><strong class="metric-value">3 <small>de 24</small></strong><div class="metric-foot"><span class="trend trend-attention">Abaixo do mínimo</span><span>verificar reposição</span></div><div class="metric-progress progress-coral"><span style="width:28%"></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Produção concluída</span><span class="metric-symbol symbol-sage">04</span></div><strong class="metric-value">76<small>%</small></strong><div class="metric-foot"><span class="trend trend-good">No ritmo</span><span>meta fictícia: 1.100</span></div><div class="metric-progress progress-sage"><span style="width:76%"></span></div></article>
+        </section>
+
+        <section class="overview-grid" aria-label="Resumo da fábrica">
+          <article class="panel production-panel">
+            <div class="panel-heading"><div><p class="panel-kicker">RITMO DE PRODUÇÃO</p><h2>Saída por dia</h2><p class="panel-caption">Unidades finalizadas · dados ilustrativos</p></div><button class="text-button" type="button" data-open-view="production">Ver produção <span aria-hidden="true">↗</span></button></div>
+            <div class="chart-legend"><span><i class="legend-current"></i>Esta semana</span><span><i class="legend-prior"></i>Semana anterior</span></div>
+            <div class="bar-chart" role="img" aria-label="Gráfico de exemplo da produção diária durante sete dias">
+              <div class="chart-y-labels"><span>1.000</span><span>750</span><span>500</span><span>250</span><span>0</span></div>
+              <div class="chart-plot"><div class="chart-gridlines"><i></i><i></i><i></i><i></i><i></i></div><div class="bar-groups"><div class="bar-group"><span class="bar prior" style="--bar:47%"></span><span class="bar current" style="--bar:65%"></span><small>Seg</small></div><div class="bar-group"><span class="bar prior" style="--bar:53%"></span><span class="bar current" style="--bar:72%"></span><small>Ter</small></div><div class="bar-group"><span class="bar prior" style="--bar:45%"></span><span class="bar current" style="--bar:59%"></span><small>Qua</small></div><div class="bar-group"><span class="bar prior" style="--bar:60%"></span><span class="bar current" style="--bar:81%"></span><small>Qui</small></div><div class="bar-group"><span class="bar prior" style="--bar:50%"></span><span class="bar current" style="--bar:76%"></span><small>Sex</small></div><div class="bar-group"><span class="bar prior" style="--bar:38%"></span><span class="bar current" style="--bar:52%"></span><small>Sáb</small></div><div class="bar-group"><span class="bar prior" style="--bar:44%"></span><span class="bar current" style="--bar:61%"></span><small>Dom</small></div></div></div>
+            </div>
+            <div class="chart-summary"><strong>5.942 <small>unid.</small></strong><span>produzidas no período selecionado</span><span class="chart-delta">+8,4% <small>no exemplo</small></span></div>
+          </article>
+          <article class="panel shift-panel">
+            <div class="panel-heading"><div><p class="panel-kicker">AGORA NA FÁBRICA</p><h2>Fila do turno</h2></div><span class="shift-count">4 lotes</span></div>
+            <div class="shift-summary"><div class="donut" aria-label="76 por cento da meta ilustrativa concluída"><div><strong>76%</strong><span>da meta</span></div></div><div><strong>842 <small>/ 1.100 unid.</small></strong><p>Estimativa de conclusão às <b>16:40</b></p></div></div>
+            <div class="batch-list">
+              <div class="batch-row"><span class="batch-icon batch-citrus">C</span><div class="batch-copy"><strong>Cítrico da Casa <small>LT-0281 · 500 un.</small></strong><span class="batch-bar"><i style="width:82%"></i></span></div><b>82%</b></div>
+              <div class="batch-row"><span class="batch-icon batch-ginger">G</span><div class="batch-copy"><strong>Gengibre & Limão <small>LT-0282 · 320 un.</small></strong><span class="batch-bar"><i style="width:61%"></i></span></div><b>61%</b></div>
+              <div class="batch-row"><span class="batch-icon batch-berry">F</span><div class="batch-copy"><strong>Frutas da Estação <small>LT-0283 · 240 un.</small></strong><span class="batch-bar"><i style="width:24%"></i></span></div><b>24%</b></div>
+            </div>
+            <button class="panel-link" type="button" data-open-view="production">Abrir programação <span aria-hidden="true">→</span></button>
+          </article>
+        </section>
+
+        <section class="lower-grid" aria-label="Pedidos e estoque">
+          <article class="panel orders-panel">
+            <div class="panel-heading"><div><p class="panel-kicker">EXPEDIÇÃO</p><h2>Pedidos recentes</h2><p class="panel-caption">Acompanhe o que está perto de sair.</p></div><button class="text-button" type="button" data-open-view="orders">Todos os pedidos <span aria-hidden="true">↗</span></button></div>
+            <div class="table-wrap"><table><thead><tr><th scope="col">PEDIDO</th><th scope="col">CLIENTE</th><th scope="col">ENTREGA</th><th scope="col">STATUS</th></tr></thead><tbody id="orders-table">
+              <tr><td><strong>#CB-2481</strong><small>12 caixas · R$ 1.240</small></td><td>Café Vela</td><td>Hoje, 14:00</td><td><span class="status status-packing">Em separação</span></td></tr>
+              <tr><td><strong>#CB-2480</strong><small>8 caixas · R$ 860</small></td><td>Empório Horizonte</td><td>Hoje, 16:30</td><td><span class="status status-ready">Pronto</span></td></tr>
+              <tr><td><strong>#CB-2479</strong><small>16 caixas · R$ 2.180</small></td><td>Bar do Pátio</td><td>29 nov</td><td><span class="status status-production">Em produção</span></td></tr>
+            </tbody></table></div>
+          </article>
+          <article class="panel stock-panel">
+            <div class="panel-heading"><div><p class="panel-kicker">PONTO DE REPOSIÇÃO</p><h2>Estoque em atenção</h2></div><button class="text-button" type="button" data-open-view="inventory">Ver estoque <span aria-hidden="true">↗</span></button></div>
+            <div class="stock-list">
+              <div class="stock-row"><span class="stock-illustration stock-glass">◌</span><div class="stock-copy"><strong>Garrafa âmbar 300 ml</strong><small>Embalagem · mínimo 500</small><span class="stock-meter"><i class="stock-low" style="width:24%"></i></span></div><b>121 <small>un.</small></b></div>
+              <div class="stock-row"><span class="stock-illustration stock-citrus">✳</span><div class="stock-copy"><strong>Polpa de limão</strong><small>Insumo · mínimo 80 kg</small><span class="stock-meter"><i class="stock-mid" style="width:36%"></i></span></div><b>29 <small>kg</small></b></div>
+              <div class="stock-row"><span class="stock-illustration stock-box">▧</span><div class="stock-copy"><strong>Caixa para 12 unidades</strong><small>Embalagem · mínimo 200</small><span class="stock-meter"><i class="stock-low" style="width:18%"></i></span></div><b>36 <small>un.</small></b></div>
+            </div>
+            <div class="stock-note"><span>!</span><p>3 itens abaixo do ponto de reposição definido no exemplo.</p></div>
+          </article>
+        </section>
+      </div>
+
+      <section class="view-panel" id="view-production" data-screen="production" hidden>
+        <div class="section-intro"><div><p class="panel-kicker">PROGRAMAÇÃO</p><h2>Produção do turno</h2><p>Visibilidade dos lotes, etapas e previsão de saída.</p></div><button class="button button-primary" id="new-batch" type="button">＋ Novo lote</button></div>
+        <div class="production-summary-cards"><article class="panel mini-stat"><span>Programados</span><strong>1.300 <small>unidades</small></strong><em>4 lotes</em></article><article class="panel mini-stat"><span>Concluídos</span><strong>842 <small>unidades</small></strong><em class="good-text">76% da meta simulada</em></article><article class="panel mini-stat"><span>Previsão de término</span><strong>16:40</strong><em>turno de hoje</em></article></div>
+        <article class="panel full-panel"><div class="panel-heading"><div><p class="panel-kicker">LOTE A LOTE</p><h2>Programação ativa</h2></div><span class="shift-count">4 lotes</span></div><div class="table-wrap"><table><thead><tr><th>LOTE</th><th>PRODUTO</th><th>QUANTIDADE</th><th>ETAPA</th><th>PROGRESSO</th></tr></thead><tbody><tr><td><strong>LT-0281</strong></td><td>Cítrico da Casa</td><td>500 un.</td><td><span class="status status-ready">Envase</span></td><td><span class="mini-bar"><i style="width:82%"></i></span>82%</td></tr><tr><td><strong>LT-0282</strong></td><td>Gengibre & Limão</td><td>320 un.</td><td><span class="status status-packing">Preparação</span></td><td><span class="mini-bar"><i style="width:61%"></i></span>61%</td></tr><tr><td><strong>LT-0283</strong></td><td>Frutas da Estação</td><td>240 un.</td><td><span class="status status-production">Mistura</span></td><td><span class="mini-bar"><i style="width:24%"></i></span>24%</td></tr><tr><td><strong>LT-0284</strong></td><td>Mate com Pêssego</td><td>240 un.</td><td><span class="status status-neutral">Aguardando</span></td><td><span class="mini-bar"><i style="width:0%"></i></span>0%</td></tr></tbody></table></div></article>
+      </section>
+
+      <section class="view-panel" id="view-inventory" data-screen="inventory" hidden>
+        <div class="section-intro"><div><p class="panel-kicker">INSUMOS & EMBALAGENS</p><h2>Estoque da unidade</h2><p>Quantidades e limites são fictícios e editáveis nesta demonstração.</p></div><button class="button button-primary" id="new-stock" type="button">＋ Registrar entrada</button></div>
+        <div class="inventory-cards"><article class="panel inventory-item"><div class="inventory-item-top"><span class="stock-illustration stock-glass">◌</span><span class="status status-attention">Reposição</span></div><p>EMBALAGEM · EMB-104</p><h3>Garrafa âmbar 300 ml</h3><div class="inventory-level"><strong>121</strong><small>unidades disponíveis</small></div><span class="stock-meter"><i class="stock-low" style="width:24%"></i></span><footer><span>Mínimo: 500 un.</span><span>24% do mínimo</span></footer></article><article class="panel inventory-item"><div class="inventory-item-top"><span class="stock-illustration stock-citrus">✳</span><span class="status status-attention">Reposição</span></div><p>INSUMO · INS-032</p><h3>Polpa de limão</h3><div class="inventory-level"><strong>29</strong><small>kg disponíveis</small></div><span class="stock-meter"><i class="stock-mid" style="width:36%"></i></span><footer><span>Mínimo: 80 kg</span><span>36% do mínimo</span></footer></article><article class="panel inventory-item"><div class="inventory-item-top"><span class="stock-illustration stock-box">▧</span><span class="status status-attention">Reposição</span></div><p>EMBALAGEM · EMB-080</p><h3>Caixa para 12 unidades</h3><div class="inventory-level"><strong>36</strong><small>unidades disponíveis</small></div><span class="stock-meter"><i class="stock-low" style="width:18%"></i></span><footer><span>Mínimo: 200 un.</span><span>18% do mínimo</span></footer></article><article class="panel inventory-item"><div class="inventory-item-top"><span class="stock-illustration stock-mate">✦</span><span class="status status-ready">Regular</span></div><p>INSUMO · INS-019</p><h3>Extrato de mate</h3><div class="inventory-level"><strong>64</strong><small>litros disponíveis</small></div><span class="stock-meter"><i class="stock-ok" style="width:72%"></i></span><footer><span>Mínimo: 40 L</span><span>Acima do mínimo</span></footer></article></div>
+      </section>
+
+      <section class="view-panel" id="view-orders" data-screen="orders" hidden>
+        <div class="section-intro"><div><p class="panel-kicker">SEPARAÇÃO & ENTREGA</p><h2>Pedidos da semana</h2><p>Uma visão única para produção e expedição se alinharem.</p></div><button class="button button-primary" type="button" data-new-order>＋ Novo pedido</button></div>
+        <article class="panel full-panel"><div class="table-toolbar"><label class="search-box"><span aria-hidden="true">⌕</span><input id="order-search" type="search" placeholder="Buscar pedido ou cliente" aria-label="Buscar pedido ou cliente"></label><span class="shift-count">18 pedidos</span></div><div class="table-wrap"><table><thead><tr><th>PEDIDO</th><th>CLIENTE</th><th>ITENS</th><th>ENTREGA</th><th>STATUS</th></tr></thead><tbody id="all-orders-table"><tr><td><strong>#CB-2481</strong><small>criado hoje, 08:12</small></td><td>Café Vela</td><td>12 caixas</td><td>Hoje · 14:00</td><td><span class="status status-packing">Em separação</span></td></tr><tr><td><strong>#CB-2480</strong><small>criado hoje, 07:46</small></td><td>Empório Horizonte</td><td>8 caixas</td><td>Hoje · 16:30</td><td><span class="status status-ready">Pronto</span></td></tr><tr><td><strong>#CB-2479</strong><small>criado ontem, 16:20</small></td><td>Bar do Pátio</td><td>16 caixas</td><td>29 nov · 10:00</td><td><span class="status status-production">Em produção</span></td></tr><tr><td><strong>#CB-2478</strong><small>criado ontem, 14:02</small></td><td>Mercearia do Vale</td><td>6 caixas</td><td>29 nov · 15:00</td><td><span class="status status-neutral">Aguardando</span></td></tr></tbody></table></div></article>
+      </section>
+
+      <section class="view-panel" id="view-customers" data-screen="customers" hidden>
+        <div class="section-intro"><div><p class="panel-kicker">RELACIONAMENTO</p><h2>Clientes da unidade</h2><p>Base ilustrativa de compradores recorrentes.</p></div><button class="button button-quiet" type="button" data-toast="Lista demonstrativa: nenhum contato real está conectado.">Exportar contatos</button></div>
+        <div class="inventory-cards"><article class="panel customer-card"><span class="avatar customer-avatar">CV</span><h3>Café Vela</h3><p>Campinas · cafeteria</p><strong>12 <small>pedidos no exemplo</small></strong><span class="customer-note">Último pedido: hoje</span></article><article class="panel customer-card"><span class="avatar customer-avatar avatar-gold">EH</span><h3>Empório Horizonte</h3><p>Campinas · empório</p><strong>8 <small>pedidos no exemplo</small></strong><span class="customer-note">Último pedido: hoje</span></article><article class="panel customer-card"><span class="avatar customer-avatar avatar-coral">BP</span><h3>Bar do Pátio</h3><p>Valinhos · bar</p><strong>6 <small>pedidos no exemplo</small></strong><span class="customer-note">Último pedido: ontem</span></article></div>
+      </section>
+
+      <section class="view-panel" id="view-reports" data-screen="reports" hidden>
+        <div class="section-intro"><div><p class="panel-kicker">ANÁLISE OPERACIONAL</p><h2>Relatórios da unidade</h2><p>Indicadores de demonstração, sem integração com dados reais.</p></div><button class="button button-quiet" id="report-export" type="button">↓ Baixar CSV</button></div>
+        <div class="production-summary-cards"><article class="panel mini-stat"><span>Produção do período</span><strong>5.942 <small>unidades</small></strong><em>Exemplo · últimos 7 dias</em></article><article class="panel mini-stat"><span>Pedidos expedidos</span><strong>64</strong><em>Exemplo · últimos 7 dias</em></article><article class="panel mini-stat"><span>Prazo cumprido</span><strong>91<small>%</small></strong><em>Indicador fictício</em></article></div>
+        <article class="panel report-note"><span class="notice-mark">i</span><div><h3>Configure as métricas com a operação</h3><p>Antes de integrar, defina como o sistema existente registra produção, estoque, pedidos e entrega. Este painel é apenas um conceito de interface; não consulta APIs nem representa desempenho real.</p></div></article>
+      </section>
+
+      <footer class="page-footer"><span>Estudo de interface · Casa Brava é uma marca fictícia</span><button class="footer-reset" id="reset-demo" type="button">Restaurar dados do exemplo</button></footer>
+    </main>
+  </div>
+
+  <dialog class="edit-dialog" id="unit-dialog" aria-labelledby="unit-dialog-title">
+    <form method="dialog" id="unit-form">
+      <div class="dialog-heading"><div><p class="panel-kicker">PREFERÊNCIAS LOCAIS</p><h2 id="unit-dialog-title">Editar unidade</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Fechar">×</button></div>
+      <p class="dialog-copy">Experimente personalizar este protótipo. Os dados ficam apenas neste navegador.</p>
+      <label>Nome exibido<input id="unit-name-input" name="unitName" maxlength="36" value="Casa Brava" required></label>
+      <label>Meta de produção do turno<input id="unit-goal-input" name="unitGoal" type="number" min="100" max="99999" step="50" value="1100" required></label>
+      <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>Cancelar</button><button class="button button-primary" type="submit">Salvar neste navegador</button></div>
+    </form>
+  </dialog>
+  <dialog class="edit-dialog" id="order-dialog" aria-labelledby="order-dialog-title">
+    <form method="dialog" id="order-form">
+      <div class="dialog-heading"><div><p class="panel-kicker">RASCUNHO LOCAL</p><h2 id="order-dialog-title">Adicionar pedido</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Fechar">×</button></div>
+      <p class="dialog-copy">O pedido aparece apenas na demonstração deste navegador.</p>
+      <label>Nome de exemplo do cliente<input id="customer-input" maxlength="42" placeholder="Ex.: Café do Centro" required></label>
+      <label>Quantidade de caixas<input id="boxes-input" type="number" min="1" max="500" value="4" required></label>
+      <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>Cancelar</button><button class="button button-primary" type="submit">Adicionar ao exemplo</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
+
