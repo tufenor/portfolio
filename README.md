@@ -20,3 +20,6 @@ Publicado com GitHub Pages a partir da raiz do branch `main`.
 - `demos/text-image-studio-workana-20261128/` — editor demonstrativo de texto em imagem com prévia, formatos para redes e exportação PNG. Marca fictícia; sem IA conectada nem envio de dados.
 
 - `demos/banner-jones-construction-concept-20261128/` — independent concept for a temporary construction company website; responsive HTML demo, fictitious placeholders, no live form or client relationship.
+
+- `demos/short-product-sales-page-801637/` — Mansa, landing fictícia de produto com editor local; demo no Pages HTTP 200.
+- `demos/static-site-backup-inspector-801636/` — inspetor Python sem dependências, com cenários fictícios; demo no Pages HTTP 200.
