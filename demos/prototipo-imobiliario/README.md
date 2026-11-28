@@ -7,6 +7,7 @@ Demonstração conceitual navegável para portfólio, inspirada em um pedido pú
 - Filtros por categoria e faixa de preço.
 - Alternância de mapa ilustrativo.
 - Favoritos salvos somente no navegador local.
+- Acesso à lista de favoritos pela navegação principal; a lista permanece salva no navegador.
 - Detalhes do imóvel e chamada de solicitação de visita simulada.
 - Layout responsivo, estados vazios, foco de teclado e preferência por movimento reduzido.
 
