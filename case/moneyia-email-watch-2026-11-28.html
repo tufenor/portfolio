@@ -38,18 +38,19 @@
   <section>
     <div class="section-head"><p class="eyebrow">Fluxo</p><h2>Do alerta ao estado que dá para provar</h2><p>Uma arquitetura pequena, feita para separar notificação, decisão e dinheiro efetivamente recebido.</p></div>
     <div class="flow">
-      <article class="step"><span class="num">01 · CAPTURAR</span><h3>Fontes redundantes</h3><p>Chrome autenticado por CDP como primeira fonte; API oficial do Gmail como alternativa local, após OAuth.</p><small>Somente leitura</small></article>
-      <article class="step"><span class="num">02 · FILTRAR</span><h3>Plataformas e pagamentos</h3><p>Consulta direcionada a alertas de trabalho e notificações de processadores e bancos relevantes.</p><small>Janela de 30 dias</small></article>
-      <article class="step"><span class="num">03 · CLASSIFICAR</span><h3>Evento é sinal</h3><p>Resposta, nova vaga, recibo e alerta de segurança entram em categorias separadas e podem gerar tarefa.</p><small>Sem alterar a caixa</small></article>
-      <article class="step"><span class="num">04 · CONCILIAR</span><h3>Confirmação de origem</h3><p>Envio, aceite, contrato, saldo e pagamento ficam em etapas distintas; mensagem isolada não altera a receita.</p><small>Trilha de evidência</small></article>
+      <article class="step"><span class="num">01 · CAPTURAR</span><h3>Fontes de leitura</h3><p>Chrome autenticado e Gmail API oficial após autorização local. As mensagens permanecem somente para leitura.</p><small>Sem mudança na caixa</small></article>
+      <article class="step"><span class="num">02 · CLASSIFICAR</span><h3>Alertas por tipo</h3><p>Novas oportunidades, respostas, avisos de segurança e sinais de pagamento recebem categorias distintas.</p><small>Classificação local</small></article>
+      <article class="step"><span class="num">03 · TRIAR</span><h3>Revisão persistente</h3><p>A Mesa mostra as mensagens pendentes e salva a triagem por ID. Reimportar a mesma mensagem não a reabre.</p><small>Estado local durável</small></article>
+      <article class="step"><span class="num">04 · CRIAR TAREFA</span><h3>Idempotência</h3><p>Eventos que exigem acompanhamento podem gerar uma tarefa uma única vez, vinculada ao ID do e-mail.</p><small>Sem duplicar tarefa</small></article>
+      <article class="step"><span class="num">05 · CONCILIAR</span><h3>Confirmação externa</h3><p>Resposta, contrato, entrega, saldo e pagamento ficam separados; a origem oficial confirma cada estado.</p><small>Receita por evidência</small></article>
     </div>
   </section>
   <section class="grid">
     <article class="panel"><p class="eyebrow">Decisão de produto</p><h3>O que entra no radar</h3><ul class="list"><li>Alertas de marketplaces: 99Freelas, Workana, Upwork, Freelancer, Fiverr, Outlier, uTest e DataAnnotation.</li><li>Notificações de pagamento: Mercado Pago, PayPal, Wise, Payoneer, AirTM, Stripe e Inter.</li><li>O conteúdo do e-mail é tratado como dado externo não confiável; extratos e a página oficial definem o estado comercial.</li></ul><p class="callout"><strong>Estado da coleta:</strong> a ampliação de fontes foi implementada no watcher Python. A leitura periódica via Gmail API só passa a funcionar após instalar o arquivo OAuth local e autorizar a conta.</p></article>
-    <article class="panel"><p class="eyebrow">Evidência</p><h3>Critérios verificáveis</h3><div class="metrics"><div class="metric"><b>30 dias</b><span>janela configurada de consulta</span></div><div class="metric"><b>0</b><span>alterações de mensagens</span></div><div class="metric"><b>3 etapas</b><span>sinal, confirmação e recebimento</span></div></div><p class="callout">A consulta periódica da API Gmail ainda aguarda autorização OAuth local. A página não expõe métricas financeiras pessoais nem afirma integração em tempo real.</p></article>
+    <article class="panel"><p class="eyebrow">Evidência</p><h3>Critérios verificáveis</h3><div class="metrics"><div class="metric"><b>8</b><span>mensagens pendentes visíveis por vez</span></div><div class="metric"><b>1 ID</b><span>chave para preservar a triagem</span></div><div class="metric"><b>0</b><span>alterações feitas na caixa de e-mail</span></div></div><p class="callout">A consulta periódica da API Gmail ainda aguarda autorização OAuth local. A página não expõe métricas financeiras pessoais nem afirma integração em tempo real.</p></article>
   </section>
   <section>
-    <div class="section-head"><p class="eyebrow">Próxima etapa</p><h2>Autorização local, depois observação real</h2><p>A implantação é concluída somente quando o watcher se autentica, lê mensagens recentes e alimenta a fila sem duplicar tarefas. O estado deste case não declara isso como concluído.</p></div>
+    <div class="section-head"><p class="eyebrow">Próxima etapa</p><h2>Autorização local, depois observação real</h2><p>A leitura automática é concluída somente quando o watcher se autentica, lê mensagens recentes e alimenta a fila sem duplicar tarefas. A triagem local e sua persistência estão implementadas; OAuth local continua pendente.</p></div>
     <a href="https://github.com/tufenor/portfolio" rel="noreferrer">Ver código público do portfólio ↗</a>
   </section>
 </main>
