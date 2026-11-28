@@ -16,4 +16,4 @@ Publicado com GitHub Pages a partir da raiz do branch `main`.
 
 - `demos/catalog-flow/` — protótipo responsivo de enriquecimento e revisão de catálogo, importação CSV local e exportação JSON; dados fictícios, sugestão simulada e sem integrações.
 
-- `demos/text-image-studio-workana-20261128/` — editor demonstrativo de texto em imagem com prévia, formatos para redes e exportação PNG. Marca fictícia; sem IA conectada nem envio de dados.\n
+- `demos/text-image-studio-workana-20261128/` — editor demonstrativo de texto em imagem com prévia, formatos para redes e exportação PNG. Marca fictícia; sem IA conectada nem envio de dados.
