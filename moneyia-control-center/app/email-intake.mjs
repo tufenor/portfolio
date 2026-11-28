@@ -7,6 +7,7 @@ const sourceFor = (from = '') => {
   const value = fold(from);
   const address = (value.match(/<([^<>]+)>\s*$/)?.[1] || value).trim();
   if (/^[^@<>\s]+@(?:[a-z0-9-]+\.)*payhip\.com$/.test(address)) return 'Payhip';
+  if (value.includes('mercadopago.com.br') || value.includes('mercadolivre.com.br') || /(^|[<\s])mercado\s*pago([>\s]|$)/.test(value)) return 'Mercado Pago';
   if (value.includes('99freelas')) return '99Freelas';
   if (value.includes('workana')) return 'Workana';
   if (value.includes('upwork')) return 'Upwork';
@@ -15,18 +16,45 @@ const sourceFor = (from = '') => {
   return 'Gmail';
 };
 
+export function gmailTaskMessageId(value) {
+  const raw=String(value ?? '').trim().replace(/^gmail:/i,'');
+  return /^[a-f\d]{16,18}$/i.test(raw)?raw.toLowerCase():'';
+}
+
+export function gmailTaskIndex(tasks) {
+  const result=new Map();
+  for (const t of tasks) {
+    const note=String(t.description || '');
+    const raw=note.match(/^\[email-id:([^\]]+)\]/i)?.[1] || note.match(/^email-intake:([^\r\n]+)/i)?.[1];
+    const id=gmailTaskMessageId(raw);
+    if (!id) continue;
+    const kind=note.match(/^\[email-id:[^\]]+\]\s*\[kind:([a-z_]+)\]/i)?.[1] || '*';
+    const kinds=result.get(id) || new Set();
+    kinds.add(kind); result.set(id,kinds);
+  }
+  return result;
+}
 export function classifyEmail(email = {}) {
   const subject = String(email.subject || email.display_title || '').trim();
   const snippet = String(email.snippet || '').trim();
   const text = fold(`${subject} ${snippet}`);
   const source = sourceFor(email.from_ || email.from || '');
   const body = String(email.body || email.content || email.html || '');
+  const paymentContext = fold(`${subject} ${snippet} ${body}`);
   const opportunityUrl = (body.match(/https?:\/\/www\.(?:99freelas\.com\.br|workana\.com|upwork\.com)[^\s"'<)]+/i) || [null])[0];
   let kind = 'other';
   let priority = 'baixa';
   let reason = 'Sem sinal comercial claro.';
 
-  if (source === 'Payhip') {
+  if (email.test_fixture === true) {
+    kind = 'noise';
+    reason = 'Marcador de mensagem simulada detectado no corpo; não é transação ou recebimento.';
+  } else if (/\bola@comunicacao\.inter\.co\b/i.test(String(email.from_ || email.from || ''))
+      && fold(subject) === 'seguranca nas compras da black friday'
+      && /dicas|proteja-se|black friday/.test(fold(snippet))) {
+    kind = 'noise';
+    reason = 'Aviso geral de prevenção; não é alerta de atividade na conta.';
+  } else if (source === 'Payhip') {
     const sellerSale = /\b(new sale|you made a sale|you have a new sale|you sold|nova venda|voce fez uma venda)\b/.test(text);
     const reversal = /\b(refund|refunded|chargeback|cancelad[ao]|reembolso)\b/.test(text);
     if (sellerSale && /\bmenu studio\b/.test(text) && !reversal) {
@@ -42,10 +70,22 @@ export function classifyEmail(email = {}) {
     kind = 'acceptance_or_client_reply';
     priority = 'alta';
     reason = 'Possível aceite, contratação ou resposta direta do cliente; conferir a página autenticada.';
-  } else if (/(voce recebeu um pagamento|você recebeu um pagamento|pagamento recebido|payment received|payment credited|funds received|you have received payment|pagamento foi creditado)/.test(text)) {
-    kind = 'payment_received';
-    priority = 'alta';
-    reason = 'Possível recebimento; confirmar origem, projeto, moeda e disponibilidade antes de contabilizar receita.';
+  } else if (/(voce recebeu um pagamento|pagamento recebido|payment received|payment credited|funds received|you have received payment|pagamento foi creditado)/.test(text)) {
+    const knownMoneyIARoute = ['99Freelas', 'Workana', 'Upwork', 'Freelancer', 'YPAI'].includes(source);
+    // Generic mentions of MoneyIA are not a transaction reference. The inbox
+    // stores a privacy-safe unattributed-payment snippet that itself mentions
+    // MoneyIA; counting that text as evidence would promote it on the next sync.
+    // Require a product/proposal identifier unless the sender is a marketplace.
+    const hasMoneyIAReference = /\b(menu studio|apr-\d{2,}|brl-99-\d{4,})\b/.test(paymentContext);
+    if (knownMoneyIARoute || hasMoneyIAReference) {
+      kind = 'payment_received';
+      priority = 'alta';
+      reason = 'Possível recebimento com referência a um canal ou projeto MoneyIA; confirmar origem, moeda e disponibilidade antes de contabilizar receita.';
+    } else {
+      kind = 'payment_unattributed';
+      priority = 'media';
+      reason = 'O aviso menciona um pagamento, mas não identifica plataforma ou projeto MoneyIA. Atribuir manualmente; não contabilizar como receita do projeto antes da confirmação.';
+    }
   } else if (/(cancelad|conexao reembolsad|projeto foi cancelado|proposal declined|not selected)/.test(text)) {
     kind = 'proposal_status';
     priority = 'media';
@@ -73,12 +113,13 @@ export function classifyEmail(email = {}) {
     from: String(email.from_ || email.from || '').slice(0, 240),
     to: Array.isArray(email.to) ? email.to.slice(0, 10).map(String) : [],
     subject: subject.slice(0, 240),
-    snippet: snippet.slice(0, 1000),
+    snippet: (kind === 'payment_unattributed' ? 'Aviso de pagamento sem referência identificada ao MoneyIA; atribuição pendente.' : snippet).slice(0, 1000),
     labels: Array.isArray(email.labels) ? email.labels.slice(0, 20).map(String) : [],
     emailTs: email.email_ts || email.emailTs || null,
     displayUrl: String(email.display_url || email.displayUrl || '').slice(0, 800),
     opportunityUrl: String(email.opportunityUrl || opportunityUrl || '').slice(0, 800),
     source,
+    testFixture: email.test_fixture === true,
     kind,
     priority,
     reason,
@@ -97,3 +138,5 @@ export function analyzeEmails(emails = []) {
     emails: unique
   };
 }
+
+
