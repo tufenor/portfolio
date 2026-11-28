@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Estudo de dashboard de gestão: faturamento, margem, pedidos e canais em uma interface responsiva e editável.">
+  <meta name="theme-color" content="#f5f7f8">
+  <title>Lumen — painel de gestão</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegação principal">
+      <a class="brand" href="#overview" aria-label="Lumen, painel inicial">
+        <span class="brand-mark" aria-hidden="true">l</span>
+        <span><strong>lumen</strong><small>PAINEL DE GESTÃO</small></span>
+      </a>
+      <div class="workspace-label">ESPAÇO DE TRABALHO</div>
+      <nav class="main-nav">
+        <button class="nav-item is-active" data-view="overview" aria-current="page"><span class="nav-icon" aria-hidden="true">◫</span>Visão geral</button>
+        <button class="nav-item" data-view="revenue"><span class="nav-icon" aria-hidden="true">↗</span>Faturamento</button>
+        <button class="nav-item" data-view="products"><span class="nav-icon" aria-hidden="true">▦</span>Produtos</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-card"><span class="help-dot" aria-hidden="true"></span><div><strong>Dados demonstrativos</strong><small>Este estudo não está conectado a uma empresa.</small></div></div>
+        <button class="profile-button" type="button" aria-label="Perfil de demonstração"><span class="avatar">LM</span><span><strong>Loja Modelo</strong><small>Plano de demonstração</small></span><span class="profile-more" aria-hidden="true">···</span></button>
+      </div>
+    </aside>
+
+    <main id="main" class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Visão geral</span><span aria-hidden="true">/</span><strong id="breadcrumb-current">Resumo do negócio</strong></div>
+        <div class="topbar-actions">
+          <span class="last-updated"><i aria-hidden="true"></i><span id="last-updated">Atualizado agora</span></span>
+          <button class="icon-button" id="help-button" type="button" aria-label="Sobre os dados">?</button>
+          <button class="avatar top-avatar" type="button" aria-label="Perfil de demonstração">LM</button>
+        </div>
+      </header>
+
+      <section class="page-heading" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow" id="today-label">DEMONSTRAÇÃO · DATA LOCAL</p>
+          <h1 id="page-title">Resumo do negócio</h1>
+          <p class="page-subtitle" id="page-subtitle">Acompanhe os indicadores que ajudam a decidir o próximo passo. <a class="sample-link" href="dados-exemplo.csv" download>Baixar CSV de exemplo</a></p>
+        </div>
+        <div class="heading-actions">
+          <label class="sr-only" for="period-select">Período dos indicadores</label>
+          <select id="period-select" class="select-control">
+            <option value="30">Últimos 30 dias</option>
+            <option value="7">Últimos 7 dias</option>
+            <option value="90">Últimos 90 dias</option>
+          </select>
+          <button class="button button-quiet" id="import-csv" type="button"><span aria-hidden="true">↑</span> Importar CSV</button>
+          <button class="button button-primary" id="edit-data" type="button"><span aria-hidden="true">✎</span> Editar dados</button>
+          <input class="sr-only" id="csv-file" type="file" accept=".csv,text/csv" aria-label="Escolha um arquivo CSV">
+        </div>
+      </section>
+
+      <div class="demo-notice" role="note"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Estudo de interface.</strong> Os números e produtos são fictícios. As alterações ficam somente neste navegador.</span><button id="notice-close" class="notice-close" type="button" aria-label="Ocultar aviso">×</button></div>
+
+      <section class="metrics-grid" aria-label="Indicadores principais">
+        <article class="metric-card">
+          <div class="metric-top"><span>Faturamento</span><span class="metric-symbol revenue-symbol" aria-hidden="true">R$</span></div>
+          <div class="metric-value" id="metric-revenue">R$ 184.520</div>
+          <div class="metric-foot"><span class="trend trend-up">↗ 12,8%</span><span>vs. período anterior</span></div>
+          <div class="sparkline spark-revenue" aria-hidden="true"><svg viewBox="0 0 220 38"><path d="M1 29 C22 28 25 19 44 23 S70 31 90 16 S115 24 135 12 S164 18 180 8 S204 13 219 3"/></svg></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><span>Margem de lucro</span><span class="metric-symbol margin-symbol" aria-hidden="true">%</span></div>
+          <div class="metric-value" id="metric-margin">32,4%</div>
+          <div class="metric-foot"><span class="trend trend-up">↗ 2,1 p.p.</span><span>vs. período anterior</span></div>
+          <div class="sparkline spark-margin" aria-hidden="true"><svg viewBox="0 0 220 38"><path d="M1 30 C23 24 31 28 48 18 S73 20 91 16 S117 23 136 11 S160 18 179 12 S202 8 219 4"/></svg></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><span>Pedidos</span><span class="metric-symbol orders-symbol" aria-hidden="true">▤</span></div>
+          <div class="metric-value" id="metric-orders">1.284</div>
+          <div class="metric-foot"><span class="trend trend-up">↗ 8,3%</span><span>vs. período anterior</span></div>
+          <div class="sparkline spark-orders" aria-hidden="true"><svg viewBox="0 0 220 38"><path d="M1 27 C20 15 32 23 49 18 S74 25 91 14 S114 19 133 11 S157 17 176 9 S200 13 219 3"/></svg></div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-top"><span>Ticket médio</span><span class="metric-symbol ticket-symbol" aria-hidden="true">↗</span></div>
+          <div class="metric-value" id="metric-ticket">R$ 143,55</div>
+          <div class="metric-foot"><span class="trend trend-down">↘ 1,4%</span><span>vs. período anterior</span></div>
+          <div class="sparkline spark-ticket" aria-hidden="true"><svg viewBox="0 0 220 38"><path d="M1 8 C22 15 30 9 50 14 S74 10 92 19 S116 13 136 23 S160 14 179 24 S201 18 219 30"/></svg></div>
+        </article>
+      </section>
+
+      <section class="content-grid" aria-label="Análise dos indicadores">
+        <article class="panel revenue-panel">
+          <div class="panel-heading">
+            <div><h2>Faturamento ao longo do tempo</h2><p>Veja o ritmo de vendas no período selecionado.</p></div>
+            <button class="text-button" id="export-csv" type="button">Baixar resumo CSV <span aria-hidden="true">↓</span></button>
+          </div>
+          <div class="chart-legend"><span><i class="legend-dot legend-current"></i>Este período</span><span><i class="legend-dot legend-previous"></i>Período anterior</span><span class="chart-total" id="chart-total">R$ 184,5 mil</span></div>
+          <div class="chart-wrap" id="revenue-chart" role="img" aria-label="Gráfico demonstrativo de faturamento comparado ao período anterior"></div>
+          <div class="chart-axis"><span id="axis-start">—</span><span id="axis-mid">—</span><span id="axis-end">—</span></div>
+        </article>
+
+        <article class="panel goal-panel">
+          <div class="panel-heading"><div><h2>Meta do mês</h2><p>Progresso do faturamento</p></div><span class="more-button" aria-hidden="true">···</span></div>
+          <div class="goal-content">
+            <div class="donut" id="goal-donut" role="img" aria-label="Meta demonstrativa atingida em 78 por cento"><div><strong id="goal-percent">78%</strong><span>da meta</span></div></div>
+            <div class="goal-copy"><span class="goal-caption">Faturamento atual</span><strong id="goal-current">R$ 184.520</strong><span class="goal-caption goal-target-label">Meta definida</span><strong id="goal-target">R$ 235.000</strong><span class="goal-remaining" id="goal-remaining">Faltam R$ 50.480 para a meta</span></div>
+          </div>
+          <div class="goal-footer"><span class="goal-icon" aria-hidden="true">↗</span><span>Meta e progresso são ilustrativos.</span></div>
+        </article>
+      </section>
+
+      <section class="content-grid lower-grid" aria-label="Detalhamento de vendas">
+        <article class="panel channels-panel">
+          <div class="panel-heading"><div><h2>Receita por canal</h2><p>Participação no faturamento total</p></div><span class="text-button label-only">Todos os canais</span></div>
+          <div id="channel-list" class="channel-list"></div>
+          <div class="panel-footnote">Canais e participação simulados para a demonstração.</div>
+        </article>
+        <article class="panel products-panel">
+          <div class="panel-heading"><div><h2>Produtos em destaque</h2><p>Itens com maior faturamento no período</p></div><button class="text-button" type="button" data-view="products">Ver produtos <span aria-hidden="true">→</span></button></div>
+          <div class="product-list" id="product-list"></div>
+        </article>
+      </section>
+
+      <footer class="page-footer"><span>© 2026 Lumen · Interface demonstrativa</span><span>Indicadores calculados no navegador com dados fictícios</span></footer>
+    </main>
+  </div>
+
+  <dialog id="edit-dialog" class="edit-dialog" aria-labelledby="edit-title">
+    <form method="dialog" id="edit-form">
+      <div class="dialog-heading"><div><span class="dialog-kicker">PERSONALIZE O ESTUDO</span><h2 id="edit-title">Editar indicadores</h2></div><button class="dialog-close" value="cancel" aria-label="Fechar">×</button></div>
+      <p class="dialog-copy">Ajuste os dados fictícios para explorar a interface. Nada é enviado ou salvo fora deste navegador.</p>
+      <label for="input-revenue">Faturamento (R$)<input id="input-revenue" name="revenue" autocomplete="off" inputmode="decimal" type="number" min="0" step="100" required></label>
+      <label for="input-margin">Margem de lucro (%)<input id="input-margin" name="margin" autocomplete="off" inputmode="decimal" type="number" min="0" max="100" step="0.1" required></label>
+      <label for="input-orders">Pedidos no período<input id="input-orders" name="orders" autocomplete="off" inputmode="numeric" type="number" min="0" step="1" required></label>
+      <label for="input-target">Meta mensal (R$)<input id="input-target" name="target" autocomplete="off" inputmode="decimal" type="number" min="1" step="100" required></label>
+      <div class="dialog-actions"><button class="button button-quiet" id="reset-demo" type="button">Restaurar exemplo</button><button class="button button-primary" id="save-data" type="submit" value="save">Salvar neste navegador</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
