@@ -38,7 +38,7 @@ def _paths() -> tuple[Path, Path, Path]:
     private = local / "MoneyIA"
     credentials = Path(os.environ.get("MONEYIA_GMAIL_CREDENTIALS") or private / "gmail-oauth-client.json")
     token = Path(os.environ.get("MONEYIA_GMAIL_TOKEN") or private / "gmail-readonly-token.json")
-    status = Path(__file__).resolve().parents[2] / "data" / "email-watch-status.json"
+    status = Path(__file__).resolve().parents[2] / "data" / "gmail-api-status.json"
     return credentials, token, status
 
 
