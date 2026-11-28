@@ -1,0 +1,58 @@
+:root {
+  color-scheme: light;
+  --canvas: #f8f7f2;
+  --ink: #1f2824;
+  --muted: #485650;
+  --link: #16563e;
+  --line: #aab9af;
+  font: 1rem/1.6 system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--canvas); color: var(--ink); }
+a { color: var(--link); text-underline-offset: 0.2em; }
+a:focus-visible, textarea:focus-visible, button:focus-visible {
+  outline: 3px solid #235d96;
+  outline-offset: 4px;
+}
+.wrap { max-width: 68rem; margin: 0 auto; padding-inline: 1rem; }
+.skip { position: absolute; inset: 0 auto auto 1rem; translate: 0 -150%; background: var(--canvas); }
+.skip:focus { translate: 0 0; }
+.site-header, .site-footer { display: flex; align-items: center; flex-wrap: wrap; gap: 1rem 2rem; padding-block: 1rem; }
+.site-header { justify-content: space-between; border-bottom: 1px solid var(--line); }
+.site-header nav { display: flex; gap: 0.5rem 1rem; flex-wrap: wrap; }
+.wordmark { font-weight: 800; }
+.intro { padding-block: clamp(2rem, 8vw, 6rem) 2rem; }
+h1, h2, h3 { line-height: 1.16; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 4rem); max-width: 17ch; letter-spacing: -0.035em; }
+h2 { font-size: clamp(1.35rem, 3vw, 2rem); }
+h3 { font-size: 1.15rem; }
+p { max-width: 63ch; }
+.intro p, .entry p { color: var(--muted); }
+.section { display: grid; gap: 1rem; padding-block: 1.5rem; border-top: 1px solid var(--line); }
+.section ul { margin: 0; padding-inline-start: 1.25rem; }
+.entry { display: grid; gap: 0.5rem 1.5rem; align-items: baseline; }
+.entry p { margin: 0; }
+.entry a { justify-self: start; }
+.site-footer { border-top: 1px solid var(--line); }
+.editors { display: grid; gap: 1rem; margin-block: 1rem; }
+.editor { min-width: 0; }
+.editor label { display: block; font-weight: 700; }
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 12rem;
+  padding: 0.75rem;
+  resize: vertical;
+  border: 1px solid var(--muted);
+  background: white;
+  color: var(--ink);
+  font: 1rem/1.45 ui-monospace, monospace;
+}
+button { font: inherit; cursor: pointer; padding: 0.5rem 0.85rem; border: 1px solid var(--link); background: var(--link); color: white; }
+#resultado { overflow-wrap: anywhere; }
+
+@media (min-width: 48rem) {
+  .entry { grid-template-columns: minmax(9rem, 1fr) minmax(0, 2fr) minmax(8rem, 1fr); }
+  .editors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

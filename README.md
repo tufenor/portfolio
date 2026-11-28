@@ -1,15 +1,11 @@
-# Vitrine e demonstração
+# Portfólio tufenor
 
-Página estática de apresentação profissional e uma demonstração de correção de responsividade.
+Vitrine estática de projetos com demos que podem ser abertas e testadas localmente. O [Contrato JSON](lab/contrato-json/) usa apenas HTML, CSS e JavaScript.
 
-- `index.html` — ofertas, processo, limites e contato.
-- `demo/cafe-aurora.html` — versão corrigida de uma página de demonstração. Empresa fictícia, declarada como tal.
-- `demo/cafe-aurora-antes.html` — a mesma página com os defeitos de celular que a correção resolve.
-- `case/moneyia-radar.html` — case público e sanitizado do Radar global MoneyIA.
+```bash
+python3 -m http.server 8300 --bind 127.0.0.1
+```
 
-A vitrine não usa scripts de terceiros ou rastreadores. A nova demo imobiliária carrega fotografias públicas do Unsplash; o restante abre localmente sem instalação. Para abrir a vitrine, basta servir a pasta ou abrir `index.html` no navegador.
+Abra a raiz no navegador. Em **Laboratório**, abra **Contrato JSON**. O exemplo inicial deve passar. Remova uma chave ou troque o tipo de um campo para conferir a mensagem.
 
-Publicado com GitHub Pages a partir da raiz do branch `main`.
-
-- `demos/prototipo-imobiliario/` — protótipo conceitual e interativo para busca de imóveis; dados fictícios, sem backend.
-- `demos/flowline-ops/` — demonstração autoral de triagem operacional com quatro cenários locais; dados fictícios, sem integrações externas.
+[Como contribuir](CONTRIBUTING.md)

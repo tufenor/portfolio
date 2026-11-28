@@ -7,3 +7,5 @@ Abra uma [issue de ideia](../../issues/new?template=feature_request.yml) com o l
 Prefira propostas pequenas: uma correção de contraste, uma melhoria de navegação por teclado, uma seção mais clara ou uma demonstração reproduzível. Não inclua dados pessoais de clientes, credenciais ou métricas inventadas.
 
 Nos pull requests, explique como testou em celular e desktop, informe mudanças visuais relevantes e mantenha as páginas sem dependências e rastreadores desnecessários.
+
+Envie o pull request com o problema e o resultado esperado. Inclua os comandos que executou e, em mudanças visuais, capturas em duas larguras. O mantenedor revisa os testes e pode pedir ajustes antes de mesclar.

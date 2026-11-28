@@ -1,324 +1,70 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gabriel de Moura Pereira — interfaces, landing pages e correções web</title>
-<meta name="description" content="Trabalho com interfaces web, landing pages e correções de responsividade. Demonstração real, escopo pequeno e critérios de aceite claros.">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Gabriel de Moura Pereira — landing pages, correção de responsividade e automação com IA">
-  <meta property="og:url" content="https://tufenor.github.io/portfolio/">
-  <meta property="og:image" content="https://tufenor.github.io/portfolio/assets/og/og-portfolio.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="assets/site.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232e4935'/%3E%3Cpath d='M8 23V9h3l5 8 5-8h3v14h-3v-8l-5 8-5-8v8z' fill='%23f5f1e7'/%3E%3C/svg%3E">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Projetos selecionados de tufenor em desenvolvimento web, sistemas locais e ferramentas para equipes.">
+  <title>tufenor · Portfólio</title>
+  <link rel="stylesheet" href="assets/portfolio.css">
 </head>
 <body>
-<a class="skip" href="#main">Pular para o conteúdo</a>
-
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="./">
-      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2e4935"/><path d="M8 23V9h3l5 8 5-8h3v14h-3v-8l-5 8-5-8v8z" fill="#f5f1e7"/></svg>
-      Gabriel de Moura Pereira
-    </a>
-    <nav aria-label="Seções">
-      <a href="#servicos">Serviços</a>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="./">tufenor</a>
+    <nav aria-label="Principal">
       <a href="#projetos">Projetos</a>
-      <a href="#demo">Demonstração</a>
-      <a href="projeto/">Case: agentes</a>
-      <a href="case/moneyia-radar.html">Case: Radar MoneyIA</a>
-      <a href="case/moneyia-python-cycle-2026-11-27.html">Case: automação Python</a>
-      <a href="case/moneyia-python-health-2026-11-27.html">Case: monitoramento de fluxo</a>
-      <a href="case/moneyia-browser-gate-notifier-2026-11-27.html">Case: etapas humanas</a>
-      <a href="demo/ocr-review-pilot.html">Demo: conferência de PDFs</a>
-      <a href="case/moneyia-codex-bridge-2026-11-27.html">Case: ponte assíncrona de IA</a>
-      <a href="case/moneyia-jarvis-bridge-2026-11-26.html">Case: ponte JARVIS</a>
-      <a href="#processo">Como trabalho</a>
-      <a href="#contato">Contato</a>
+      <a href="#laboratorio">Laboratório</a>
+      <a href="#conteudo-tecnico">Conteúdo técnico</a>
     </nav>
-  </div>
-</header>
-
-<main id="main">
-
-  <div class="hero wrap">
-    <p class="eyebrow">UX/UI aplicada ao código</p>
-    <h1>Landing pages, correções de responsividade e interfaces que funcionam no celular de verdade.</h1>
-    <p class="lead">Trabalho com HTML, CSS, JavaScript, React e Python. Entrego páginas pequenas e verificáveis: uma oferta, poucas seções, teste em celular e desktop, código organizado. Sem promessa de resultado financeiro e sem métrica inventada.</p>
-    <div class="actions">
-      <a class="btn btn-primary" href="#demo">Ver a demonstração</a>
-      <a class="btn btn-ghost" href="#contato">Falar sobre um projeto</a>
+  </header>
+  <main class="wrap" id="conteudo">
+    <div class="intro">
+      <h1>Portfólio de desenvolvimento</h1>
+      <p>Sistemas web, ferramentas locais e exemplos que você pode executar e estudar.</p>
+      <a href="https://github.com/tufenor">Perfil no GitHub</a>
     </div>
-  </div>
-
-  <div class="strip">
-    <div class="wrap">
-      <p><strong>Transparência:</strong> uso IA na produção e reviso o que ela gera. Este site e a demonstração abaixo foram construídos por mim, com código aberto. Nenhum depoimento, cliente ou número de conversão foi inventado.</p>
-    </div>
-  </div>
-
-  <section id="servicos">
-    <div class="wrap">
-      <h2>Três escopos fechados para começar</h2>
-      <p class="sub">A ideia é começar pequeno: um problema observável, um critério de aceite objetivo e uma revisão incluída. Serviços maiores entram depois, com escopo próprio.</p>
-      <div class="grid">
-        <article class="card">
-          <span class="tag">Demonstração conceitual · UX para e-commerce</span>
-          <h3>Auréa — loja de joias responsiva e editável</h3>
-          <p>Estudo visual com busca, filtros, sacola local, fotografia licenciada e editor de conteúdo. Marca, produtos e preços fictícios; sem checkout ou integração de loja.</p>
-          <ul><li>Layout adaptado a celular e desktop</li><li>Conteúdo da marca editável e exportável em JSON</li><li>Fotografias Unsplash; nenhuma imagem gerada por IA</li></ul>
-          <p><a href="demos/atelier-aurora/">Explorar a demonstração →</a></p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Público · case</span>
-          <h3>Radar global MoneyIA</h3>
-          <p>Fluxo de descoberta, qualificação e fila de revisão para oportunidades públicas, com retomada de gates humanos e estados de evidência separados.</p>
-          <ul>
-            <li>161 registros normalizados em modo sombra</li>
-            <li>Fila visual de até 30 pacotes</li>
-            <li>Sem envio automático confirmado</li>
-          </ul>
-          <p><a href="case/moneyia-radar.html">Ler o case público →</a></p>
-        </article>
-        <article class="card">
-          <span class="tag">Público · automação</span>
-          <h3>Ponte assíncrona de agentes</h3>
-          <p>Fila local, worker Codex agendado e importação idempotente com status de disponibilidade verificado por inferência.</p>
-          <ul><li>Até 30 análises por lote</li><li>Retomada após falha</li><li>Sem envio externo automático</li></ul>
-          <p><a href="case/moneyia-codex-bridge-2026-11-27.html">Ler o case público →</a></p>
-        </article>
-        <article class="card">
-          <span class="tag">Público · monitoramento</span>
-          <h3>Diagnóstico de fluxo em Python</h3>
-          <p>Health checks distinguem serviço online de versão pronta, pendências humanas e fila parada.</p>
-          <ul><li>Estado por API, em vez de um único sinal TCP</li><li>Resumo sanitizado sem URLs de anúncios</li><li>Próxima ação identificada pelo ciclo local</li></ul>
-          <p><a href="case/moneyia-python-health-2026-11-27.html">Ler o case público →</a></p>
-        </article>
-        <article class="card">
-          <span class="tag">Público · navegador e automação</span>
-          <h3>Etapas humanas sem repetição</h3>
-          <p>O ciclo Python traz uma pendência ao navegador, avisa uma vez e deixa a Mesa registrar a conclusão antes de continuar.</p>
-          <ul><li>Uma etapa por vez</li><li>Deduplicação de login por plataforma</li><li>Estado persistente e sanitizado</li></ul>
-          <p><a href="case/moneyia-browser-gate-notifier-2026-11-27.html">Ler o case público →</a></p>
-        </article>
-        <article class="card">
-          <span class="tag">Demonstração · protótipo</span>
-          <h3>Conferência de extração para planilha</h3>
-          <p>Prévia de um fluxo para registrar valor, arquivo e página de origem e encaminhar casos de baixa confiança para revisão.</p>
-          <ul><li>Dados demonstrativos fictícios</li><li>Revisão e exportação CSV interativas</li><li>Sem OCR conectado ou PDFs reais</li></ul>
-          <p><a href="demo/ocr-review-pilot.html">Abrir demonstração →</a></p>
-        </article>
-        <article class="card">
-          <span class="tag">Entrada</span>
-          <h3>Resgate mobile de uma página</h3>
-          <p>Uma página existente que quebra no celular.</p>
-          <ul>
-            <li>Até cinco defeitos acordados</li>
-            <li>Layout, navegação ou formulário</li>
-            <li>Capturas antes/depois</li>
-            <li>Teste em larguras de celular e desktop</li>
-            <li>Uma rodada de revisão</li>
-          </ul>
-          <p class="price">A partir de R$ 290 · duas jornadas úteis após receber acesso e materiais</p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Entrega</span>
-          <h3>Landing page de uma oferta</h3>
-          <p>Página de apresentação com um objetivo claro.</p>
-          <ul>
-            <li>Até seis seções</li>
-            <li>Versão mobile e desktop</li>
-            <li>CTA e formulário ou link indicado por você</li>
-            <li>Copy inicial a partir do material enviado</li>
-            <li>Código entregue e documentado</li>
-          </ul>
-          <p class="price">A partir de R$ 790 · duas jornadas úteis após receber textos, imagens e identidade</p>
-          <p><a href="modelos/landing-servicos/">Experimentar o modelo de landing →</a></p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Prévia editável</span>
-          <h3>Proposal Studio</h3>
-          <p>Três demonstrações públicas para explicar o primeiro marco antes da contratação: landing/web, automação/IA e UX/UI.</p>
-          <ul>
-            <li>Layout responsivo e transições sutis</li>
-            <li>Conteúdo e dados claramente ilustrativos</li>
-            <li>Configuração separada para adaptar o briefing</li>
-          </ul>
-          <p><a href="modelos/proposta-studio/?modelo=landing">Abrir as prévias de proposta →</a></p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Cardápio</span>
-          <h3>Menu Studio para pequenos negócios</h3>
-          <p>Cardápio digital com busca, categorias e edição de preços em arquivo. Versão em português ou português e espanhol.</p>
-          <p class="price">A partir de R$ 297</p>
-          <p><a href="cardapio-digital/">Ver a demo e preparar orçamento →</a></p>
-          <p><a href="case/pausa-handoff.html">Ver o case de design e entrega</a></p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Diagnóstico</span>
-          <h3>Instalação e arranque de aplicativo desktop</h3>
-          <p>Para software que instala bem em um PC e falha em outros.</p>
-          <ul>
-            <li>Reproduzir um erro de instalação</li>
-            <li>Diagnóstico com logs enviados por você</li>
-            <li>Correção do que estiver no código</li>
-            <li>Checklist de instalação limpa</li>
-          </ul>
-          <p class="price">A partir de R$ 250 · depende do instalador e dos logs; não prometo resolver falhas causadas pelo ambiente do cliente</p>
-        </article>
-      </div>
-      <p class="note">Fora do escopo inicial: backend novo, login, pagamentos, migração de banco, e-commerce e certificação de acessibilidade. Domínio, hospedagem paga e anúncios correm por conta do cliente.</p>
-    </div>
-  </section>
-
-  <section id="projetos">
-    <div class="wrap">
-      <h2>Projetos por trás do serviço</h2>
-      <p class="sub">Não trabalho só com páginas de exemplo. Estes são os sistemas em que aprendi o que sei — nenhum deles está publicado como demo de cliente.</p>
-      <div class="grid">
-        <article class="card">
-          <span class="tag">Demonstração · site institucional</span>
-          <h3>Nortea — apresentação de empresa editável</h3>
-          <p>Estudo visual responsivo com hierarquia editorial, imagens ilustrativas, transições discretas e prévia de edição de conteúdo. Marca fictícia; o formulário não envia dados.</p>
-          <ul><li>Textos e cor editáveis nesta sessão</li><li>Configuração exportável em JSON</li><li>Mobile, teclado e movimento reduzido considerados</li></ul>
-          <p><a href="demos/empresa-presenca-editavel/">Abrir demonstração →</a></p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Demonstração conceitual</span>
-          <h3>Protótipo imobiliário navegável</h3>
-          <p>Busca, filtros, favoritos, mapa ilustrativo e detalhe de imóvel em uma amostra responsiva. Conteúdo e imóveis fictícios; sem backend ou solicitação real.</p>
-          <p><a href="demos/prototipo-imobiliario/">Abrir demonstração interativa →</a></p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Estudo autoral · produto SaaS</span>
-          <h3>Checkout, acesso e painel financeiro</h3>
-          <p>Três telas conectadas para um produto fictício: compra com estados claros, acesso sem fricção e painel com dados ilustrativos. Protótipo em código, sem processamento de pagamentos.</p>
-          <p><a href="demos/nexa-checkout/">Explorar a demonstração →</a></p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Case MoneyIA · automação e dados</span>
-          <h3>Separar alertas de pagamento da receita confirmada</h3>
-          <p>Um fluxo de leitura classifica avisos sem vínculo, impede tarefas repetidas para a mesma mensagem e encaminha casos ambíguos para revisão antes de alterar o caixa.</p>
-          <p><a href="case/moneyia-email-attribution-2026-11-27.html">Ver o fluxo e a demonstração sanitizada →</a></p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Protótipo autoral · operações</span>
-          <h3>Flowline Ops — fluxo visível, exceções tratadas</h3>
-          <p>Demo interativa de captura, triagem, encaminhamento e registro. Quatro cenários mostram como duplicatas, dados ausentes e falhas podem ser pausados e acompanhados.</p>
-          <p><a href="demos/flowline-ops/">Explorar a demonstração interativa →</a></p>
-        </article>
-
-        <article class="card">
-          <span class="tag">Em desenvolvimento</span>
-          <h3>J.A.R.V.I.S. — assistente pessoal</h3>
-          <p>Assistente para Windows com processamento local, voz em português e automação controlada do computador. Conecta interface, ferramentas do PC, ESP32 e app companion Android.</p>
-          <ul>
-            <li>Python, FastAPI, Kotlin/Compose</li>
-            <li>Interface de controle e integrações</li>
-            <li>Código privado: contém configuração pessoal</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <span class="tag">Em desenvolvimento</span>
-          <h3>Frequency — gestão de academia</h3>
-          <p>Sistema de gestão com API, banco relacional e interface web em português. Fluxos de alunos, presenças, planos e administração.</p>
-          <ul>
-            <li>FastAPI e PostgreSQL</li>
-            <li>Modelagem de dados e coerência de telas</li>
-            <li>Código privado</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <span class="tag">Público</span>
-          <h3>Páginas e estudos de frontend</h3>
-          <p>Sites estáticos em HTML, CSS e JavaScript, publicados no GitHub. É onde testo composição, responsividade e acessibilidade em escopo pequeno.</p>
-          <ul>
-            <li><a href="https://github.com/tufenor/MYD-Site">MYD-Site</a></li>
-            <li><a href="https://github.com/tufenor/Site-Apresentacao">Site-Apresentacao</a></li>
-            <li><a href="https://github.com/tufenor/Alura-Plus">Alura-Plus</a></li>
-          </ul>
-        </article>
-      </div>
-      <p class="note">JARVIS e Frequency não têm repositório público porque carregam configuração e dados pessoais. Publicar um recorte quebrado só para preencher a grade não provaria nada.</p>
-    </div>
-  </section>
-
-  <section id="demo">
-    <div class="wrap">
-      <h2>Uma demonstração que você pode abrir e comparar</h2>
-      <p class="sub">A página <em>Café Aurora</em> é uma empresa fictícia criada só para esta demonstração. Existem duas versões com o mesmo conteúdo: uma com defeitos comuns de celular e outra corrigida. É o mesmo tipo de trabalho do "resgate mobile".</p>
-      <div class="demo-grid">
-        <div>
-          <iframe src="demo/cafe-aurora.html" title="Prévia da versão corrigida da página de demonstração, em largura de celular" loading="lazy"></iframe>
-          <p class="note">Prévia em largura de celular. A página é a mesma em tela grande, com a composição em duas colunas.</p>
-        </div>
-        <div>
-          <h3 style="margin-top:0">O que foi corrigido</h3>
-          <ol class="steps">
-            <li><span><strong>Transbordo horizontal</strong>Uma tabela de horários mais larga que a tela forçava rolagem lateral na página inteira.</span></li>
-            <li><span><strong>Alvos de toque pequenos</strong>Links do menu com 14 px de altura, abaixo do mínimo confortável para o dedo.</span></li>
-            <li><span><strong>Texto ilegível</strong>Parágrafos em 12 px com contraste baixo sobre fundo claro.</span></li>
-            <li><span><strong>Imagens sem espaço reservado</strong>O bloco de imagens empurrava o conteúdo e causava salto de layout.</span></li>
-            <li><span><strong>Formulário sem estado de erro</strong>O campo de contato não indicava o que faltava ao enviar.</span></li>
-          </ol>
-          <p style="margin-top:1.4rem">
-            <a class="btn btn-ghost" href="demo/cafe-aurora-antes.html">Abrir a versão com defeitos</a>
-            <a class="btn btn-ghost" href="demo/cafe-aurora.html">Abrir a versão corrigida</a>
-          </p>
-          <p class="note">Links abrem a página isolada, sem moldura, para você redimensionar a janela e comparar.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="processo">
-    <div class="wrap">
-      <h2>Como uma entrega acontece</h2>
-      <p class="sub">Sem etapa surpresa e sem cobrança por hora em trabalho de escopo fechado.</p>
-      <ol class="steps">
-        <li><span><strong>Conversa curta</strong>Você descreve o problema, manda o link da página ou o material que já existe.</span></li>
-        <li><span><strong>Escopo escrito</strong>Eu respondo com o que entra, o que fica de fora, o preço e o prazo. Só começo depois do seu aceite.</span></li>
-        <li><span><strong>Produção e prévia</strong>Entrego uma prévia navegável para você apontar o que está errado antes de fechar.</span></li>
-        <li><span><strong>Revisão e entrega</strong>Uma rodada de ajustes incluída; depois, o código e um resumo do que mudou.</span></li>
-      </ol>
-    </div>
-  </section>
-
-  <section id="contato" class="contact">
-    <div class="wrap">
-      <h2>Vamos conversar sobre o seu projeto</h2>
-      <p class="sub">Envie o objetivo, uma referência e o prazo desejado. Se o seu caso não couber no que faço bem, eu digo isso antes de qualquer orçamento.</p>
-      <div class="links">
-        <a href="https://github.com/tufenor">GitHub — código público</a>
-        <a href="https://linkedin.com/in/tufenor">LinkedIn</a>
-      </div>
-      <p class="note" style="margin-top:1.6rem;color:#c9c6ba">
-        <strong>EN</strong> — I build small, clearly scoped web deliverables: responsive fixes and one-off landing pages. Ask for the scope, price and deadline in writing before starting.<br>
-        <strong>ES</strong> — Trabajo con entregas web pequeñas y bien delimitadas: correcciones responsive y landing pages de una oferta. Pido alcance, precio y plazo por escrito antes de empezar.
-      </p>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <p>Gabriel de Moura Pereira · interfaces, automação e correções web. Página estática, sem rastreadores.</p>
-    <p>As ilustrações e a empresa "Café Aurora" são demonstração. Nenhum resultado de cliente é representado aqui.</p>
-  </div>
-</footer>
+    <section id="projetos" class="section">
+      <h2>Projetos selecionados</h2>
+      <article class="entry">
+        <h3>Frequency</h3>
+        <p>Gestão de academia com cadastro, planos, cobrança e acesso. API FastAPI, migrações PostgreSQL e frontend em TypeScript.</p>
+        <a href="https://github.com/tufenor/frequency">Código do Frequency</a>
+      </article>
+      <article class="entry">
+        <h3>Colchões Campinas</h3>
+        <p>Catálogo responsivo com páginas por marca, dados estruturados e administração com Supabase.</p>
+        <a href="https://github.com/tufenor/colchoes-campinas">Código do catálogo</a>
+      </article>
+      <article class="entry">
+        <h3>Jarvis</h3>
+        <p>Assistente local para Windows, com voz, integração ESP32 e testes simulados para o firmware.</p>
+        <a href="https://github.com/tufenor/jarvis">Código do Jarvis</a>
+      </article>
+    </section>
+    <section id="laboratorio" class="section">
+      <h2>Laboratório</h2>
+      <article class="entry">
+        <h3>Contrato JSON</h3>
+        <p>Valide um exemplo de resposta de API com regras editáveis e mensagens por campo. A verificação acontece no navegador.</p>
+        <a href="lab/contrato-json/">Abrir Contrato JSON</a>
+      </article>
+      <article class="entry">
+        <h3>HRX</h3>
+        <p>Checklist reutilizável para preparar um checkout e chegar ao primeiro teste. O progresso fica no navegador.</p>
+        <a href="https://github.com/tufenor/HRX">Código do HRX</a>
+      </article>
+    </section>
+    <section id="conteudo-tecnico" class="section">
+      <h2>Conteúdo em preparação</h2>
+      <ul>
+        <li>Como tornar a configuração de desenvolvimento reproduzível.</li>
+        <li>Como criar demonstrações públicas com dados fictícios.</li>
+        <li>Como testar e revisar um pull request da comunidade.</li>
+      </ul>
+    </section>
+  </main>
+  <footer class="wrap site-footer">
+    <a href="https://github.com/tufenor/portfolio/blob/main/CONTRIBUTING.md">Como contribuir</a>
+  </footer>
 </body>
 </html>
