@@ -1,18 +1,14 @@
 # Mansa — página de venda curta (801637)
 
-Estudo independente para demonstrar uma landing page curta, responsiva, com fotos de contexto, CTA claro, FAQ e personalização local. A marca, o produto, a descrição, o preço e todo o conteúdo são fictícios. Não há checkout, coleta de dados, envio de pedidos, promessa cosmética ou prova de cliente.
+Estudo conceitual de uma landing page curta, responsiva e editável. Marca, produto, descrição, preço e conteúdo são fictícios. As duas fotografias de produto foram geradas para esta demo. Não há checkout, coleta de dados, envio de pedidos, promessa cosmética ou prova de cliente.
 
 ## Como abrir
-Abra `index.html` em um navegador conectado à internet. As imagens e fontes são servidas por Unsplash Images e Google Fonts; a página continua funcional sem elas, mas perde o acabamento visual.
+Abra `index.html` em um navegador. Fontes tipográficas usam Google Fonts; o restante, inclusive as imagens, está no próprio diretório.
 
 ## Personalização demonstrativa
-O botão “Personalizar esta demo” permite mudar marca, título, descrição, CTA, preço ilustrativo e foto principal. As alterações ficam apenas no `localStorage` do navegador. Um editor final para o cliente depende da plataforma e do conteúdo aprovados.
+O botão “Personalizar esta demo” permite alterar marca, título, descrição, CTA, preço ilustrativo e as três imagens. As mudanças ficam no `localStorage` do navegador; “Restaurar conteúdo” repõe os valores da demo. A integração de um CMS ou painel definitivo depende da plataforma e do conteúdo fornecidos pelo cliente.
 
-## Uso de imagens
-URLs de imagem do Unsplash Images embutidas como referência de fotografia; não representam o produto fictício. O conteúdo original e o código desta demo são independentes. Substituir pelas fotos fornecidas/licenciadas pelo cliente antes de uma publicação comercial.
+## Revisão e limites
+Revisada visualmente em 320, 360, 390, 430, 768 e 1280 px: sem rolagem horizontal e com três imagens carregadas. Os campos de edição e restauração foram conferidos no navegador. A página é demonstração de portfólio, não uma loja real. Botões de compra abrem aviso ilustrativo e não processam pagamentos.
 
-## Limitações e status
-A página é uma demo de portfólio, não uma loja real. Botões de compra abrem uma mensagem ilustrativa e não processam pagamentos. Revisão estática do JavaScript pode ser executada com `node --check app.js`; revisão visual em vários tamanhos continua pendente até o ambiente de browser abrir a página.
-
-URL prevista: `https://tufenor.github.io/portfolio/demos/short-product-sales-page-801637/`
-
+Demo pública: https://tufenor.github.io/portfolio/demos/short-product-sales-page-801637/
