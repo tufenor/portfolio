@@ -1,6 +1,6 @@
 const $ = (selector, root = document) => root.querySelectorAll(selector);
 const one = (selector, root = document) => root.querySelector(selector);
-const KEY = 'mansa-demo-801637';
+const KEY = 'mansa-demo-801637-v2';
 const defaults = {
   brand: 'mansa',
   headline: 'Seu banho. Seu tempo.',
