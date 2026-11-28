@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prévia — Base Clara | Método Base</title>
+<meta name="description" content="Prévia conceitual de landing page para infoproduto. Conteúdo fictício para demonstração de estrutura, design e responsividade.">
+<style>
+  :root {
+    --ink: #18201b;
+    --paper: #f4efe4;
+    --paper-2: #ebe3d2;
+    --moss: #2f4a37;
+    --moss-2: #45684c;
+    --coral: #e85d3f;
+    --cream: #fffaf0;
+    --line: rgba(24, 32, 27, .16);
+    --muted: #5b665d;
+    --radius: 1.1rem;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 400 16px/1.6 "Segoe UI", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  a { color: inherit; }
+  .wrap { width: min(1120px, calc(100% - 2.5rem)); margin-inline: auto; }
+  .demo-bar {
+    background: var(--ink);
+    color: var(--cream);
+    font-size: .78rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: .55rem 1rem;
+  }
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(244, 239, 228, .92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 0; }
+  .brand { display: inline-flex; align-items: center; gap: .65rem; font-weight: 750; letter-spacing: -.02em; text-decoration: none; }
+  .mark {
+    width: 2rem; height: 2rem; border-radius: .55rem; background: var(--moss); color: var(--cream);
+    display: grid; place-items: center; font-family: Georgia, serif; font-size: 1.05rem;
+  }
+  nav { display: flex; align-items: center; gap: 1.4rem; font-size: .92rem; }
+  nav a { text-decoration: none; color: var(--muted); }
+  nav a:hover { color: var(--ink); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    min-height: 2.85rem; padding: .7rem 1.15rem; border-radius: 999px;
+    font-weight: 700; font-size: .94rem; text-decoration: none; border: 1px solid transparent;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--coral); color: #fff; }
+  .btn-dark { background: var(--moss); color: var(--cream); }
+  .btn-ghost { border-color: var(--line); background: transparent; color: var(--ink); }
+  .nav .btn { min-height: 2.45rem; padding: .55rem 1rem; font-size: .88rem; }
+
+  .hero { display: grid; grid-template-columns: 1.12fr .88fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; padding: clamp(3.2rem, 7vw, 6.5rem) 0 clamp(3rem, 6vw, 5.5rem); }
+  .eyebrow { display: inline-flex; align-items: center; gap: .55rem; margin: 0 0 1.1rem; font-size: .78rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: var(--moss); }
+  .eyebrow::before { content: ""; width: 1.8rem; height: 2px; background: var(--coral); }
+  h1, h2, h3 { font-family: ui-serif, Georgia, "Times New Roman", serif; font-weight: 600; letter-spacing: -.035em; line-height: 1.06; margin: 0; }
+  h1 { font-size: clamp(2.7rem, 6.4vw, 5.3rem); max-width: 12ch; }
+  h1 em { color: var(--coral); font-style: italic; }
+  .lead { max-width: 44ch; color: #3f4a41; font-size: clamp(1.02rem, 1.8vw, 1.18rem); margin: 1.5rem 0 0; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; }
+  .micro { margin: 1rem 0 0; color: var(--muted); font-size: .82rem; }
+  .micro strong { color: var(--ink); }
+  .hero-visual { position: relative; min-height: 25rem; }
+  .orbit {
+    position: absolute; inset: 0; border-radius: 50%; border: 1px dashed rgba(47, 74, 55, .32);
+    transform: rotate(-12deg);
+  }
+  .orbit::before, .orbit::after {
+    content: ""; position: absolute; border-radius: 50%;
+  }
+  .orbit::before { width: .8rem; height: .8rem; background: var(--coral); top: 8%; right: 14%; }
+  .orbit::after { width: .5rem; height: .5rem; background: var(--moss); bottom: 11%; left: 10%; }
+  .card-stack { position: absolute; inset: 3rem 0 1rem 1.2rem; display: grid; place-items: center; }
+  .day-card {
+    width: min(100%, 20.5rem); background: var(--cream); border: 1px solid var(--line);
+    border-radius: 1.4rem; padding: 1.45rem; box-shadow: 0 1.5rem 3rem rgba(24, 32, 27, .12);
+    transform: rotate(3deg);
+  }
+  .day-card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-bottom: .8rem; border-bottom: 1px solid var(--line); }
+  .day-card-top span:first-child { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 800; color: var(--muted); }
+  .day-card-top strong { font-family: Georgia, serif; font-size: 1.4rem; color: var(--moss); }
+  .days { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .65rem; }
+  .days li { display: grid; grid-template-columns: 2.2rem 1fr; gap: .75rem; align-items: start; font-size: .92rem; }
+  .days b { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: .6rem; background: var(--paper-2); color: var(--moss); font-size: .78rem; }
+  .days span { color: #3e4941; }
+  .stamp {
+    position: absolute; right: -.4rem; bottom: 2.2rem; width: 6.2rem; height: 6.2rem; border-radius: 50%;
+    background: var(--coral); color: #fff; display: grid; place-items: center; text-align: center;
+    font-size: .69rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; line-height: 1.25;
+    transform: rotate(9deg); box-shadow: 0 1rem 2rem rgba(232, 93, 63, .25);
+  }
+
+  /* Motion layer: gives the concept a contemporary, tactile feel without adding dependencies. */
+  .hero-visual { animation: visual-in .8s cubic-bezier(.2,.8,.2,1) both; }
+  .orbit { animation: orbit-breathe 9s ease-in-out infinite; }
+  .day-card { transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; animation: card-float 6s ease-in-out infinite; }
+  .day-card:hover { transform: rotate(0deg) translateY(-7px); box-shadow: 0 2rem 4rem rgba(24,32,27,.18); }
+  .stamp { animation: stamp-in .7s .35s cubic-bezier(.2,.8,.2,1) both; }
+
+  .strip { border-block: 1px solid var(--line); background: var(--cream); }
+  .strip .wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1.1rem 0; }
+  .strip p { margin: 0; font-size: .88rem; color: var(--muted); display: flex; gap: .55rem; align-items: flex-start; }
+  .strip b { color: var(--ink); }
+  .dot { width: .5rem; height: .5rem; border-radius: 50%; background: var(--moss-2); margin-top: .45rem; flex: none; }
+
+  section { padding: clamp(3.2rem, 7vw, 6rem) 0; }
+  .section-head { display: flex; justify-content: space-between; gap: 2rem; align-items: end; margin-bottom: 2rem; }
+  .kicker { margin: 0 0 .55rem; font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--coral); }
+  h2 { font-size: clamp(2rem, 4.4vw, 3.5rem); max-width: 15ch; }
+  .section-head p { max-width: 33ch; margin: 0; color: var(--muted); font-size: .97rem; }
+
+  .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .pain { border-top: 2px solid var(--ink); padding-top: 1rem; transition: transform .25s ease, border-color .25s ease; }
+  .pain:hover { transform: translateY(-5px); border-color: var(--coral); }
+  .pain span { font-family: Georgia, serif; font-size: 1.7rem; color: var(--muted); }
+  .pain h3 { font-size: 1.25rem; margin: .65rem 0 .45rem; }
+  .pain p { margin: 0; color: var(--muted); font-size: .93rem; }
+
+  .inside { background: var(--ink); color: var(--cream); }
+  .inside .kicker { color: #f2a48f; }
+  .inside h2 { color: var(--cream); }
+  .inside .section-head p { color: #b8c2b9; }
+  .modules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .module {
+    border: 1px solid rgba(255, 250, 240, .19); border-radius: var(--radius); padding: 1.35rem;
+    background: rgba(255, 250, 240, .04); transition: transform .3s ease, background .3s ease, border-color .3s ease;
+  }
+  .module:hover { transform: translateY(-6px); background: rgba(255,250,240,.09); border-color: rgba(242,164,143,.55); }
+  .module-top { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+  .module .num { font-family: Georgia, serif; font-size: 2.1rem; color: #f2a48f; line-height: 1; }
+  .module .tag { font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: #c9d2ca; border: 1px solid rgba(255,255,255,.22); padding: .25rem .5rem; border-radius: 999px; }
+  .module h3 { color: var(--cream); font-size: 1.35rem; margin: .7rem 0 .45rem; }
+  .module p { margin: 0; color: #c2cbc3; font-size: .92rem; }
+  .module ul { margin: .8rem 0 0; padding-left: 1rem; color: #c2cbc3; font-size: .9rem; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; counter-reset: step; }
+  .step { background: var(--cream); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; transition: transform .3s ease, box-shadow .3s ease; }
+  .step:hover { transform: translateY(-6px); box-shadow: 0 1.2rem 2.5rem rgba(24,32,27,.1); }
+  .step::before { counter-increment: step; content: "0" counter(step); font-family: Georgia, serif; font-size: 1.9rem; color: var(--coral); }
+  .step h3 { font-size: 1.25rem; margin: .6rem 0 .4rem; }
+  .step p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+  .offer-wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 1.2rem; align-items: stretch; }
+  .offer-note { background: var(--paper-2); border-radius: var(--radius); padding: 1.6rem; display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; }
+  .offer-note h3 { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+  .offer-note p { color: var(--muted); font-size: .95rem; margin: .8rem 0 0; }
+  .offer-card { background: var(--cream); border: 2px solid var(--ink); border-radius: 1.35rem; padding: clamp(1.5rem, 3vw, 2.2rem); box-shadow: .45rem .45rem 0 var(--moss); transition: transform .3s ease, box-shadow .3s ease; }
+  .offer-card:hover { transform: translateY(-6px); box-shadow: .65rem .65rem 0 var(--coral); }
+  .offer-card .label { font-size: .74rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--coral); }
+  .price { display: flex; align-items: baseline; gap: .55rem; margin: .7rem 0 .3rem; }
+  .price strong { font-family: Georgia, serif; font-size: clamp(2.7rem, 5vw, 4rem); line-height: 1; letter-spacing: -.04em; }
+  .price span { color: var(--muted); font-size: .9rem; }
+  .offer-card .pay { color: var(--muted); font-size: .86rem; margin: 0 0 1.1rem; }
+  .checks { list-style: none; margin: 0 0 1.4rem; padding: 0; display: grid; gap: .55rem; font-size: .94rem; }
+  .checks li { display: grid; grid-template-columns: 1.2rem 1fr; gap: .55rem; align-items: start; }
+  .checks li::before { content: "✓"; color: var(--moss); font-weight: 900; }
+  .offer-card .btn { width: 100%; }
+  .offer-card small { display: block; text-align: center; color: var(--muted); font-size: .75rem; margin-top: .7rem; }
+
+  .faq { display: grid; grid-template-columns: .7fr 1.3fr; gap: 3rem; align-items: start; }
+  .faq-list { border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); padding: 1rem 0; }
+  summary { cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 1.4rem; color: var(--coral); line-height: 1; }
+  details[open] summary::after { content: "−"; }
+  details p { margin: .7rem 0 0; color: var(--muted); font-size: .93rem; }
+
+  footer { background: var(--ink); color: #c7d0c8; padding: 2.2rem 0; font-size: .84rem; }
+  .foot { display: flex; justify-content: space-between; gap: 2rem; align-items: start; }
+  .foot strong { color: var(--cream); }
+  .foot p { margin: .55rem 0 0; max-width: 52ch; }
+  .foot a { color: var(--cream); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; padding-top: 2.6rem; }
+    h1 { max-width: 14ch; }
+    .hero-visual { min-height: 23rem; max-width: 28rem; }
+    .card-stack { inset: 1.5rem 0 0 .8rem; }
+    .strip .wrap { grid-template-columns: 1fr; }
+    .section-head { display: block; }
+    .section-head p { margin-top: .8rem; }
+    .pain-grid, .steps { grid-template-columns: 1fr; }
+    .modules { grid-template-columns: 1fr; }
+    .offer-wrap, .faq { grid-template-columns: 1fr; }
+    .faq { gap: 1.5rem; }
+    .foot { display: block; }
+  }
+  @media (max-width: 620px) {
+    .wrap { width: min(100% - 1.5rem, 1120px); }
+    nav { display: none; }
+    .nav .btn { min-height: 2.35rem; }
+    h1 { font-size: clamp(2.55rem, 12vw, 3.6rem); }
+    .hero-actions .btn { width: 100%; }
+    .hero-visual { min-height: 21rem; }
+    .day-card { width: min(100%, 18rem); }
+    .stamp { display: none; }
+    .offer-card { box-shadow: .25rem .25rem 0 var(--moss); }
+  }
+  @keyframes visual-in { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+  @keyframes orbit-breathe { 50% { transform: rotate(-4deg) scale(1.025); } }
+  @keyframes card-float { 0%,100% { transform: rotate(3deg) translateY(0); } 50% { transform: rotate(1deg) translateY(-7px); } }
+  @keyframes stamp-in { from { opacity: 0; transform: rotate(-12deg) scale(.75); } to { opacity: 1; transform: rotate(9deg) scale(1); } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn,.pain,.module,.step,.offer-card,.day-card { transition: none; animation: none; } .day-card { transform: rotate(3deg); } }
+</style>
+</head>
+<body>
+
+<div class="demo-bar">Prévia conceitual • marca, textos e preço fictícios</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Base Clara, início">
+      <span class="mark" aria-hidden="true">B</span>
+      Base Clara
+    </a>
+    <nav aria-label="Navegação da prévia">
+      <a href="#metodo">O método</a>
+      <a href="#conteudo">Conteúdo</a>
+      <a href="#oferta">Oferta</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+    <a class="btn btn-dark" href="#oferta">Quero começar</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div>
+      <p class="eyebrow">Guia prático para o primeiro produto digital</p>
+      <h1 id="hero-title">Tire seu produto digital do papel — e coloque a <em>primeira versão</em> no ar em 7 dias.</h1>
+      <p class="lead">Um caminho curto para validar a ideia, montar uma oferta clara e publicar sem depender de equipe, anúncios ou ferramentas caras.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#oferta">Ver o que está incluído <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#conteudo">Conhecer o método</a>
+      </div>
+      <p class="micro"><strong>Acesso imediato</strong> • 7 dias de garantia • conteúdo fictício de demonstração</p>
+    </div>
+
+    <div class="hero-visual" aria-label="Resumo visual dos sete dias do método">
+      <div class="orbit" aria-hidden="true"></div>
+      <div class="card-stack">
+        <div class="day-card">
+          <div class="day-card-top">
+            <span>O caminho</span>
+            <strong>7 dias</strong>
+          </div>
+          <ol class="days">
+            <li><b>01</b><span><strong>Escolha</strong> o problema que você já sabe resolver.</span></li>
+            <li><b>02</b><span><strong>Desenhe</strong> uma oferta pequena e específica.</span></li>
+            <li><b>03</b><span><strong>Monte</strong> a primeira versão sem perfeccionismo.</span></li>
+            <li><b>04</b><span><strong>Publique</strong> e converse com as primeiras pessoas.</span></li>
+            <li><b>05</b><span><strong>Ajuste</strong> com o que elas disserem.</span></li>
+          </ol>
+        </div>
+      </div>
+      <div class="stamp" aria-hidden="true">comece<br>pequeno<br>publique</div>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="wrap">
+      <p><span class="dot" aria-hidden="true"></span><span><b>Sem equipe.</b> Um caminho para uma pessoa.</span></p>
+      <p><span class="dot" aria-hidden="true"></span><span><b>Sem ferramenta cara.</b> Comece com o que já existe.</span></p>
+      <p><span class="dot" aria-hidden="true"></span><span><b>Sem promessa de renda.</b> Método, não milagre.</span></p>
+    </div>
+  </div>
+
+  <section id="metodo" aria-labelledby="metodo-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">O problema não é falta de ideia</p>
+          <h2 id="metodo-title">É a distância entre a ideia e uma página no ar.</h2>
+        </div>
+        <p>Se você trava no “por onde começo”, o método troca a busca pela perfeição por uma sequência de decisões pequenas.</p>
+      </div>
+      <div class="pain-grid">
+        <article class="pain"><span>01</span><h3>Ideia grande demais</h3><p>Você tenta criar um curso completo antes de validar se alguém quer a primeira versão.</p></article>
+        <article class="pain"><span>02</span><h3>Oferta confusa</h3><p>O visitante não entende em cinco segundos o que você entrega, para quem e por quanto.</p></article>
+        <article class="pain"><span>03</span><h3>Publicação adiada</h3><p>Falta logo, texto, página, checkout. O projeto fica “quase pronto” por meses.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="inside" id="conteudo" aria-labelledby="conteudo-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">O que está dentro</p>
+          <h2 id="conteudo-title">Quatro partes. Uma primeira versão publicável.</h2>
+        </div>
+        <p>Material direto, com exemplos e checklists. Você aplica no seu produto, não em um caso genérico.</p>
+      </div>
+      <div class="modules">
+        <article class="module">
+          <div class="module-top"><span class="num">01</span><span class="tag">Clareza</span></div>
+          <h3>Escolha e recorte</h3>
+          <p>Transforme uma habilidade ou conhecimento em um problema específico que alguém pagaria para resolver.</p>
+          <ul><li>Mapa de problemas</li><li>Critérios de recorte</li><li>Teste de relevância</li></ul>
+        </article>
+        <article class="module">
+          <div class="module-top"><span class="num">02</span><span class="tag">Oferta</span></div>
+          <h3>Promessa e entrega</h3>
+          <p>Defina o resultado, o formato e o que fica fora do escopo para a oferta ficar fácil de entender.</p>
+          <ul><li>Estrutura da promessa</li><li>Escopo mínimo viável</li><li>Preço de entrada</li></ul>
+        </article>
+        <article class="module">
+          <div class="module-top"><span class="num">03</span><span class="tag">Página</span></div>
+          <h3>Landing page que explica</h3>
+          <p>Uma sequência de seções que responde às dúvidas na ordem em que elas aparecem.</p>
+          <ul><li>Hero e CTA</li><li>Prova honesta</li><li>Objeções e FAQ</li></ul>
+        </article>
+        <article class="module">
+          <div class="module-top"><span class="num">04</span><span class="tag">Publicação</span></div>
+          <h3>Primeiro lançamento</h3>
+          <p>Um checklist para colocar a página no ar e conversar com as primeiras pessoas sem automação complexa.</p>
+          <ul><li>Checklist de publicação</li><li>Mensagem de convite</li><li>Coleta de feedback</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="como-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Como funciona</p>
+          <h2 id="como-title">Você não precisa de mais um curso. Precisa de uma sequência.</h2>
+        </div>
+        <p>Três movimentos, na ordem em que costumam destravar a publicação.</p>
+      </div>
+      <div class="steps">
+        <article class="step"><h3>Assista curto</h3><p>Aulas de 8 a 12 minutos, direto ao ponto, para aplicar no mesmo dia.</p></article>
+        <article class="step"><h3>Aplique no seu produto</h3><p>Preencha os checklists com o seu tema, seu público e sua oferta.</p></article>
+        <article class="step"><h3>Publique a versão 1</h3><p>Use o modelo de página e o checklist final para tirar o projeto do rascunho.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="oferta" aria-labelledby="oferta-title">
+    <div class="wrap offer-wrap">
+      <div class="offer-note">
+        <div>
+          <p class="kicker">Oferta de exemplo</p>
+          <h3 id="oferta-title">Uma página clara, uma promessa honesta, uma primeira venda possível.</h3>
+          <p>Esta é uma prévia de estrutura e design. A oferta real, o preço e a garantia serão definidos pelo cliente e pelo produto.</p>
+        </div>
+        <p class="micro">Demonstração técnica • sem depoimento, métrica ou resultado inventado.</p>
+      </div>
+      <div class="offer-card">
+        <span class="label">Método Base • acesso digital</span>
+        <div class="price"><strong>R$ 97</strong><span>pagamento único</span></div>
+        <p class="pay">Valor fictício, apenas para mostrar a hierarquia da oferta.</p>
+        <ul class="checks">
+          <li>4 módulos em vídeo curto e direto</li>
+          <li>Checklists de recorte, oferta e publicação</li>
+          <li>Modelo de landing page para adaptar</li>
+          <li>Acesso imediato após a compra</li>
+          <li>7 dias de garantia (exemplo)</li>
+        </ul>
+        <a class="btn btn-primary" href="#duvidas">Quero entrar na lista</a>
+        <small>Prévia sem checkout real. Nenhum pagamento será processado.</small>
+      </div>
+    </div>
+  </section>
+
+  <section id="duvidas" aria-labelledby="duvidas-title">
+    <div class="wrap faq">
+      <div>
+        <p class="kicker">Dúvidas</p>
+        <h2 id="duvidas-title">O que costuma travar antes de começar.</h2>
+      </div>
+      <div class="faq-list">
+        <details open>
+          <summary>Preciso ter um produto pronto?</summary>
+          <p>Não. O método começa pelo recorte do problema e pela primeira versão. O produto pode ser um guia, uma aula, um template ou um serviço empacotado.</p>
+        </details>
+        <details>
+          <summary>Funciona se eu ainda não tenho audiência?</summary>
+          <p>Sim. A proposta é começar com conversas e uma página clara, não com anúncios. O método não promete vendas nem alcance.</p>
+        </details>
+        <details>
+          <summary>Quanto tempo por dia?</summary>
+          <p>A estrutura foi pensada para blocos de 30 a 60 minutos. O prazo de 7 dias é uma referência, não uma obrigação.</p>
+        </details>
+        <details>
+          <summary>O preço e a garantia são reais?</summary>
+          <p>Não. Esta página é uma prévia conceitual. Marca, textos, preço e garantia são fictícios e servem apenas para demonstrar a estrutura.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <strong>Base Clara</strong>
+      <p>Prévia de landing page criada para demonstração de estrutura, design e responsividade. Não é uma oferta real, não processa pagamentos e não representa resultado de vendas.</p>
+    </div>
+    <p><a href="#top">Voltar ao topo</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
+
