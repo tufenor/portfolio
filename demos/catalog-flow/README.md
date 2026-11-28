@@ -12,4 +12,4 @@ Protótipo conceitual para o projeto 3RQCS549 do Freelancer.com.br. Demonstra um
 
 ## Limites
 
-Marca, produtos, preços, estoque e dados são fictícios. A simulação de sugestão usa texto local e **não chama uma IA**. Mercado Livre e ERP não estão conectados; não há backend, login ou publicação externa. As mudanças permanecem no navegador até o usuário exportar o JSON. A fotografia licenciada da [Unsplash](https://unsplash.com/s/photos/dropper-bottle) é apenas referência visual, não representa o produto.
+Marca, produtos, preços, estoque e dados são fictícios. A simulação de sugestão usa texto local e **não chama uma IA**. Mercado Livre e ERP não estão conectados; não há backend, login ou publicação externa. As mudanças permanecem no navegador até o usuário exportar o JSON. A foto encontrada no [Unsplash](https://unsplash.com/s/photos/dropper-bottle) é apenas referência visual; não representa o produto fictício.
